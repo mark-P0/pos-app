@@ -12,16 +12,16 @@ body,
 
   display: flex;
   flex-direction: column;
-}
 
-#navbar {
-  background-color: plum;
+  #navbar {
+    background-color: plum;
 
-  flex: 0.13;
-}
+    flex: 0.13;
+  }
 
-#content {
-  background-color: powderblue;
+  #content {
+    background-color: powderblue;
 
-  flex: 1;
+    flex: 1;
+  }
 }
