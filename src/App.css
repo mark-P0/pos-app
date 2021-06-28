@@ -1,4 +1,27 @@
-* {
-  box-sizing: border-box;
-  /* background-color: darkgreen; */
+@import url('https://necolas.github.io/normalize.css/latest/normalize.css');
+
+html,
+body,
+#root {
+  /* background-color: red; */
+  height: 100%;
+}
+
+#appContainer {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#navbar {
+  background-color: plum;
+
+  flex: 0.13;
+}
+
+#content {
+  background-color: powderblue;
+
+  flex: 1;
 }
