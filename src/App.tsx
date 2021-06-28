@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.scss';
+import styles from './App.module.scss';
+
+console.log('Styles', styles);
 
 export default function App() {
   return (
-    <div id="appContainer">
-      <div id="navbar"></div>
-      <div id="content"></div>
+    <div className={styles.container}>
+      <div className={styles.navbar}>ha</div>
+      <div className={styles.content}>he</div>
     </div>
   );
 
