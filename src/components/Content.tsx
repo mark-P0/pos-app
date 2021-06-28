@@ -1,17 +1,17 @@
 import React from 'react';
 
-// export default function Content() {
-//   return (
-//     <div></div>
-//   )
-// }
-
-type ContentPropTypes = {
-  style?: {};
+type props = {
+  additionalClass?: {};
 };
 
-const Content: React.FC<ContentPropTypes> = () => {
-  return <div></div>;
+const Content: React.FC<props> = ({ additionalClass }) => {
+  return (
+    <div className={[additionalClass].join(' ')}>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
 };
 
 export default Content;

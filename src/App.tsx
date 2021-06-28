@@ -1,20 +1,13 @@
 import React from 'react';
-import styles from './App.module.scss';
-
-console.log('Styles', styles);
+import sassApp from './App.module.scss';
+import Content from './components/Content';
+import Navbar from './components/Navbar';
 
 export default function App() {
   return (
-    <div className={styles.container}>
-      <div className={styles.navbar}>ha</div>
-      <div className={styles.content}>he</div>
+    <div className={sassApp.container}>
+      <Navbar additionalClass={sassApp.navbar} />
+      <Content additionalClass={sassApp.content} />
     </div>
   );
-
-  // return (
-  //   <React.Fragment>
-  //     <Navbar style="navbar" />
-  //     <Content id="content" />
-  //   </React.Fragment>
-  // );
 }
