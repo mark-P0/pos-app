@@ -8,7 +8,20 @@ const NavbarLogo: React.FC = () => {
 const NavbarButtons: React.FC = () => {
   return (
     <div className={styles.navbarButtons}>
-      <div className={styles.buttonContainer}></div>
+      <div className={styles.navbarButtonContainer}>
+        <div className={styles.navbarButton}>
+          <button>Dashboard</button>
+        </div>
+        <div className={styles.navbarButton}>
+          <button>POS</button>
+        </div>
+        <div className={styles.navbarButton}>
+          <button>Transactions</button>
+        </div>
+        <div className={styles.navbarButton}>
+          <button>Inventory</button>
+        </div>
+      </div>
     </div>
   );
 };
