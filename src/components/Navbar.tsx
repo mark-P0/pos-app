@@ -1,16 +1,32 @@
 import React from 'react';
-import './Navbar.css';
+import styles from './Navbar.module.scss';
 
-type props = {
-  additionalClass?: {};
+const NavbarLogo: React.FC = () => {
+  return <div className={styles.navbarLogo}>Logo</div>;
 };
 
-const Navbar: React.FC<props> = ({ additionalClass }) => {
+const NavbarButtons: React.FC = () => {
   return (
-    <div className={[additionalClass].join(' ')}>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div className={styles.navbarButtons}>
+      <div className={styles.buttonContainer}></div>
+    </div>
+  );
+};
+
+const NavbarUser: React.FC = () => {
+  return <div className={styles.navbarUser}>User</div>;
+};
+
+type NavbarProps = {
+  additionalClass?: string;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ additionalClass }) => {
+  return (
+    <div className={[additionalClass, styles.navbar].join(' ')}>
+      <NavbarLogo />
+      <NavbarButtons />
+      <NavbarUser />
     </div>
   );
 };

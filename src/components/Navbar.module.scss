@@ -1,0 +1,49 @@
+@mixin random-colors {
+  $offset: 128;
+
+  // $channels: random(255), random(255), random(255);
+  // $randoms: [];
+  // @each $ch in $channels {
+  //   append($randoms, $ch + $offset);
+  // }
+
+  // background-color: rgb(random(255), random(255), random(255));
+  background-color: rgb(
+    random(255 - $offset) + $offset,
+    random(255 - $offset) + $offset,
+    random(255 - $offset) + $offset
+  );
+}
+
+.navbar {
+  padding: 0.5rem;
+
+  display: flex;
+
+  div {
+    // text-align: center;
+
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbarLogo {
+    @include random-colors;
+  }
+
+  .navbarButtons {
+    @include random-colors;
+
+    flex: 2;
+  }
+
+  .navbarUser {
+    @include random-colors;
+  }
+}
+
+.buttonContainer {
+}

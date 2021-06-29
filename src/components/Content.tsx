@@ -1,7 +1,7 @@
 import React from 'react';
 
 type props = {
-  additionalClass?: {};
+  additionalClass?: string;
 };
 
 const Content: React.FC<props> = ({ additionalClass }) => {
