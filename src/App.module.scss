@@ -1,5 +1,11 @@
 @import url('https://necolas.github.io/normalize.css/latest/normalize.css');
 
+*,
+::before,
+::after {
+  box-sizing: border-box !important;
+}
+
 html,
 body,
 /* Prevent `root` ID from being namespaced */
@@ -12,18 +18,16 @@ body,
   height: 100%;
   // height: 100vh;
 
-  display: flex;
-  flex-direction: column;
+  display: block;
+  $navbar-height: 0.13;
 
   .navbar {
     background-color: plum;
-
-    flex: 0.13;
+    height: percentage($navbar-height);
   }
 
   .content {
     background-color: powderblue;
-
-    flex: 1;
+    height: percentage(1 - $navbar-height);
   }
 }
