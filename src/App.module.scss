@@ -19,15 +19,15 @@ body,
   // height: 100vh;
 
   display: block;
-  $navbar-height: 0.13;
+  $navbar-height: 80px;
 
   .navbar {
     background-color: plum;
-    height: percentage($navbar-height);
+    height: $navbar-height;
   }
 
   .content {
     background-color: powderblue;
-    height: percentage(1 - $navbar-height);
+    height: calc(100vh - #{$navbar-height});
   }
 }
