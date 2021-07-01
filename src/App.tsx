@@ -1,3 +1,16 @@
+import { ChakraProvider } from '@chakra-ui/react';
+
+const App: React.FC = () => {
+  return (
+    <ChakraProvider>
+      <div>Hello, world</div>
+    </ChakraProvider>
+  );
+};
+
+export default App;
+
+/*
 import React from 'react';
 import sassApp from './App.module.scss';
 import Content from './components/Content';
@@ -11,3 +24,4 @@ export default function App() {
     </div>
   );
 }
+*/
