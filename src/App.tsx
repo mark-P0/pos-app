@@ -1,9 +1,21 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
+import './App.css';
+import customizedTheme from './components/theme';
 
 const App: React.FC = () => {
+  const headerHeight = '80px';
+
   return (
-    <ChakraProvider>
-      <div>Hello, world</div>
+    <ChakraProvider theme={customizedTheme}>
+      <Box h="100%">
+        <Box h={headerHeight} bgColor={'plum'}>
+          Navigation bar
+        </Box>
+
+        <Box h={`calc(100% - ${headerHeight})`} bgColor={'tomato'}>
+          Content
+        </Box>
+      </Box>
     </ChakraProvider>
   );
 };
