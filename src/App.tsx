@@ -1,7 +1,44 @@
-import { Box, Center, ChakraProvider, Flex, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  ChakraProvider,
+  Flex,
+  IconButton,
+  Text,
+} from '@chakra-ui/react';
+import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
 import customizedTheme from './components/theme';
 import './utilities/standard.css';
 
+/* Central buttons */
+let NavbarButtonIconMap = {
+  home: <FaHome />,
+  pos: <FaCashRegister />,
+  transactions: <FaReceipt />,
+  inventory: <FaWarehouse />,
+};
+
+type NavbarButtonPropType = {
+  // https://dev.to/multimo/how-to-build-typescript-string-literal-types-from-objects-values-361l
+  name: keyof typeof NavbarButtonIconMap;
+  a11y: string;
+};
+
+const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
+  let { name, a11y } = props;
+
+  return (
+    <IconButton
+      icon={NavbarButtonIconMap[name]}
+      aria-label={a11y}
+      isRound={true}
+      colorScheme="blackAlpha"
+      m="0 0.75rem"
+    />
+  );
+};
+
+/* App proper */
 const App: React.FC = () => {
   // TODO: Move to theme? Chakra provider?
   const sizes = {
@@ -47,7 +84,7 @@ const App: React.FC = () => {
             // bgColor={randomizedCSSrgb()}
           >
             {/* Button container */}
-            <Flex
+            <Center
               maxW="fit-content"
               // h={sizes.navbarButtonContainer.height}
               h="100%"
@@ -56,13 +93,13 @@ const App: React.FC = () => {
               borderRadius={`0 0 ${sizes.navbarButtonContainer.radius} ${sizes.navbarButtonContainer.radius}`}
               bgColor="deepskyblue"
             >
-              <Center>
-                <Text m={`0 ${sizes.navbarButtonSideMargin}`}>hehe</Text>
-                <Text m={`0 ${sizes.navbarButtonSideMargin}`}>hehe</Text>
-                <Text m={`0 ${sizes.navbarButtonSideMargin}`}>hehe</Text>
-                {/* <IconButton aria-label="Go back to the home page" icon={} /> */}
-              </Center>
-            </Flex>
+              <Flex flexDirection="row-reverse">
+                <NavbarButton name="home" a11y="Go back to the home page" />
+                <NavbarButton name="pos" a11y="Render sales services" />
+                <NavbarButton name="transactions" a11y="Show previous sales" />
+                <NavbarButton name="inventory" a11y="View current inventory" />
+              </Flex>
+            </Center>
           </Box>
 
           {/* User */}
