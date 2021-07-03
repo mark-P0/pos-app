@@ -6,27 +6,20 @@ import {
   IconButton,
   Text,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
+import CurrentContentContext, {
+  CurrentContentLiterals,
+} from '../contexts/CurrentContentContext';
+import SizeContext from '../contexts/SizeContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
-// TODO: Move to theme? Chakra provider?
-// TODO: Redundant! Also remove other instances
-const sizes = {
-  navbarHeight: '80px',
-  navbarCentralWidth: '50%',
-  navbarButtonContainer: {
-    height: '90%',
-    sidePadding: '4%',
-    radius: '1rem',
-  },
-  navbarButtonSideMargin: '0.75rem',
-  contentRadius: '2rem',
-};
-
 const NavbarLogo: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      w={`calc((100% - ${sizes.navbarCentralWidth}) / 2)`}
+      w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
       // bgColor={randomizedCSSrgb()}
     >
       <Center w="100%">
@@ -36,7 +29,7 @@ const NavbarLogo: React.FC = () => {
   );
 };
 
-let NavbarButtonIconMap = {
+let NavbarButtonIconMap: Record<CurrentContentLiterals, JSX.Element> = {
   home: <FaHome />,
   pos: <FaCashRegister />,
   transactions: <FaReceipt />,
@@ -44,13 +37,15 @@ let NavbarButtonIconMap = {
 };
 
 type NavbarButtonPropType = {
-  // https://dev.to/multimo/how-to-build-typescript-string-literal-types-from-objects-values-361l
+  /* https://dev.to/multimo/how-to-build-typescript-string-literal-types-from-objects-values-361l */
   name: keyof typeof NavbarButtonIconMap;
   a11y: string;
 };
 
 const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
   let { name, a11y } = props;
+
+  const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
 
   return (
     <IconButton
@@ -61,14 +56,22 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
       // m="0 0.75rem"
       // variant="ghost"
       // color="white"
+      _focus={{}}
+      isActive={currentContent === name}
+      onClick={() => setCurrentContent(name)}
+      onFocus={() => console.log(`${name} captured focus!`)}
+      onBlur={() => console.log(`${name} lost focus!`)}
     />
   );
 };
 
 const NavbarButtonSection: React.FC = () => {
+  const sizes = useContext(SizeContext);
+  let { sidePadding, bottomRadius } = sizes.navbar.buttonContainer;
+
   return (
     <Box
-      w={sizes.navbarCentralWidth}
+      w={sizes.navbar.centralWidth}
       // bgColor={randomizedCSSrgb()}
     >
       {/* Button container */}
@@ -76,8 +79,8 @@ const NavbarButtonSection: React.FC = () => {
         w="fit-content"
         h="100%"
         m="0 auto"
-        p={`0 ${sizes.navbarButtonContainer.sidePadding}`}
-        borderRadius={`0 0 ${sizes.navbarButtonContainer.radius} ${sizes.navbarButtonContainer.radius}`}
+        p={`0 ${sidePadding}`}
+        borderRadius={`0 0 ${bottomRadius} ${bottomRadius}`}
         bgColor="lightsteelblue"
       >
         <ButtonGroup
@@ -95,9 +98,11 @@ const NavbarButtonSection: React.FC = () => {
 };
 
 const NavbarUser: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      w={`calc((100% - ${sizes.navbarCentralWidth}) / 2)`}
+      w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
       // bgColor={randomizedCSSrgb()}
     >
       <Center w="100%">
@@ -108,9 +113,11 @@ const NavbarUser: React.FC = () => {
 };
 
 const Navbar: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      h={sizes.navbarHeight}
+      h={sizes.navbar.height}
       color="white"
       // bgColor={randomizedCSSrgb()}
       flexDirection="row"
@@ -123,3 +130,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+export { NavbarButtonIconMap };
