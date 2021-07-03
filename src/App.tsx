@@ -4,8 +4,12 @@ import Navbar from './components/Navbar';
 import customizedTheme from './components/theme';
 import { CurrentContentProvider } from './contexts/CurrentContentContext';
 import './utilities/standard.css';
+import ThemeOptionsContext from './contexts/ThemeOptionsContext';
+import { useContext } from 'react';
 
 const App: React.FC = () => {
+  const theming = useContext(ThemeOptionsContext);
+
   // TODO: Wrap in `SizeContext.Provider`?
   return (
     <ChakraProvider theme={customizedTheme}>
@@ -13,7 +17,7 @@ const App: React.FC = () => {
         <Box
           h="100%"
           // bgColor={randomizedCSSrgb()}
-          bgColor="midnightblue"
+          bgColor={theming.app.backgroundColor}
         >
           <Navbar />
           <Content />

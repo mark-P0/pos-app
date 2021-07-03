@@ -19,6 +19,7 @@ import CurrentContentContext, {
   CurrentContentLiterals,
 } from '../contexts/CurrentContentContext';
 import SizeContext from '../contexts/SizeContext';
+import ThemeOptionsContext from '../contexts/ThemeOptionsContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
 const NavbarLogo: React.FC = () => {
@@ -53,6 +54,7 @@ type NavbarButtonPropType = {
 const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
   let { name, a11y } = props;
 
+  const theming = useContext(ThemeOptionsContext);
   const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
   let activeState = currentContent === name;
 
@@ -61,7 +63,7 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
       icon={NavbarButtonIconMap[name][activeState ? 0 : 1]}
       aria-label={a11y}
       isRound={true}
-      colorScheme="blackAlpha"
+      colorScheme={theming.navbar.button.chakraScheme}
       // m="0 0.75rem"
       // variant="ghost"
       // color="white"
@@ -73,7 +75,9 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
 };
 
 const NavbarButtonSection: React.FC = () => {
+  const theming = useContext(ThemeOptionsContext);
   const sizes = useContext(SizeContext);
+
   let { sidePadding, bottomRadius } = sizes.navbar.buttonContainer;
 
   return (
@@ -88,7 +92,7 @@ const NavbarButtonSection: React.FC = () => {
         m="0 auto"
         p={`0 ${sidePadding}`}
         borderRadius={`0 0 ${bottomRadius} ${bottomRadius}`}
-        bgColor="lightsteelblue"
+        bgColor={theming.navbar.buttonContainer.backgroundColor}
       >
         <ButtonGroup
           spacing="1.5rem"
@@ -120,12 +124,13 @@ const NavbarUser: React.FC = () => {
 };
 
 const Navbar: React.FC = () => {
+  const theming = useContext(ThemeOptionsContext);
   const sizes = useContext(SizeContext);
 
   return (
     <Flex
       h={sizes.navbar.height}
-      color="white"
+      color={theming.navbar.color}
       // bgColor={randomizedCSSrgb()}
       flexDirection="row"
     >
@@ -137,4 +142,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-export { NavbarButtonIconMap };

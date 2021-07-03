@@ -4,6 +4,7 @@ import CurrentContentContext, {
   CurrentContentLiterals,
 } from '../contexts/CurrentContentContext';
 import SizeContext from '../contexts/SizeContext';
+import ThemeOptionsContext from '../contexts/ThemeOptionsContext';
 
 /* Content components */
 const ContentDashboard: React.FC = () => {
@@ -30,6 +31,7 @@ let ContentMap: Record<CurrentContentLiterals, JSX.Element> = {
 };
 
 const Content: React.FC = () => {
+  const theming = useContext(ThemeOptionsContext);
   const sizes = useContext(SizeContext);
   const [currentContent] = useContext(CurrentContentContext);
 
@@ -41,7 +43,7 @@ const Content: React.FC = () => {
         borderRadius={sizes.content.radius}
         // m="1%"
         // bgColor={randomizedCSSrgb()}
-        bgColor="white"
+        bgColor={theming.content.backgroundColor}
       >
         <Center w="100%">{ContentMap[currentContent]}</Center>
       </Flex>
