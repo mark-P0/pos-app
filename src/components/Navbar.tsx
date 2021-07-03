@@ -31,7 +31,7 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
       aria-label={a11y}
       isRound={true}
       colorScheme="blackAlpha"
-      m="0 0.75rem"
+      // m="0 0.75rem"
       // variant="ghost"
       // color="white"
     />
@@ -77,31 +77,23 @@ const Navbar: React.FC = () => {
       >
         {/* Button container */}
         <Center
-          maxW="fit-content"
-          // h={sizes.navbarButtonContainer.height}
+          w="fit-content"
           h="100%"
           m="0 auto"
           p={`0 ${sizes.navbarButtonContainer.sidePadding}`}
           borderRadius={`0 0 ${sizes.navbarButtonContainer.radius} ${sizes.navbarButtonContainer.radius}`}
           bgColor="lightsteelblue"
         >
-          <Flex flexDirection="row-reverse">
+          <ButtonGroup
+          // spacing={0}
+          // bgColor={randomizedCSSrgb()}
+          >
             <NavbarButton name="home" a11y="Go back to the home page" />
             <NavbarButton name="pos" a11y="Render sales services" />
             <NavbarButton name="transactions" a11y="Show previous sales" />
             <NavbarButton name="inventory" a11y="View current inventory" />
-          </Flex>
+          </ButtonGroup>
         </Center>
-
-        {/* <ButtonGroup
-          //
-          bgColor={randomizedCSSrgb()}
-        >
-          <NavbarButton name="home" a11y="Go back to the home page" />
-          <NavbarButton name="pos" a11y="Render sales services" />
-          <NavbarButton name="transactions" a11y="Show previous sales" />
-          <NavbarButton name="inventory" a11y="View current inventory" />
-        </ButtonGroup> */}
       </Box>
 
       {/* User */}
