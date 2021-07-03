@@ -8,6 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
+import { IconType } from 'react-icons/lib';
+import { CurrentContentLiterals } from '../contexts/CurrentContentContext';
 import SizeContext from '../contexts/SizeContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
@@ -26,7 +28,7 @@ const NavbarLogo: React.FC = () => {
   );
 };
 
-let NavbarButtonIconMap = {
+let NavbarButtonIconMap: Record<CurrentContentLiterals, JSX.Element> = {
   home: <FaHome />,
   pos: <FaCashRegister />,
   transactions: <FaReceipt />,
