@@ -45,20 +45,22 @@ type NavbarButtonPropType = {
 const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
   let { name, a11y } = props;
 
-  const [, setCurrentContent] = useContext(CurrentContentContext);
+  const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
 
   return (
     <IconButton
       icon={NavbarButtonIconMap[name]}
-      _focus={{}}
       aria-label={a11y}
       isRound={true}
       colorScheme="blackAlpha"
       // m="0 0.75rem"
       // variant="ghost"
       // color="white"
+      _focus={{}}
+      isActive={currentContent === name}
       onClick={() => setCurrentContent(name)}
       onFocus={() => console.log(`${name} captured focus!`)}
+      onBlur={() => console.log(`${name} lost focus!`)}
     />
   );
 };
