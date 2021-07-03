@@ -6,7 +6,7 @@ import './utilities/standard.css';
 /* App proper */
 const App: React.FC = () => {
   // TODO: Move to theme? Chakra provider?
-  // TODO: Redundant! Remove this
+  // TODO: Redundant! Also remove other instances
   const sizes = {
     navbarHeight: '80px',
     navbarCentralWidth: '50%',
