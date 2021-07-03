@@ -8,22 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
-import { SizeContext } from '../contexts/AppContext';
+import SizeContext from '../contexts/SizeContext';
 import { randomizedCSSrgb } from '../utilities/utils';
-
-// TODO: Move to theme? Chakra provider?
-// TODO: Redundant! Also remove other instances
-// const sizes = {
-//   navbarHeight: '80px',
-//   navbarCentralWidth: '50%',
-//   navbarButtonContainer: {
-//     height: '90%',
-//     sidePadding: '4%',
-//     radius: '1rem',
-//   },
-//   navbarButtonSideMargin: '0.75rem',
-//   contentRadius: '2rem',
-// };
 
 const NavbarLogo: React.FC = () => {
   const sizes = useContext(SizeContext);
@@ -134,3 +120,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+export { NavbarButtonIconMap };

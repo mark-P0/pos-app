@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-const SizeContext = createContext({
+let sizes = {
   navbar: {
     height: '80px',
     centralWidth: '50%',
@@ -12,6 +12,6 @@ const SizeContext = createContext({
     buttonSideMargin: '0.75rem',
   },
   content: { radius: '2rem' },
-});
+};
 
-export { SizeContext };
+export default createContext(sizes);
