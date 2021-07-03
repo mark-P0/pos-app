@@ -1,36 +1,54 @@
-import React from 'react';
-import './App.css';
-import { contentProportion } from './components/common';
-import Sidebar from './components/Sidebar';
+import { Box, Center, ChakraProvider, Flex, Text } from '@chakra-ui/react';
+import Navbar from './components/Navbar';
+import customizedTheme from './components/theme';
+import './utilities/standard.css';
 
-// Change this here or on the `public` folder?
-// How about the favicon?
-document.title = 'POSApp';
+/* App proper */
+const App: React.FC = () => {
+  // TODO: Move to theme? Chakra provider?
+  // TODO: Redundant! Also remove other instances
+  const sizes = {
+    navbarHeight: '80px',
+    navbarCentralWidth: '50%',
+    navbarButtonContainer: {
+      height: '90%',
+      sidePadding: '4%',
+      radius: '1rem',
+    },
+    navbarButtonSideMargin: '0.75rem',
+    contentRadius: '2rem',
+  };
 
-export default function App() {
   return (
-    <div
-      style={{
-        // padding: 0,
-        // margin: 0,
-        // listStyle: 'none',
-        display: 'flex', // Important? Signifies use of flexbox?
-
-        // flex: 1,
-        // flexDirection: 'column',
-        height: '100vh',
-      }}
-    >
-      <title>POSApp</title>
-      <Sidebar />
-      <div
-        style={{
-          flex: `${100 - contentProportion.sidebar}%`,
-          // backgroundColor: 'lightyellow',
-        }}
+    <ChakraProvider theme={customizedTheme}>
+      {/* App container */}
+      <Box
+        h="100%"
+        // bgColor={randomizedCSSrgb()}
+        bgColor="midnightblue"
       >
-        {/* <p>{sectionSizes.sidebar}</p> */}
-      </div>
-    </div>
+        {/* Navigation bar */}
+        <Navbar />
+
+        {/* Content section */}
+        <Box h={`calc(100% - ${sizes.navbarHeight})`} p="1%">
+          {/* Content */}
+          <Flex
+            h="100%"
+            // borderRadius={`${sizes.contentRadius} ${sizes.contentRadius} 0 0`}
+            borderRadius={sizes.contentRadius}
+            // m="1%"
+            // bgColor={randomizedCSSrgb()}
+            bgColor="white"
+          >
+            <Center w="100%">
+              <Text>Content</Text>
+            </Center>
+          </Flex>
+        </Box>
+      </Box>
+    </ChakraProvider>
   );
-}
+};
+
+export default App;
