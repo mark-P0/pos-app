@@ -85,8 +85,8 @@ const Navbar: React.FC = () => {
           bgColor="lightsteelblue"
         >
           <ButtonGroup
-          // spacing={0}
-          // bgColor={randomizedCSSrgb()}
+            spacing="1.5rem"
+            // bgColor={randomizedCSSrgb()}
           >
             <NavbarButton name="home" a11y="Go back to the home page" />
             <NavbarButton name="pos" a11y="Render sales services" />
