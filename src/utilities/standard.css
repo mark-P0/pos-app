@@ -1,0 +1,16 @@
+/* General normalization */
+@import url('https://necolas.github.io/normalize.css/latest/normalize.css');
+
+/* For shrinking children when padding */
+*,
+::before,
+::after {
+  box-sizing: border-box !important;
+}
+
+/* Allow app to occupy full page */
+html,
+body,
+#root {
+  height: 100%;
+}
