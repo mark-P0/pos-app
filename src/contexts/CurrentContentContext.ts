@@ -8,5 +8,13 @@ import { NavbarButtonIconMap } from '../components/Navbar';
 let contentLabels = ['home', 'pos', 'transactions', 'inventory'] as const;
 type CurrentContentLiterals = typeof contentLabels[number];
 
-export default createContext<CurrentContentLiterals>('home');
+interface ContextObjectType {
+  label: CurrentContentLiterals;
+  changeContent: (to: CurrentContentLiterals) => void;
+}
+
+export default createContext<ContextObjectType>({
+  label: 'home',
+  changeContent: () => {},
+});
 export type { CurrentContentLiterals };
