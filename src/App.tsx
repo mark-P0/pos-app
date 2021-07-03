@@ -1,27 +1,17 @@
 import { Box, Center, ChakraProvider, Flex, Text } from '@chakra-ui/react';
+import { useContext } from 'react';
 import Navbar from './components/Navbar';
 import customizedTheme from './components/theme';
+import { SizeContext } from './contexts/AppContext';
 import './utilities/standard.css';
 
 /* App proper */
 const App: React.FC = () => {
-  // TODO: Move to theme? Chakra provider?
-  // TODO: Redundant! Also remove other instances
-  const sizes = {
-    navbarHeight: '80px',
-    navbarCentralWidth: '50%',
-    navbarButtonContainer: {
-      height: '90%',
-      sidePadding: '4%',
-      radius: '1rem',
-    },
-    navbarButtonSideMargin: '0.75rem',
-    contentRadius: '2rem',
-  };
+  const sizes = useContext(SizeContext);
 
+  // TODO: Wrap in `SizeContext.Provider`?
   return (
     <ChakraProvider theme={customizedTheme}>
-      {/* App container */}
       <Box
         h="100%"
         // bgColor={randomizedCSSrgb()}
@@ -31,12 +21,12 @@ const App: React.FC = () => {
         <Navbar />
 
         {/* Content section */}
-        <Box h={`calc(100% - ${sizes.navbarHeight})`} p="1%">
+        <Box h={`calc(100% - ${sizes.navbar.height})`} p="1%">
           {/* Content */}
           <Flex
             h="100%"
             // borderRadius={`${sizes.contentRadius} ${sizes.contentRadius} 0 0`}
-            borderRadius={sizes.contentRadius}
+            borderRadius={sizes.content.radius}
             // m="1%"
             // bgColor={randomizedCSSrgb()}
             bgColor="white"

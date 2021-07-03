@@ -6,27 +6,31 @@ import {
   IconButton,
   Text,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
+import { SizeContext } from '../contexts/AppContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
 // TODO: Move to theme? Chakra provider?
 // TODO: Redundant! Also remove other instances
-const sizes = {
-  navbarHeight: '80px',
-  navbarCentralWidth: '50%',
-  navbarButtonContainer: {
-    height: '90%',
-    sidePadding: '4%',
-    radius: '1rem',
-  },
-  navbarButtonSideMargin: '0.75rem',
-  contentRadius: '2rem',
-};
+// const sizes = {
+//   navbarHeight: '80px',
+//   navbarCentralWidth: '50%',
+//   navbarButtonContainer: {
+//     height: '90%',
+//     sidePadding: '4%',
+//     radius: '1rem',
+//   },
+//   navbarButtonSideMargin: '0.75rem',
+//   contentRadius: '2rem',
+// };
 
 const NavbarLogo: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      w={`calc((100% - ${sizes.navbarCentralWidth}) / 2)`}
+      w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
       // bgColor={randomizedCSSrgb()}
     >
       <Center w="100%">
@@ -66,9 +70,12 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
 };
 
 const NavbarButtonSection: React.FC = () => {
+  const sizes = useContext(SizeContext);
+  let { sidePadding, bottomRadius } = sizes.navbar.buttonContainer;
+
   return (
     <Box
-      w={sizes.navbarCentralWidth}
+      w={sizes.navbar.centralWidth}
       // bgColor={randomizedCSSrgb()}
     >
       {/* Button container */}
@@ -76,8 +83,8 @@ const NavbarButtonSection: React.FC = () => {
         w="fit-content"
         h="100%"
         m="0 auto"
-        p={`0 ${sizes.navbarButtonContainer.sidePadding}`}
-        borderRadius={`0 0 ${sizes.navbarButtonContainer.radius} ${sizes.navbarButtonContainer.radius}`}
+        p={`0 ${sidePadding}`}
+        borderRadius={`0 0 ${bottomRadius} ${bottomRadius}`}
         bgColor="lightsteelblue"
       >
         <ButtonGroup
@@ -95,9 +102,11 @@ const NavbarButtonSection: React.FC = () => {
 };
 
 const NavbarUser: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      w={`calc((100% - ${sizes.navbarCentralWidth}) / 2)`}
+      w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
       // bgColor={randomizedCSSrgb()}
     >
       <Center w="100%">
@@ -108,9 +117,11 @@ const NavbarUser: React.FC = () => {
 };
 
 const Navbar: React.FC = () => {
+  const sizes = useContext(SizeContext);
+
   return (
     <Flex
-      h={sizes.navbarHeight}
+      h={sizes.navbar.height}
       color="white"
       // bgColor={randomizedCSSrgb()}
       flexDirection="row"
