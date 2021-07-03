@@ -8,8 +8,9 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
-import { IconType } from 'react-icons/lib';
-import { CurrentContentLiterals } from '../contexts/CurrentContentContext';
+import CurrentContentContext, {
+  CurrentContentLiterals,
+} from '../contexts/CurrentContentContext';
 import SizeContext from '../contexts/SizeContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
@@ -36,7 +37,7 @@ let NavbarButtonIconMap: Record<CurrentContentLiterals, JSX.Element> = {
 };
 
 type NavbarButtonPropType = {
-  // https://dev.to/multimo/how-to-build-typescript-string-literal-types-from-objects-values-361l
+  /* https://dev.to/multimo/how-to-build-typescript-string-literal-types-from-objects-values-361l */
   name: keyof typeof NavbarButtonIconMap;
   a11y: string;
 };
@@ -44,15 +45,20 @@ type NavbarButtonPropType = {
 const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
   let { name, a11y } = props;
 
+  const [, setCurrentContent] = useContext(CurrentContentContext);
+
   return (
     <IconButton
       icon={NavbarButtonIconMap[name]}
+      _focus={{}}
       aria-label={a11y}
       isRound={true}
       colorScheme="blackAlpha"
       // m="0 0.75rem"
       // variant="ghost"
       // color="white"
+      onClick={() => setCurrentContent(name)}
+      onFocus={() => console.log(`${name} captured focus!`)}
     />
   );
 };

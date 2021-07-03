@@ -7,7 +7,8 @@ import { createContext, useMemo, useState } from 'react';
 let contentLabels = ['home', 'pos', 'transactions', 'inventory'] as const;
 type CurrentContentLiterals = typeof contentLabels[number];
 
-/* interface ContextObjectType {
+/*
+interface ContextObjectType {
   label: CurrentContentLiterals;
   changeContent: (to: CurrentContentLiterals) => void;
 }
@@ -15,18 +16,25 @@ type CurrentContentLiterals = typeof contentLabels[number];
 export default createContext<ContextObjectType>({
   label: 'home',
   changeContent: () => {},
-}); */
+});
+*/
 
 /* https://kentcdodds.com/blog/application-state-management-with-react */
-const CurrentContentContext = createContext([]);
+type CurrentContentStateType = [
+  CurrentContentLiterals,
+  React.Dispatch<React.SetStateAction<CurrentContentLiterals>> | (() => void)
+];
+const CurrentContentContext = createContext<CurrentContentStateType>([
+  'home',
+  () => {},
+]);
 
 const CurrentContentProvider: React.FC = (props) => {
   const [currentContent, setCurrentContent] = useState<CurrentContentLiterals>(
     'home'
   );
 
-  // TODO: Set type properly?
-  const memoCurrentContent = useMemo<any>(
+  const memoCurrentContent = useMemo<CurrentContentStateType>(
     () => [currentContent, setCurrentContent],
     [currentContent]
   );

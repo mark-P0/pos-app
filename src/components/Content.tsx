@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import CurrentContentContext, {
   CurrentContentLiterals,
 } from '../contexts/CurrentContentContext';
@@ -31,13 +31,10 @@ let ContentMap: Record<CurrentContentLiterals, JSX.Element> = {
 
 const Content: React.FC = () => {
   const sizes = useContext(SizeContext);
-  const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
-
-  let contentLabel: CurrentContentLiterals = 'home';
+  const [currentContent] = useContext(CurrentContentContext);
 
   return (
     <Box h={`calc(100% - ${sizes.navbar.height})`} p="1%">
-      {/* Content */}
       <Flex
         h="100%"
         // borderRadius={`${sizes.contentRadius} ${sizes.contentRadius} 0 0`}
@@ -46,10 +43,7 @@ const Content: React.FC = () => {
         // bgColor={randomizedCSSrgb()}
         bgColor="white"
       >
-        <Center w="100%">
-          {/* <Text>Content</Text> */}
-          {ContentMap[currentContent]}
-        </Center>
+        <Center w="100%">{ContentMap[currentContent]}</Center>
       </Flex>
     </Box>
   );
