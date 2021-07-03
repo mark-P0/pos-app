@@ -7,7 +7,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useContext } from 'react';
-import { FaCashRegister, FaHome, FaReceipt, FaWarehouse } from 'react-icons/fa';
+import { CgBox, CgInbox } from 'react-icons/cg';
+import {
+  IoBarcode,
+  IoBarcodeOutline,
+  IoReceipt,
+  IoReceiptOutline,
+} from 'react-icons/io5';
+import { RiDashboardFill, RiDashboardLine } from 'react-icons/ri';
 import CurrentContentContext, {
   CurrentContentLiterals,
 } from '../contexts/CurrentContentContext';
@@ -29,11 +36,12 @@ const NavbarLogo: React.FC = () => {
   );
 };
 
-let NavbarButtonIconMap: Record<CurrentContentLiterals, JSX.Element> = {
-  home: <FaHome />,
-  pos: <FaCashRegister />,
-  transactions: <FaReceipt />,
-  inventory: <FaWarehouse />,
+let NavbarButtonIconMap: Record<CurrentContentLiterals, JSX.Element[]> = {
+  /* buttonKind: [active, inactive] */
+  home: [<RiDashboardFill />, <RiDashboardLine />],
+  pos: [<IoBarcode />, <IoBarcodeOutline />],
+  transactions: [<IoReceipt />, <IoReceiptOutline />],
+  inventory: [<CgInbox />, <CgBox />],
 };
 
 type NavbarButtonPropType = {
@@ -46,10 +54,11 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
   let { name, a11y } = props;
 
   const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
+  let activeState = currentContent === name;
 
   return (
     <IconButton
-      icon={NavbarButtonIconMap[name]}
+      icon={NavbarButtonIconMap[name][activeState ? 0 : 1]}
       aria-label={a11y}
       isRound={true}
       colorScheme="blackAlpha"
@@ -57,10 +66,8 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
       // variant="ghost"
       // color="white"
       _focus={{}}
-      isActive={currentContent === name}
+      isActive={activeState}
       onClick={() => setCurrentContent(name)}
-      onFocus={() => console.log(`${name} captured focus!`)}
-      onBlur={() => console.log(`${name} lost focus!`)}
     />
   );
 };
