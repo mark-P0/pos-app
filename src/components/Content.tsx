@@ -31,9 +31,9 @@ let ContentMap: Record<CurrentContentLiterals, JSX.Element> = {
 
 const Content: React.FC = () => {
   const sizes = useContext(SizeContext);
-  const [contentLabel, setContentLabel] = useState<CurrentContentLiterals>(
-    'home'
-  );
+  const [currentContent, setCurrentContent] = useContext(CurrentContentContext);
+
+  let contentLabel: CurrentContentLiterals = 'home';
 
   return (
     <Box h={`calc(100% - ${sizes.navbar.height})`} p="1%">
@@ -48,9 +48,7 @@ const Content: React.FC = () => {
       >
         <Center w="100%">
           {/* <Text>Content</Text> */}
-          <CurrentContentContext.Consumer>
-            {({ label, changeContent }) => ContentMap[label]}
-          </CurrentContentContext.Consumer>
+          {ContentMap[currentContent]}
         </Center>
       </Flex>
     </Box>
