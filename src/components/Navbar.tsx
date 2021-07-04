@@ -1,15 +1,22 @@
 import {
   Box,
+  Button,
   ButtonGroup,
   Center,
   Flex,
   IconButton,
   Image,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
   Text,
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { CgBox, CgInbox } from 'react-icons/cg';
-import { IoMdArrowDropdown } from 'react-icons/io';
+import { IoMdArrowDropdown, IoMdClose } from 'react-icons/io';
 import {
   IoBarcode,
   IoBarcodeOutline,
@@ -133,7 +140,97 @@ const NavbarButtonSection: React.FC = () => {
   );
 };
 
-let NavbarUserDropdownIcon = <IoMdArrowDropdown />;
+interface NavbarUserDropdownItemPropType {
+  text: string;
+  // TODO: Add callback to menu items
+  // callback: () => void;
+}
+
+const NavbarUserDropdownItem: React.FC<NavbarUserDropdownItemPropType> = ({
+  text,
+}) => {
+  return (
+    <MenuItem
+      _focus={{
+        color: 'white',
+        backgroundColor: 'firebrick',
+      }}
+      _active={{
+        color: 'white',
+        backgroundColor: 'firebrick',
+      }}
+    >
+      {text}
+    </MenuItem>
+  );
+};
+
+const NavbarUserDropdownActualMenu: React.FC = ({ children }) => {
+  return (
+    <MenuList
+      //
+      border={0}
+      boxShadow="0 0.33rem 1rem silver"
+      color="black"
+    >
+      {children}
+    </MenuList>
+  );
+};
+
+const NavbarUserDropdown: React.FC = () => {
+  return (
+    <Menu>
+      {({ isOpen }) => (
+        <>
+          <MenuButton
+            as={IconButton}
+            icon={isOpen ? <IoMdClose /> : <IoMdArrowDropdown />}
+            aria-label="Open menu"
+            isRound={true}
+            colorScheme="whiteAlpha"
+            _focus={{}}
+            variant="link"
+            color="white"
+          />
+
+          <NavbarUserDropdownActualMenu>
+            <MenuGroup title="User">
+              <NavbarUserDropdownItem text="Account" />
+              <NavbarUserDropdownItem text="Statistics" />
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup title="Application">
+              <NavbarUserDropdownItem text="Preferences" />
+              <NavbarUserDropdownItem text="Help" />
+            </MenuGroup>
+            <MenuDivider />
+            <NavbarUserDropdownItem text="Log Out" />
+          </NavbarUserDropdownActualMenu>
+        </>
+      )}
+    </Menu>
+  );
+};
+
+const NavbarUserLabel: React.FC = () => {
+  return (
+    <Box
+      //
+      marginRight="0.66rem"
+      textAlign="right"
+      // bgColor={randomizedCSSrgb()}
+      lineHeight="shorter"
+    >
+      <Text>
+        <b>Sophia Johnson</b>
+      </Text>
+      <Text fontSize="xs" color="lightcoral">
+        <i>Cashier</i>
+      </Text>
+    </Box>
+  );
+};
 
 const NavbarUser: React.FC = () => {
   const sizes = useContext(SizeContext);
@@ -147,43 +244,15 @@ const NavbarUser: React.FC = () => {
       p={`${upperPad} ${rightPad} 0 0`}
       // bgColor={randomizedCSSrgb()}
     >
-      {/* Inner content */}
       <Flex
-        // maxWidth="fit-content"
         w="100%"
         marginTop="0.75rem"
         alignItems="center"
-        // justifyContent="space-evenly"
         flexDirection="row-reverse"
         /* bgColor={randomizedCSSrgb()} */
-        // bgColor="maroon"
       >
-        {/* Dropdown icon */}
-        <IconButton
-          icon={NavbarUserDropdownIcon}
-          aria-label="Open menu"
-          isRound={true}
-          _focus={{}}
-          colorScheme="orange"
-          variant="link"
-          color="white"
-        />
-
-        {/* User label */}
-        <Box
-          //
-          marginRight="0.66rem"
-          textAlign="right"
-          // bgColor={randomizedCSSrgb()}
-          lineHeight="shorter"
-        >
-          <Text>
-            <b>Sophia Johnson</b>
-          </Text>
-          <Text fontSize="xs" color="lightcoral">
-            <i>Cashier</i>
-          </Text>
-        </Box>
+        <NavbarUserDropdown />
+        <NavbarUserLabel />
       </Flex>
     </Flex>
   );
