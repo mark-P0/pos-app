@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   ButtonGroup,
   Center,
   Flex,
@@ -31,6 +30,34 @@ import SizeContext from '../contexts/SizeContext';
 import ThemeOptionsContext from '../contexts/ThemeOptionsContext';
 import { randomizedCSSrgb } from '../utilities/utils';
 
+const NavbarLogoImage: React.FC = () => {
+  return (
+    <Image
+      h="100%"
+      src="https://www.designfreelogoonline.com/wp-content/uploads/2015/04/00420-cart-02.png"
+      objectFit="contain"
+    />
+  );
+};
+
+const NavbarLogoLabel: React.FC = () => {
+  return (
+    <Flex
+      marginLeft="1rem"
+      marginTop="1rem"
+      // bgColor={randomizedCSSrgb()}
+    >
+      <Text fontSize="xl">
+        <b>POS</b>App
+      </Text>
+
+      <Text fontSize="sm" marginLeft="0.25rem" color="lightcoral">
+        v0.1
+      </Text>
+    </Flex>
+  );
+};
+
 const NavbarLogo: React.FC = () => {
   const sizes = useContext(SizeContext);
 
@@ -43,30 +70,12 @@ const NavbarLogo: React.FC = () => {
       p={`${upperPad} 0 0 ${leftPad}`}
       // bgColor={randomizedCSSrgb()}
     >
-      {/* Inner content */}
       <Flex
-        maxWidth="fit-content"
-        /* bgColor={randomizedCSSrgb()} */
         alignItems="center"
-        // justifyContent="space-evenly"
+        /* bgColor={randomizedCSSrgb()} */
       >
-        <Image
-          h="100%"
-          src="https://www.designfreelogoonline.com/wp-content/uploads/2015/04/00420-cart-02.png"
-          objectFit="contain"
-        />
-        <Flex
-          marginLeft="1rem"
-          marginTop="1rem"
-          // bgColor={randomizedCSSrgb()}
-        >
-          <Text fontSize="xl">
-            <b>POS</b>App
-          </Text>
-          <Text fontSize="sm" marginLeft="0.25rem" color="lightcoral">
-            v0.1
-          </Text>
-        </Flex>
+        <NavbarLogoImage />
+        <NavbarLogoLabel />
       </Flex>
     </Flex>
   );
