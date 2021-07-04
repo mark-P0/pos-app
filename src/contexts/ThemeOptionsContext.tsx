@@ -4,15 +4,15 @@ import { createContext } from 'react';
 
 let theming = {
   app: {
-    backgroundColor: 'midnightblue',
+    backgroundColor: 'maroon',
   },
 
   navbar: {
     button: {
-      chakraScheme: 'blackAlpha',
+      chakraScheme: 'whiteAlpha',
     },
     buttonContainer: {
-      backgroundColor: 'lightsteelblue',
+      backgroundColor: 'firebrick',
     },
     color: 'white',
   },
