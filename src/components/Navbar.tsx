@@ -5,11 +5,11 @@ import {
   Flex,
   IconButton,
   Image,
-  Spacer,
   Text,
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { CgBox, CgInbox } from 'react-icons/cg';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import {
   IoBarcode,
   IoBarcodeOutline,
@@ -38,10 +38,8 @@ const NavbarLogo: React.FC = () => {
     >
       {/* Inner content */}
       <Flex
-        //
         maxWidth="fit-content"
         /* bgColor={randomizedCSSrgb()} */
-        // bgColor="gray"
         alignItems="center"
         // justifyContent="space-evenly"
       >
@@ -51,7 +49,6 @@ const NavbarLogo: React.FC = () => {
           objectFit="contain"
         />
         <Flex
-          //
           marginLeft="1rem"
           marginTop="1rem"
           // bgColor={randomizedCSSrgb()}
@@ -59,7 +56,7 @@ const NavbarLogo: React.FC = () => {
           <Text fontSize="xl">
             <b>POS</b>App
           </Text>
-          <Text fontSize="sm" marginLeft="0.25rem" color="indianred">
+          <Text fontSize="sm" marginLeft="0.25rem" color="lightcoral">
             v0.1
           </Text>
         </Flex>
@@ -136,17 +133,58 @@ const NavbarButtonSection: React.FC = () => {
   );
 };
 
+let NavbarUserDropdownIcon = <IoMdArrowDropdown />;
+
 const NavbarUser: React.FC = () => {
   const sizes = useContext(SizeContext);
+
+  let upperPad = sizes.content.padding;
+  let rightPad = `calc(${upperPad} * ${sizes.navbar.logo.sideFactor})`;
 
   return (
     <Flex
       w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
+      p={`${upperPad} ${rightPad} 0 0`}
       // bgColor={randomizedCSSrgb()}
     >
-      <Center w="100%">
-        <Text>User details</Text>
-      </Center>
+      {/* Inner content */}
+      <Flex
+        // maxWidth="fit-content"
+        w="100%"
+        marginTop="0.75rem"
+        alignItems="center"
+        // justifyContent="space-evenly"
+        flexDirection="row-reverse"
+        /* bgColor={randomizedCSSrgb()} */
+        // bgColor="maroon"
+      >
+        {/* Dropdown icon */}
+        <IconButton
+          icon={NavbarUserDropdownIcon}
+          aria-label="Open menu"
+          isRound={true}
+          _focus={{}}
+          colorScheme="orange"
+          variant="link"
+          color="white"
+        />
+
+        {/* User label */}
+        <Box
+          //
+          marginRight="0.66rem"
+          textAlign="right"
+          // bgColor={randomizedCSSrgb()}
+          lineHeight="shorter"
+        >
+          <Text>
+            <b>Sophia Johnson</b>
+          </Text>
+          <Text fontSize="xs" color="lightcoral">
+            <i>Cashier</i>
+          </Text>
+        </Box>
+      </Flex>
     </Flex>
   );
 };
