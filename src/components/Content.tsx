@@ -36,7 +36,11 @@ const Content: React.FC = () => {
   const [currentContent] = useContext(CurrentContentContext);
 
   return (
-    <Box h={`calc(100% - ${sizes.navbar.height})`} p="1%">
+    <Box
+      //
+      h={`calc(100% - ${sizes.navbar.height})`}
+      p={sizes.content.padding}
+    >
       <Flex
         h="100%"
         // borderRadius={`${sizes.contentRadius} ${sizes.contentRadius} 0 0`}

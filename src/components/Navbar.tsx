@@ -4,6 +4,8 @@ import {
   Center,
   Flex,
   IconButton,
+  Image,
+  Spacer,
   Text,
 } from '@chakra-ui/react';
 import { useContext } from 'react';
@@ -25,14 +27,43 @@ import { randomizedCSSrgb } from '../utilities/utils';
 const NavbarLogo: React.FC = () => {
   const sizes = useContext(SizeContext);
 
+  let upperPad = sizes.content.padding;
+  let leftPad = `calc(${upperPad} * ${sizes.navbar.logo.sideFactor})`;
+
   return (
     <Flex
       w={`calc((100% - ${sizes.navbar.centralWidth}) / 2)`}
+      p={`${upperPad} 0 0 ${leftPad}`}
       // bgColor={randomizedCSSrgb()}
     >
-      <Center w="100%">
-        <Text>Logo</Text>
-      </Center>
+      {/* Inner content */}
+      <Flex
+        //
+        maxWidth="fit-content"
+        /* bgColor={randomizedCSSrgb()} */
+        // bgColor="gray"
+        alignItems="center"
+        // justifyContent="space-evenly"
+      >
+        <Image
+          h="100%"
+          src="https://www.designfreelogoonline.com/wp-content/uploads/2015/04/00420-cart-02.png"
+          objectFit="contain"
+        />
+        <Flex
+          //
+          marginLeft="1rem"
+          marginTop="1rem"
+          // bgColor={randomizedCSSrgb()}
+        >
+          <Text fontSize="xl">
+            <b>POS</b>App
+          </Text>
+          <Text fontSize="sm" marginLeft="0.25rem" color="indianred">
+            v0.1
+          </Text>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
@@ -64,9 +95,6 @@ const NavbarButton: React.FC<NavbarButtonPropType> = (props) => {
       aria-label={a11y}
       isRound={true}
       colorScheme={theming.navbar.button.chakraScheme}
-      // m="0 0.75rem"
-      // variant="ghost"
-      // color="white"
       _focus={{}}
       isActive={activeState}
       onClick={() => setCurrentContent(name)}
