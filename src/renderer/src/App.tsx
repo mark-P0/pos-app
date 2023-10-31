@@ -1,5 +1,20 @@
-import Versions from './components/Versions'
-import icons from './assets/icons.svg'
+import { Product } from "data/schema.js";
+import icons from "./assets/icons.svg";
+import Versions from "./components/Versions";
+
+{
+  const { ipcRenderer } = window.electron;
+
+  (async (): Promise<void> => {
+    const products: Product[] = await ipcRenderer.invoke("db:getAllProducts");
+    console.log({ products });
+  })();
+
+  (async (): Promise<void> => {
+    const res = await ipcRenderer.invoke("DELETEME");
+    console.log({ res });
+  })();
+}
 
 function App(): JSX.Element {
   return (
@@ -10,7 +25,8 @@ function App(): JSX.Element {
         <use xlinkHref={`${icons}#electron`} />
       </svg>
       <h2 className="hero-text">
-        You{"'"}ve successfully created an Electron project with React and TypeScript
+        You{"'"}ve successfully created an Electron project with React and
+        TypeScript
       </h2>
       <p className="hero-tagline">
         Please try pressing <code>F12</code> to open the devTool
@@ -18,7 +34,11 @@ function App(): JSX.Element {
 
       <div className="links">
         <div className="link-item">
-          <a target="_blank" href="https://electron-vite.org" rel="noopener noreferrer">
+          <a
+            target="_blank"
+            href="https://electron-vite.org"
+            rel="noopener noreferrer"
+          >
             Documentation
           </a>
         </div>
@@ -49,8 +69,12 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">Configuring</h2>
             <p className="detail">
-              Config with <span>electron.vite.config.ts</span> and refer to the{' '}
-              <a target="_blank" href="https://electron-vite.org/config" rel="noopener noreferrer">
+              Config with <span>electron.vite.config.ts</span> and refer to the{" "}
+              <a
+                target="_blank"
+                href="https://electron-vite.org/config"
+                rel="noopener noreferrer"
+              >
                 config guide
               </a>
               .
@@ -61,7 +85,7 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">HMR</h2>
             <p className="detail">
-              Edit <span>src/renderer</span> files to test HMR. See{' '}
+              Edit <span>src/renderer</span> files to test HMR. See{" "}
               <a
                 target="_blank"
                 href="https://electron-vite.org/guide/hmr.html"
@@ -77,11 +101,11 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">Hot Reloading</h2>
             <p className="detail">
-              Run{' '}
+              Run{" "}
               <span>
                 {"'"}electron-vite dev --watch{"'"}
-              </span>{' '}
-              to enable. See{' '}
+              </span>{" "}
+              to enable. See{" "}
               <a
                 target="_blank"
                 href="https://electron-vite.org/guide/hot-reloading.html"
@@ -97,7 +121,7 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">Debugging</h2>
             <p className="detail">
-              Check out <span>.vscode/launch.json</span>. See{' '}
+              Check out <span>.vscode/launch.json</span>. See{" "}
               <a
                 target="_blank"
                 href="https://electron-vite.org/guide/debugging.html"
@@ -113,7 +137,7 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">Source Code Protection</h2>
             <p className="detail">
-              Supported via built-in plugin <span>bytecodePlugin</span>. See{' '}
+              Supported via built-in plugin <span>bytecodePlugin</span>. See{" "}
               <a
                 target="_blank"
                 href="https://electron-vite.org/guide/source-code-protection.html"
@@ -129,17 +153,21 @@ function App(): JSX.Element {
           <article>
             <h2 className="title">Packaging</h2>
             <p className="detail">
-              Use{' '}
-              <a target="_blank" href="https://www.electron.build" rel="noopener noreferrer">
+              Use{" "}
+              <a
+                target="_blank"
+                href="https://www.electron.build"
+                rel="noopener noreferrer"
+              >
                 electron-builder
-              </a>{' '}
+              </a>{" "}
               and pre-configured to pack your app.
             </p>
           </article>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
