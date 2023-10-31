@@ -1,14 +1,20 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { BrowserWindow, app, ipcMain, shell } from "electron";
+import { BrowserWindow, app, ipcMain, screen, shell } from "electron";
 import { join, resolve } from "path";
 import { getAllProducts } from "../../data/db.js";
 import icon from "../../resources/icon.png?asset";
 
-function createWindow(): void {
+function createWindow(width: number, height: number): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width,
+    height,
+    frame: false,
+    resizable: false,
+    maximizable: false,
+    movable: false,
+    fullscreenable: false,
+
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
@@ -50,12 +56,17 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
-  createWindow();
+  const primaryDisplay = screen.getPrimaryDisplay();
+  let { width, height } = primaryDisplay.workAreaSize;
+  width = Math.floor(width * (2 / 3));
+  height = Math.floor(height * (2 / 3));
+
+  createWindow(width, height);
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) createWindow(width, height);
   });
 
   ipcMain.handle("db:getAllProducts", async () => {
