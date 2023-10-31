@@ -4,20 +4,9 @@
     <meta charset="UTF-8" />
     <title>Electron</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!--  Allow `data:` URIs for image sources
-      --  MDN states that `data:` URIs are insecure (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/Sources#scheme-source)
-      --  Specifically, it is announced that `data:` URIs are susceptible to XSS (https://www.w3.org/TR/CSP3/#csp-directives)
-      --  However, image sources does not seem to be susceptible to XSS
-      --  e.g. `<img src="data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg==">` does not work
-      --  but `<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg==">` would show an alert (`<script>alert("xss");</script>`)
-      --  (https://cubalo.github.io/blog/2014/01/04/bypassing-xss-filters-using-data-uris/)
-      --
-      --  - https://security.stackexchange.com/a/167244
-      --  - https://security.stackexchange.com/questions/194909/data-image-with-csp#comment386755_194909
-      -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src data:"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
     />
   </head>
 

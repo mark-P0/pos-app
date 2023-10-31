@@ -2,6 +2,7 @@ import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { BrowserWindow, app, screen, shell } from "electron";
 import { join } from "path";
 import icon from "../../resources/icon.png?asset";
+import "./protocol-handlers.js";
 
 function createWindow(width: number, height: number): void {
   // Create the browser window.

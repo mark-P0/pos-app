@@ -1,5 +1,4 @@
 import { Product } from "data/schema.js";
-import { useEffect, useState } from "react";
 
 {
   const { ipcRenderer } = window.electron;
@@ -16,37 +15,10 @@ import { useEffect, useState } from "react";
 }
 
 export default function App() {
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
-  useEffect(() => {
-    (async () => {
-      const { ipcRenderer } = window.electron;
-      const base64 = await ipcRenderer.invoke(
-        "fs:getImgAsBase64",
-        "./data/images/SMGRGRPQEGR156582452884AL.png", // Format the same as db file finding
-      );
-      setImgSrc(base64);
-    })();
-    // (async () => {
-    //   const { ipcRenderer } = window.electron;
-    //   const uri = await ipcRenderer.invoke(
-    //     "fs:getImgAsBlobUri",
-    //     "./data/imagesSMGRGRPQEGR156582452884AL.png",
-    //   );
-    //   setImgSrc(uri);
-    // })();
-  }, []);
-
-  // const img = new URL(
-  //   "../../../data/images/SMGRGRPQEGR156582452884AL.png",
-  //   import.meta.url,
-  // );
-  // console.log(img);
-  // console.log(import.meta.url);
-
   return (
     <div>
       <div>Hello, world!</div>
-      {imgSrc !== null && <img src={imgSrc} alt="" />}
+      <img src="pos-app:///data/images/SMGRGRPQEGR156582452884AL.png" alt="" />
       <div>Hello, world!</div>
     </div>
   );
