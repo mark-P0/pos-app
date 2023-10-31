@@ -1,6 +1,7 @@
 .exclude/
-src/data/*
-!src/data/*.ipynb
+data/*
+!data/*.ipynb
+!data/*.ts
 
 node_modules
 dist
