@@ -1,7 +1,6 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { BrowserWindow, app, ipcMain, screen, shell } from "electron";
-import { join, resolve } from "path";
-import { getAllProducts } from "../../data/db.js";
+import { BrowserWindow, app, screen, shell } from "electron";
+import { join } from "path";
 import icon from "../../resources/icon.png?asset";
 
 function createWindow(width: number, height: number): void {
@@ -69,37 +68,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow(width, height);
   });
 
-  ipcMain.handle("db:getAllProducts", async () => {
-    try {
-      return await getAllProducts();
-    } catch (error) {
-      console.error(error);
-    }
-    return [];
-  });
-
-  ipcMain.handle("DELETEME", () => {
-    const env = { ...process.env };
-
-    const appPath = app.getAppPath();
-    const exePath = app.getPath("exe");
-    const resolvePath = resolve(".");
-    const {
-      PORTABLE_EXECUTABLE_FILE,
-      PORTABLE_EXECUTABLE_DIR,
-      PORTABLE_EXECUTABLE_APP_FILENAME,
-    } = env;
-
-    return {
-      appPath,
-      exePath,
-      resolvePath,
-      PORTABLE_EXECUTABLE_FILE,
-      PORTABLE_EXECUTABLE_DIR,
-      PORTABLE_EXECUTABLE_APP_FILENAME,
-      env,
-    };
-  });
+  import("./ipc-handlers.js");
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
