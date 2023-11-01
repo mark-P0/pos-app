@@ -9,6 +9,7 @@ A point-of-sales and inventory management application
   - Vite
   - React
   - Typescript
+- Tailwind
 - Drizzle ORM
   - `better-sqlite3`
 
