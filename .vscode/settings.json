@@ -1,4 +1,16 @@
 {
+  "tailwindCSS.experimental.classRegex": [
+    /**
+     * https://github.com/tailwindlabs/tailwindcss/issues/7553#issuecomment-735915659
+     * https://github.com/tailwindlabs/tailwindcss/discussions/7554#discussioncomment-4440751
+     *
+     * Avoid parentheses inside classes, e.g.
+     * instead of `h-[calc(100%/3)]` just use `h-[33.33%]`
+     */
+    "\\/\\*\\s*tw\\s*\\*\\/\\s*[`'\"](.*)[`'\"];?",
+    ["(?:twMerge|twJoin|C)\\(([^\\);]*)[\\);]", "[`'\"]([^'\"`,;]*)[`'\"]"],
+    "twc\\`(.*)\\`;?"
+  ],
   "files.associations": {
     "*.css": "tailwindcss"
   },
