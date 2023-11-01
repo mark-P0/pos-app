@@ -13,11 +13,18 @@ A point-of-sales and inventory management application
 - Drizzle ORM
   - `better-sqlite3`
 
----
+### Dev Tools
 
 - Prettier
 - ESLint
 - CSpell
+
+### Fonts
+
+> Pairing sourced from [Fontpair](https://www.fontpair.co/pairings/barlow-condensed-montserrat)
+
+- [Montserrat](https://fonts.google.com/specimen/Montserrat)
+- [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed)
 
 ## Project Setup
 
