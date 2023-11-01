@@ -1,10 +1,20 @@
-# pos-app
+# `pos-app`
 
-An Electron application with React and TypeScript
+A point-of-sales and inventory management application
 
-## Recommended IDE Setup
+## Libraries | Frameworks
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- `electron-vite`
+  - Electron
+  - Vite
+  - React
+  - Typescript
+
+---
+
+- Prettier
+- ESLint
+- CSpell
 
 ## Project Setup
 
@@ -23,7 +33,7 @@ $ pnpm dev
 ### Build
 
 ```bash
-# For windows
+# For Windows
 $ pnpm build:win
 
 # For macOS

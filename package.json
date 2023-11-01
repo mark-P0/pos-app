@@ -1,10 +1,11 @@
 {
   "name": "pos-app",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "version": "0.0.0",
+  "description": "A point-of-sales and inventory management application",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://www.electronjs.org",
+  "author": "Mark",
+  "homepage": "https://mark-p0.github.io",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
