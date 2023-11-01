@@ -1,4 +1,6 @@
 .exclude/
+data/*
+!data/*.ts
 
 node_modules
 dist
