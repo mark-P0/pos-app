@@ -18,7 +18,12 @@ function createWindow(): void {
   });
 
   mainWindow.on("ready-to-show", () => {
-    mainWindow.show();
+    /** https://github.com/alex8088/electron-vite/issues/118 */
+    if (is.dev) {
+      mainWindow.showInactive();
+    } else {
+      mainWindow.show();
+    }
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
