@@ -2,6 +2,9 @@
   "javascript.preferences.importModuleSpecifierEnding": "js",
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "[typescript][javascript][json][jsonc][typescriptreact][javascriptreact][html]": {
+    "editor.codeActionsOnSave": {
+      "source.sortImports": true
+    },
     "editor.tabSize": 2,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
