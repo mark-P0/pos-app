@@ -1,6 +1,12 @@
 import { app, ipcMain } from "electron";
+import { getAllProducts } from "../../data/db.js";
 
-const ChannelHandlers = {} as const;
+const ChannelHandlers = {
+  "db:getAllProducts": async () => {
+    const products = await getAllProducts();
+    return products;
+  },
+} as const;
 
 /** https://stackoverflow.com/a/67605309 */
 type ParametersExceptFirst<F> = F extends (arg0: any, ...rest: infer R) => any // eslint-disable-line @typescript-eslint/no-explicit-any
