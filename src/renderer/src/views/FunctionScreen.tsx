@@ -24,7 +24,7 @@ function FigureButton(props: { Figure: IconType; caption: string }) {
 
 export function FunctionScreen() {
   return (
-    <Screen>
+    <Screen withLogout>
       <nav className="grid grid-cols-2 gap-12">
         <FigureButton Figure={FaCashRegister} caption="Point-of-Sales" />
         <FigureButton Figure={LuClipboardEdit} caption="Inventory Management" />

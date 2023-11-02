@@ -1,9 +1,14 @@
 import { C } from "@renderer/utils.js";
 import { PropsWithChildren } from "react";
 import { DarkModeToggle } from "./DarkModeToggle.js";
+import { LogoutButton } from "./LogoutButton.js";
 
-export function Screen(props: PropsWithChildren) {
-  const { children } = props;
+export function Screen(
+  props: PropsWithChildren<{
+    withLogout?: boolean;
+  }>,
+) {
+  const { children, withLogout } = props;
 
   const cls = C(
     "relative",
@@ -23,8 +28,9 @@ export function Screen(props: PropsWithChildren) {
   );
   return (
     <main className={cls}>
-      <header className="absolute right-0 top-0 m-6">
+      <header className="absolute right-0 top-0 m-6 flex flex-row-reverse">
         <DarkModeToggle />
+        {withLogout && <LogoutButton />}
       </header>
 
       {children}
