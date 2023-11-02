@@ -23,7 +23,10 @@ export function Screen(props: PropsWithChildren) {
   );
   return (
     <main className={cls}>
-      <DarkModeToggle className="absolute right-0 top-0 -translate-x-6 translate-y-6" />
+      <header className="absolute right-0 top-0 m-6">
+        <DarkModeToggle />
+      </header>
+
       {children}
     </main>
   );

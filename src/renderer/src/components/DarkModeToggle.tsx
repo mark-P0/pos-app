@@ -4,9 +4,7 @@ import { LuMoon, LuSun } from "react-icons/lu";
 
 const { ipcInvoke } = window.api;
 
-export function DarkModeToggle(props: { className: string }) {
-  const { className } = props;
-
+export function DarkModeToggle() {
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
   /** Mirror Electron internal dark mode state as a React state */
   async function reflectDarkModeState() {
@@ -24,7 +22,6 @@ export function DarkModeToggle(props: { className: string }) {
   }
 
   const cls = C(
-    className,
     isDarkMode === null && "hidden", // Hide button if state not initialized yet
     "overflow-hidden w-11 aspect-square rounded-full",
     "transition hover:bg-cyan-950/10 dark:hover:bg-white/20",
