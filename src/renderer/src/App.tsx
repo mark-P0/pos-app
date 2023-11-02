@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LuMoon, LuSun } from "react-icons/lu";
 import { C } from "./utils.js";
 
 const { ipcInvoke } = window.api;
@@ -24,13 +25,17 @@ function DarkModeToggle(props: { className: string }) {
 
   const icon =
     isDarkMode !== null &&
-    (isDarkMode ? <code>dark icon</code> : <code>light icon</code>);
+    (isDarkMode ? (
+      <LuMoon className="h-full w-full" />
+    ) : (
+      <LuSun className="h-full w-full" />
+    ));
 
   const cls = C(
     className,
     isDarkMode === null && "hidden", // Hide button if state not initialized yet
-    "overflow-hidden w-12 aspect-square rounded-full",
-    ...["bg-black/10 text-white", "dark:bg-white/25"],
+    "overflow-hidden w-11 aspect-square rounded-full p-2",
+    ...["bg-cyan-950/10 text-cyan-400", "dark:bg-white/25"],
   );
   return (
     <button className={cls} onClick={toggle}>
