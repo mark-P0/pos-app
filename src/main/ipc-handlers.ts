@@ -1,10 +1,24 @@
-import { app, ipcMain } from "electron";
+import { app, ipcMain, nativeTheme } from "electron";
 import { getAllProducts } from "../../data/db.js";
 
 const ChannelHandlers = {
   "db:getAllProducts": async () => {
     const products = await getAllProducts();
     return products;
+  },
+  /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
+  ...{
+    "dark-mode:getSetting": () => {
+      return nativeTheme.shouldUseDarkColors;
+    },
+    "dark-mode:toggle": () => {
+      const isDarkMode = nativeTheme.shouldUseDarkColors;
+      if (isDarkMode) {
+        nativeTheme.themeSource = "light";
+      } else {
+        nativeTheme.themeSource = "dark";
+      }
+    },
   },
 } as const;
 
