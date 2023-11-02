@@ -23,14 +23,6 @@ function DarkModeToggle(props: { className: string }) {
     reflectDarkModeState();
   }
 
-  const icon =
-    isDarkMode !== null &&
-    (isDarkMode ? (
-      <LuMoon className="h-full w-full" />
-    ) : (
-      <LuSun className="h-full w-full" />
-    ));
-
   const cls = C(
     className,
     isDarkMode === null && "hidden", // Hide button if state not initialized yet
@@ -39,7 +31,8 @@ function DarkModeToggle(props: { className: string }) {
   );
   return (
     <button className={cls} onClick={toggle}>
-      {icon}
+      <LuMoon className="dark:block hidden h-full w-full" />
+      <LuSun className="block dark:hidden h-full w-full" />
     </button>
   );
 }
