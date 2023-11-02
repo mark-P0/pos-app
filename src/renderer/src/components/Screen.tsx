@@ -19,6 +19,7 @@ export function Screen(props: PropsWithChildren) {
         "dark:selection:bg-white dark:selection:text-cyan-950",
       ],
     ],
+    "transition",
   );
   return (
     <main className={cls}>
