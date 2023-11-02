@@ -12,6 +12,10 @@ function LoginForm() {
     "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
     "transition",
   );
+  const buttonCls = C(
+    "px-4 py-1",
+    "transition bg-rose-700 hover:bg-rose-600 text-white",
+  );
 
   return (
     <section className={cls}>
@@ -35,7 +39,7 @@ function LoginForm() {
           <span className="uppercase text-xs opacity-50 dark:opacity-25">
             Version 0.0.0
           </span>
-          <button className="bg-rose-700 text-white px-4 py-1">Log In</button>
+          <button className={buttonCls}>Log In</button>
         </div>
       </form>
     </section>
