@@ -1,8 +1,11 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { BrowserWindow, app, screen, shell } from "electron";
+import { BrowserWindow, app, nativeTheme, screen, shell } from "electron";
 import { join } from "path";
 import icon from "../../resources/icon.png?asset";
 import "./ipc-handlers.js";
+
+/** Initialize app to dark mode */
+nativeTheme.themeSource = "dark";
 
 /** https://www.electronjs.org/docs/latest/api/screen */
 function getEffectiveWindowDimensions() {
