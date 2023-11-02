@@ -50,7 +50,16 @@ export function App() {
   const cls = C(
     "relative",
     "h-screen grid place-items-center",
-    ...["bg-white text-cyan-950", "dark:bg-cyan-950 dark:text-white"],
+    ...[
+      ...[
+        "bg-white text-cyan-950",
+        "selection:bg-cyan-950 selection:text-white",
+      ],
+      ...[
+        "dark:bg-cyan-950 dark:text-white",
+        "dark:selection:bg-white dark:selection:text-cyan-950",
+      ],
+    ],
   );
   return (
     <main className={cls}>
