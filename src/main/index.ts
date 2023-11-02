@@ -1,14 +1,26 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { BrowserWindow, app, shell } from "electron";
+import { BrowserWindow, app, screen, shell } from "electron";
 import { join } from "path";
 import icon from "../../resources/icon.png?asset";
 import "./ipc-handlers.js";
 
+/** https://www.electronjs.org/docs/latest/api/screen */
+function getEffectiveWindowDimensions() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  let { width, height } = primaryDisplay.size;
+  width = Math.floor(width * (2 / 3));
+  height = Math.floor(height * (2 / 3));
+
+  return [width, height];
+}
+
 function createWindow(): void {
+  const [width, height] = getEffectiveWindowDimensions();
+
   /** Create the browser window. */
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width,
+    height,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
