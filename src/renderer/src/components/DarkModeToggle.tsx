@@ -22,6 +22,7 @@ export function DarkModeToggle() {
   }
 
   const cls = C(
+    "relative",
     isDarkMode === null && "hidden", // Hide button if state not initialized yet
     "overflow-hidden w-12 aspect-square rounded-full",
     "transition hover:bg-cyan-950/10 dark:hover:bg-white/20",
