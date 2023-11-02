@@ -64,7 +64,7 @@ export function App() {
       <DarkModeToggle className="absolute right-0 top-0 -translate-x-6 translate-y-6" />
       <section>
         <h1 className="font-head text-6xl font-bold">lorem ipsum dolomite</h1>
-        <p className="font-body font-thin">
+        <p className="font-body font-light">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eum
           cumque illo dolor possimus? Ipsum consequatur quas impedit quibusdam
           pariatur quod nostrum sint! Dolore illum deserunt fugit, eius
