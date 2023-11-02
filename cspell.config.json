@@ -1,5 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json",
   "allowCompoundWords": true,
-  "words": ["nsis", "vite", "electronjs"]
+  "words": ["maximizable", "nsis", "vite", "electronjs"]
 }
