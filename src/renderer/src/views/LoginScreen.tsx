@@ -14,7 +14,7 @@ function LoginForm() {
   );
   const buttonCls = C(
     "px-4 py-1",
-    "transition bg-rose-700 hover:bg-rose-600 text-white",
+    "transition bg-rose-700 hover:bg-rose-600 active:scale-95 text-white",
   );
 
   return (
