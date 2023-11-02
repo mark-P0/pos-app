@@ -23,13 +23,13 @@ export function DarkModeToggle() {
 
   const cls = C(
     isDarkMode === null && "hidden", // Hide button if state not initialized yet
-    "overflow-hidden w-11 aspect-square rounded-full",
+    "overflow-hidden w-12 aspect-square rounded-full",
     "transition hover:bg-cyan-950/10 dark:hover:bg-white/20",
   );
   return (
     <button className={cls} onClick={toggle}>
-      <LuMoon className="absolute top-0 left-0 p-2 text-cyan-400 dark:opacity-100 opacity-0 h-full w-full transition" />
-      <LuSun className="absolute top-0 left-0 p-2 text-amber-400 opacity-100 dark:opacity-0 h-full w-full transition" />
+      <LuMoon className="absolute top-0 left-0 p-3 text-cyan-400 dark:opacity-100 opacity-0 h-full w-full transition" />
+      <LuSun className="absolute top-0 left-0 p-3 text-amber-400 opacity-100 dark:opacity-0 h-full w-full transition" />
     </button>
   );
 }
