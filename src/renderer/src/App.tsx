@@ -50,7 +50,7 @@ export function App() {
   const cls = C(
     "relative",
     "h-screen grid place-items-center",
-    ...["bg-cyan-50 text-black", "dark:bg-cyan-950 dark:text-white"],
+    ...["bg-white text-cyan-950", "dark:bg-cyan-950 dark:text-white"],
   );
   return (
     <main className={cls}>
