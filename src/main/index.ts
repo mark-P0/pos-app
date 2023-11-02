@@ -22,6 +22,10 @@ function createWindow(): void {
     width,
     height,
     frame: false,
+    resizable: false,
+    maximizable: false,
+    movable: false,
+    fullscreenable: false,
 
     show: false,
     autoHideMenuBar: true,
