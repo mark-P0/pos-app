@@ -5,10 +5,10 @@ import { LogoutButton } from "./LogoutButton.js";
 
 export function Screen(
   props: PropsWithChildren<{
-    withLogout?: boolean;
+    withLogoutButton?: boolean;
   }>,
 ) {
-  const { children, withLogout } = props;
+  const { children, withLogoutButton } = props;
 
   const cls = C(
     "relative",
@@ -30,7 +30,7 @@ export function Screen(
     <main className={cls}>
       <header className="absolute right-0 top-0 m-6 flex flex-row-reverse">
         <DarkModeToggle />
-        {withLogout && <LogoutButton />}
+        {withLogoutButton && <LogoutButton />}
       </header>
 
       {children}
