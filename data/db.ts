@@ -40,13 +40,18 @@ export async function getUser(username: User["username"]) {
   return res[0];
 }
 
-export async function isUserValid(user: User) {
+export async function assessUserCredentials(user: User) {
   let record: User;
   try {
     record = await getUser(user.username);
-  } catch {
-    return false;
+  } catch (error) {
+    return "invalid:username";
   }
 
-  return await isHashOf(record.password, user.password);
+  const isValidPassword = await isHashOf(record.password, user.password);
+  if (!isValidPassword) {
+    return "invalid:password";
+  }
+
+  return true;
 }

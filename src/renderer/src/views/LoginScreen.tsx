@@ -3,6 +3,8 @@ import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C } from "@renderer/utils.js";
 import { ChangeEvent, FormEvent, useState } from "react";
 
+const { ipcInvoke } = window.api;
+
 function LoginForm() {
   const { changeScreen } = useAppContext();
 
@@ -15,10 +17,12 @@ function LoginForm() {
     setPassword(event.currentTarget.value);
   }
 
-  function login(event: FormEvent<HTMLFormElement>) {
+  async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    /* Authenticate user */
+    const user = { username, password };
+    const assessment = await ipcInvoke("db:assessUserCredentials", user);
+    if (!(assessment === true)) return;
 
     changeScreen("feature-select");
   }
