@@ -1,7 +1,14 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C } from "@renderer/utils.js";
-import { ChangeEvent, FormEvent, RefObject, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const { ipcInvoke } = window.api;
 
@@ -58,6 +65,14 @@ function LoginForm() {
 
     changeScreen("feature-select");
   }
+  function loginAsGuest() {
+    changeScreen("feature-select");
+  }
+  useEffect(() => {
+    if (username === "guest") {
+      loginAsGuest();
+    }
+  });
 
   const inputCls = C(
     "px-2 py-1",
@@ -67,6 +82,10 @@ function LoginForm() {
   const buttonCls = C(
     "px-4 py-1",
     "transition bg-rose-700 hover:bg-rose-600 active:scale-95 text-white",
+  );
+  const buttonGuestCls = C(
+    "px-4 py-1",
+    "transition bg-cyan-800 hover:bg-cyan-700 active:scale-95 text-white",
   );
   return (
     <form className="grid gap-6 select-none" onSubmit={login}>
@@ -101,7 +120,16 @@ function LoginForm() {
         <span className="uppercase text-xs opacity-50 dark:opacity-25">
           Version 0.0.0
         </span>
-        <button className={buttonCls}>Log In</button>
+        <div className="flex gap-2">
+          <button
+            className={buttonGuestCls}
+            type="button"
+            onClick={loginAsGuest}
+          >
+            As Guest
+          </button>
+          <button className={buttonCls}>Log In</button>
+        </div>
       </div>
     </form>
   );
@@ -109,7 +137,7 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
-    "w-96 grid gap-12 p-12 pb-6",
+    "w-[28rem] grid gap-12 p-12 pb-6",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
     "transition",
   );
