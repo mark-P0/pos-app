@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import path from "path";
+import { hash } from "./auth.js";
 import { NewUser, User, products, users } from "./schema.js";
 
 const { PORTABLE_EXECUTABLE_DIR } = process.env;
@@ -16,7 +17,10 @@ export async function getAllProducts() {
 }
 
 export async function addUser(user: NewUser) {
-  await db.insert(users).values(user);
+  let { password } = user;
+  password = await hash(password);
+
+  await db.insert(users).values({ ...user, password });
 }
 
 export async function deleteUser(username: User["username"]) {
