@@ -1,7 +1,19 @@
 import { Screen } from "@renderer/components/Screen.js";
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C } from "@renderer/utils.js";
+import { FormEvent } from "react";
 
 function LoginForm() {
+  const { changeScreen } = useAppContext();
+
+  function login(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    /* Authenticate user */
+
+    changeScreen("feature-select");
+  }
+
   const cls = C(
     "w-96 grid gap-12 p-12 pb-6",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
@@ -16,14 +28,13 @@ function LoginForm() {
     "px-4 py-1",
     "transition bg-rose-700 hover:bg-rose-600 active:scale-95 text-white",
   );
-
   return (
     <section className={cls}>
       <header className="grid place-content-center">
         <code className="text-3xl font-bold tracking-widest">pos-app</code>
       </header>
 
-      <form className="grid gap-6 select-none">
+      <form className="grid gap-6 select-none" onSubmit={login}>
         <section className="grid gap-3">
           <label className="grid grid-cols-[35%_65%] items-center">
             <span className="text-sm tracking-widest">Username</span>
