@@ -1,5 +1,5 @@
 import { AppProvider, useAppContext } from "./contexts/AppContext.js";
-import { FunctionScreen } from "./views/FunctionScreen.js";
+import { FeaturesScreen } from "./views/FeaturesScreen.js";
 import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
 import { POSScreen } from "./views/POSScreen.js";
@@ -13,7 +13,7 @@ function AppContents() {
       return <LoginScreen />;
     }
     case "feature-select": {
-      return <FunctionScreen />;
+      return <FeaturesScreen />;
     }
     case "pos": {
       return <POSScreen />;

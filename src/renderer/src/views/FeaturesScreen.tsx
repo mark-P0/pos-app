@@ -31,7 +31,7 @@ function FigureButton(props: {
   );
 }
 
-export function FunctionScreen() {
+export function FeaturesScreen() {
   const { changeScreen } = useAppContext();
 
   return (
