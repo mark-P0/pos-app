@@ -1,7 +1,12 @@
-import { PropsWithChildren, createContext } from "react";
+import { PropsWithChildren, createContext, useState } from "react";
 import { useNullableContext } from "./utils.js";
 
-type AppValues = Record<string, never>; // Nothing yet
+type Screen = "login" | "feature-select" | "pos" | "inv-mgmt";
+
+type AppValues = {
+  screen: Screen;
+  changeScreen: (to: Screen) => void;
+};
 const AppContext = createContext<AppValues | null>(null);
 
 export function useAppContext() {
@@ -11,10 +16,15 @@ export function useAppContext() {
 export function AppProvider(props: PropsWithChildren) {
   const { children } = props;
 
+  const [screen, setScreen] = useState<Screen>("login");
+  function changeScreen(to: Screen) {
+    setScreen(to);
+  }
+
   /**
    * - Get the type of this, e.g. via hover definitions
-   * - Copy type into context type above
+   * - Copy type into context type near the top
    */
-  const values = {};
+  const values = { screen, changeScreen };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 }
