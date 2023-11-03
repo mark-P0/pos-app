@@ -10,3 +10,10 @@ export const products = sqliteTable("products", {
   url: text("url"),
 });
 export type Product = typeof products.$inferSelect;
+
+export const users = sqliteTable("users", {
+  username: text("username").primaryKey().notNull(),
+  password: text("password").notNull(),
+});
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
