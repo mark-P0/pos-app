@@ -28,11 +28,16 @@ function LoginForm() {
       <section className="grid gap-3">
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Username</span>
-          <input className={inputCls} type="text" name="username" />
+          <input className={inputCls} type="text" name="username" required />
         </label>
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Password</span>
-          <input className={inputCls} type="password" name="password" />
+          <input
+            className={inputCls}
+            type="password"
+            name="password"
+            required
+          />
         </label>
       </section>
 
