@@ -1,17 +1,34 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C } from "@renderer/utils.js";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, RefObject, useRef, useState } from "react";
 
 const { ipcInvoke } = window.api;
+
+function accessNullableRef<T>(namedRef: Record<string, RefObject<T>>): T {
+  const entries = Object.entries(namedRef);
+  if (entries.length > 1) {
+    throw new Error("Possible improper use of ref wrapper");
+  }
+  const [name, ref] = entries[0];
+
+  const current = ref.current;
+  if (current === null) {
+    throw new Error(`${name} ref does not exist`);
+  }
+  return current;
+}
 
 function LoginForm() {
   const { changeScreen } = useAppContext();
 
+  const inputUsernameRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   function updateUsername(event: ChangeEvent<HTMLInputElement>) {
     setUsername(event.currentTarget.value);
+    const input = accessNullableRef({ inputUsernameRef });
+    input.setCustomValidity("");
   }
   function updatePassword(event: ChangeEvent<HTMLInputElement>) {
     setPassword(event.currentTarget.value);
@@ -22,6 +39,13 @@ function LoginForm() {
 
     const user = { username, password };
     const assessment = await ipcInvoke("db:assessUserCredentials", user);
+
+    if (assessment === "invalid:username") {
+      const input = accessNullableRef({ inputUsernameRef });
+      input.setCustomValidity("Username does not exist");
+      input.reportValidity();
+      return;
+    }
     if (!(assessment === true)) return;
 
     changeScreen("feature-select");
@@ -42,6 +66,7 @@ function LoginForm() {
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Username</span>
           <input
+            ref={inputUsernameRef}
             className={inputCls}
             type="text"
             name="username"
