@@ -1,10 +1,19 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C } from "@renderer/utils.js";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 function LoginForm() {
   const { changeScreen } = useAppContext();
+
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  function updateUsername(event: ChangeEvent<HTMLInputElement>) {
+    setUsername(event.currentTarget.value);
+  }
+  function updatePassword(event: ChangeEvent<HTMLInputElement>) {
+    setPassword(event.currentTarget.value);
+  }
 
   function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,7 +37,14 @@ function LoginForm() {
       <section className="grid gap-3">
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Username</span>
-          <input className={inputCls} type="text" name="username" required />
+          <input
+            className={inputCls}
+            type="text"
+            name="username"
+            required
+            value={username}
+            onChange={updateUsername}
+          />
         </label>
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Password</span>
@@ -37,6 +53,8 @@ function LoginForm() {
             type="password"
             name="password"
             required
+            value={password}
+            onChange={updatePassword}
           />
         </label>
       </section>
