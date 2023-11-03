@@ -23,6 +23,7 @@ function LoginForm() {
   const { changeScreen } = useAppContext();
 
   const inputUsernameRef = useRef<HTMLInputElement | null>(null);
+  const inputPasswordRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   function updateUsername(event: ChangeEvent<HTMLInputElement>) {
@@ -32,6 +33,8 @@ function LoginForm() {
   }
   function updatePassword(event: ChangeEvent<HTMLInputElement>) {
     setPassword(event.currentTarget.value);
+    const input = accessNullableRef({ inputPasswordRef });
+    input.setCustomValidity("");
   }
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -46,7 +49,12 @@ function LoginForm() {
       input.reportValidity();
       return;
     }
-    if (!(assessment === true)) return;
+    if (assessment === "invalid:password") {
+      const input = accessNullableRef({ inputPasswordRef });
+      input.setCustomValidity("Password is incorrect");
+      input.reportValidity();
+      return;
+    }
 
     changeScreen("feature-select");
   }
@@ -78,6 +86,7 @@ function LoginForm() {
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Password</span>
           <input
+            ref={inputPasswordRef}
             className={inputCls}
             type="password"
             name="password"
