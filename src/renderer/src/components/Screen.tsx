@@ -8,7 +8,7 @@ export function Screen(
     withLogoutButton?: boolean;
   }>,
 ) {
-  const { children, withLogoutButton } = props;
+  const { children, withLogoutButton = false } = props;
 
   const cls = C(
     "relative",
