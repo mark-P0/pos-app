@@ -1,5 +1,5 @@
-import { app, ipcMain, nativeTheme } from "electron";
-import { getAllProducts } from "../../data/db.js";
+import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
+import { assessUserCredentials, getAllProducts } from "../../data/db.js";
 
 const ChannelHandlers = {
   "db:getAllProducts": async () => {
@@ -19,6 +19,12 @@ const ChannelHandlers = {
         nativeTheme.themeSource = "dark";
       }
     },
+  },
+  "db:assessUserCredentials": async (
+    _: IpcMainInvokeEvent,
+    user: Parameters<typeof assessUserCredentials>[0],
+  ) => {
+    return await assessUserCredentials(user);
   },
 } as const;
 
