@@ -1,6 +1,7 @@
 .exclude/
 data/*
 !data/*.ts
+!data/package.json
 
 node_modules
 dist
