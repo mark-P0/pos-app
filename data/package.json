@@ -1,7 +1,8 @@
 {
   "name": "drizzle-kit-introspect",
   "scripts": {
-    "introspect": "drizzle-kit introspect:sqlite --driver=better-sqlite --url=./data.sqlite"
+    "introspect": "drizzle-kit introspect:sqlite --driver=better-sqlite --url=./data.sqlite",
+    "browse": "drizzle-kit studio --host=127.0.0.1"
   },
   "devDependencies": {
     "better-sqlite3": "^9.0.0",
