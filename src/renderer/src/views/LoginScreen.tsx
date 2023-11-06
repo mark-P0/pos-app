@@ -137,6 +137,7 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
+    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
     "w-[28rem] grid gap-12 p-12 pb-6",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
     "transition",
