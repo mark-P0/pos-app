@@ -1,13 +1,11 @@
 import Database from "better-sqlite3";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import path from "path";
 import { hash, isHashOf } from "./auth.js";
 import { NewUser, User, products, users } from "./schema.js";
+import { getActualFilePath } from "./utils.js";
 
-const { PORTABLE_EXECUTABLE_DIR } = process.env;
-const APP_DIR = PORTABLE_EXECUTABLE_DIR ?? ".";
-const DB_FILE_PATH = path.join(APP_DIR, "data", "data.sqlite");
+const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
 
 const sqlite = new Database(DB_FILE_PATH);
 const db = drizzle(sqlite);
