@@ -8,5 +8,5 @@ module.exports = {
       body: ["Montserrat"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };
