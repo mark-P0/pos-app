@@ -7,18 +7,13 @@ const ChannelHandlers = {
     return products;
   },
   /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
-  ...{
-    "dark-mode:getSetting": () => {
-      return nativeTheme.shouldUseDarkColors;
-    },
-    "dark-mode:toggle": () => {
-      const isDarkMode = nativeTheme.shouldUseDarkColors;
-      if (isDarkMode) {
-        nativeTheme.themeSource = "light";
-      } else {
-        nativeTheme.themeSource = "dark";
-      }
-    },
+  "dark-mode:toggle": () => {
+    const isDarkMode = nativeTheme.shouldUseDarkColors;
+    if (isDarkMode) {
+      nativeTheme.themeSource = "light";
+    } else {
+      nativeTheme.themeSource = "dark";
+    }
   },
   "db:assessUserCredentials": async (
     _: IpcMainInvokeEvent,
