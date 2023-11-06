@@ -34,9 +34,15 @@ function FigureButton(props: {
 export function FeaturesScreen() {
   const { changeScreen } = useAppContext();
 
+  const cls = C(
+    "overflow-hidden",
+    "w-max", // Without this, the absolute position properties below will resize the element...
+    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    "grid grid-cols-2 gap-12",
+  );
   return (
     <Screen withLogoutButton>
-      <nav className="grid grid-cols-2 gap-12">
+      <nav className={cls}>
         <FigureButton
           Figure={FaCashRegister}
           caption="Point-of-Sales"
