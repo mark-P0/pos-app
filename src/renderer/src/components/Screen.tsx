@@ -17,8 +17,8 @@ export function Screen(
   } = props;
 
   const cls = C(
-    "relative",
-    "h-screen grid place-content-center",
+    "overflow-hidden relative",
+    "h-screen flex flex-col",
     "font-body",
     ...[
       ...[
@@ -35,7 +35,7 @@ export function Screen(
 
   return (
     <main className={cls}>
-      <header className="absolute right-0 top-0 m-6 flex flex-row-reverse">
+      <header className="flex flex-row-reverse p-6">
         <DarkModeToggle />
         {withLogoutButton && <LogoutButton />}
         {withFeaturesButton && <FeaturesButton />}
