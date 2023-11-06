@@ -15,25 +15,29 @@ function formatPrice(price: number) {
 
 function ProductListItemButton(props: { product: Product }) {
   const { product } = props;
-  const { name, category } = product;
+  const { sku, name, category } = product;
   const price = formatPrice(product.price);
+
+  const imgUrl = `pos-app:///data/images/${sku}.png`;
+  const imgAlt = `Image of product "${name}"`;
 
   const cls = C(
     "w-full text-left",
     "rounded-lg px-3 py-2",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
     "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-[.98]",
-    "grid grid-cols-[4fr_1fr] gap-6",
+    "grid grid-cols-[1fr_4fr_1fr] gap-4",
   );
   return (
     <button className={cls}>
+      <img src={imgUrl} alt={imgAlt} />
       <div className="grid gap-1">
         <h2 className="text-lg font-head leading-tight">{name}</h2>
         <p className="text-xs uppercase tracking-widest opacity-80 dark:opacity-50">
           {category}
         </p>
       </div>
-      <div className="w-full h-full bg--green-500">
+      <div className="w-full h-full">
         <p className="text-xs tracking-widest text-right font-bold">{price}</p>
       </div>
     </button>
