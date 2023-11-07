@@ -1,16 +1,7 @@
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
-import { C } from "@renderer/utils.js";
+import { C, formatPrice } from "@renderer/utils.js";
 
 type Product = ReturnType<typeof useProductsContext>["products"][number];
-
-function formatPrice(price: number) {
-  const formatter = Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "PHP",
-    notation: "standard",
-  });
-  return formatter.format(price);
-}
 
 function ProductListItemButton(props: { product: Product }) {
   const { product } = props;
