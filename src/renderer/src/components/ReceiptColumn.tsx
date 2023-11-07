@@ -78,7 +78,6 @@ function ProductTableRow(props: { cells: Array<string | number> }) {
     </tr>
   );
 }
-
 function ProductTableEntry(props: { product: Product }) {
   const { product } = props;
   const { name, price } = product;
@@ -99,7 +98,6 @@ function ProductTableEntry(props: { product: Product }) {
     </>
   );
 }
-
 function ProductTable() {
   const { products } = useProductsContext();
 
@@ -150,6 +148,37 @@ function ProductTable() {
   );
 }
 
+function MapTableRow(props: { entry: [string, string | number] }) {
+  const { entry } = props;
+  const [key, value] = entry;
+
+  return (
+    <tr>
+      <th className="text-left font-normal normal-case">{key}</th>
+      <td>:</td>
+      <td>{value}</td>
+    </tr>
+  );
+}
+function MapTable(props: { mapping: Record<string, string | number> }) {
+  const { mapping } = props;
+
+  return (
+    <table className="w-full [&_td:nth-child(3)]:text-right">
+      <colgroup>
+        <col span={1} className="w-[calc(4/12*100%)]" />
+        <col span={1} className="w-[calc(1/12*100%)]" />
+        <col span={1} className="w-[calc(7/12*100%)]" />
+      </colgroup>
+      <thead>
+        {Object.entries(mapping).map((entry, idx) => (
+          <MapTableRow key={idx} entry={entry} />
+        ))}
+      </thead>
+    </table>
+  );
+}
+
 function Receipt() {
   const cls = C(
     "bg-white m-6 mt-0 shadow-xl",
@@ -168,7 +197,14 @@ function Receipt() {
       <ProductTable />
       <br />
 
-      <p className="text-red-500 font-bold">[VAT breakdown]</p>
+      <MapTable
+        mapping={{
+          "VATable Sale": formatPrice(0),
+          "VAT (12%)": formatPrice(0),
+          "VAT-Exempt Sale": formatPrice(0),
+          "Zero-Rated Sale": formatPrice(0),
+        }}
+      />
       <br />
 
       <p className="text-red-500 font-bold">[Customer info]</p>
