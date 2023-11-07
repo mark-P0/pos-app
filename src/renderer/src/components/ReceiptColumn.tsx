@@ -1,3 +1,4 @@
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
 import { C, formatPrice } from "@renderer/utils.js";
 
@@ -180,6 +181,9 @@ function MapTable(props: { mapping: Record<string, string | number> }) {
 }
 
 function MachineInfo() {
+  const { labels } = useAppContext();
+  const [appName, appVersion] = labels;
+
   return (
     <>
       <p className="normal-case">
@@ -191,7 +195,7 @@ function MachineInfo() {
         <span className="text-red-500 font-bold">[TIME]</span>
       </p>
       <p className="normal-case">
-        pos-app <span className="text-red-500 font-bold">[APP_VERSION]</span>
+        {appName} v{appVersion}
       </p>
     </>
   );
