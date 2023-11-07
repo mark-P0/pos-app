@@ -6,6 +6,7 @@ module.exports = {
     fontFamily: {
       head: ["Barlow Condensed"],
       body: ["Montserrat"],
+      mono: ["Sometype Mono"],
     },
   },
   plugins: [require("tailwind-scrollbar")],
