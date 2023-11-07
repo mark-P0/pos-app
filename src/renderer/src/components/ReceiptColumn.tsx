@@ -179,6 +179,24 @@ function MapTable(props: { mapping: Record<string, string | number> }) {
   );
 }
 
+function MachineInfo() {
+  return (
+    <>
+      <p className="normal-case">
+        Served By:{" "}
+        <span className="text-red-500 font-bold">[LOGGED_IN_USER]</span>
+      </p>
+      <p className="normal-case">
+        <span className="text-red-500 font-bold">[DATE]</span>{" "}
+        <span className="text-red-500 font-bold">[TIME]</span>
+      </p>
+      <p className="normal-case">
+        pos-app <span className="text-red-500 font-bold">[APP_VERSION]</span>
+      </p>
+    </>
+  );
+}
+
 function Receipt() {
   const cls = C(
     "bg-white m-6 mt-0 shadow-xl",
@@ -207,10 +225,17 @@ function Receipt() {
       />
       <br />
 
-      <p className="text-red-500 font-bold">[Customer info]</p>
+      <MapTable
+        mapping={{
+          "Customer Name": "",
+          "Customer TIN": "",
+          "Customer Address": "",
+          "Business Style": "",
+        }}
+      />
       <br />
 
-      <p className="text-red-500 font-bold">[machine info]</p>
+      <MachineInfo />
       <br />
 
       <p className="text-center">Thank you for shopping!</p>
