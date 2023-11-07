@@ -5,8 +5,7 @@ type Product = ReturnType<typeof useProductsContext>["products"][number];
 
 function ProductListItemButton(props: { product: Product }) {
   const { product } = props;
-  const { sku, name, category } = product;
-  const price = formatPrice(product.price);
+  const { sku, name, category, price } = product;
 
   const imgUrl = `pos-app:///data/images/${sku}.png`;
   const imgAlt = `Image of product "${name}"`;
@@ -28,7 +27,9 @@ function ProductListItemButton(props: { product: Product }) {
         </p>
       </div>
       <div className="w-full h-full">
-        <p className="text-xs tracking-widest text-right font-bold">{price}</p>
+        <p className="text-xs tracking-widest text-right font-bold">
+          {formatPrice(price)}
+        </p>
       </div>
     </button>
   );
