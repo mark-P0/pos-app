@@ -1,4 +1,13 @@
-import { C } from "@renderer/utils.js";
+import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
+import { C, formatPrice } from "@renderer/utils.js";
+
+type Product = ReturnType<typeof useProductsContext>["products"][number];
+
+function sum(...numbers: number[]) {
+  let res = 0;
+  for (const num of numbers) res += num;
+  return res;
+}
 
 function randomInt(from: number, to: number) {
   const range = to - from;
@@ -47,6 +56,100 @@ function StoreDetails() {
   );
 }
 
+function RowBreak() {
+  return (
+    <tr>
+      <td>
+        <br />
+      </td>
+    </tr>
+  );
+}
+
+function ProductTableRow(props: { cells: Array<string | number> }) {
+  const { cells } = props;
+
+  return (
+    <tr>
+      <td>{cells[0]}</td>
+      <td>{cells[1]}</td>
+      <td>{cells[2]}</td>
+      <td>{cells[3]}</td>
+    </tr>
+  );
+}
+
+function ProductTableEntry(props: { product: Product }) {
+  const { product } = props;
+  const { name, price } = product;
+
+  const qty = 2;
+  const subtotal = qty * price;
+
+  return (
+    <>
+      <tr>
+        <td colSpan={4} className="normal-case">
+          {name}
+        </td>
+      </tr>
+      <ProductTableRow
+        cells={["", qty, formatPrice(price), formatPrice(subtotal)]}
+      />
+    </>
+  );
+}
+
+function ProductTable() {
+  const { products } = useProductsContext();
+
+  const totalQty = products.length;
+  const totalPrice = sum(...products.map(({ price }) => price));
+  const cash = totalPrice;
+  const change = cash - totalPrice;
+
+  const clsColumnAlignment = C(
+    "[&_td:nth-child(1)]:text-left",
+    "[&_td:nth-child(2)]:text-center",
+    "[&_td:nth-child(3)]:text-left",
+    "[&_td:nth-child(4)]:text-right",
+  );
+  const cls = C("w-full", clsColumnAlignment);
+  return (
+    <table className={cls}>
+      <colgroup>
+        <col span={1} className="w-[calc(5/10*100%)]" />
+        <col span={1} className="w-[calc(1/10*100%)]" />
+        <col span={1} className="w-[calc(2/10*100%)]" />
+        <col span={1} className="w-[calc(2/10*100%)]" />
+      </colgroup>
+      <thead>
+        {/* TODO Use `<th>` instead? */}
+        <ProductTableRow cells={["Item", "Qty.", "Price", "Subtotal"]} />
+      </thead>
+      <tbody>
+        {products.map((product) => (
+          <ProductTableEntry key={product.sku} product={product} />
+        ))}
+
+        <RowBreak />
+        <tr>
+          <td colSpan={4}>
+            <hr className="border-t-2 border-black border-dashed" />
+          </td>
+        </tr>
+        <RowBreak />
+
+        <ProductTableRow
+          cells={["Total", totalQty, "", formatPrice(totalPrice)]}
+        />
+        <ProductTableRow cells={["Cash", "", "", formatPrice(cash)]} />
+        <ProductTableRow cells={["Change", "", "", formatPrice(change)]} />
+      </tbody>
+    </table>
+  );
+}
+
 function Receipt() {
   const cls = C(
     "bg-white m-6 mt-0 shadow-xl",
@@ -62,9 +165,7 @@ function Receipt() {
       <p className="text-center">This serves as your sales invoice</p>
       <br />
 
-      <p className="text-red-500 font-bold">[PRODUCT TABLE]</p>
-      <p className="text-red-500 font-bold">[total / cash / change]</p>
-
+      <ProductTable />
       <br />
 
       <p className="text-red-500 font-bold">[VAT breakdown]</p>
@@ -77,8 +178,6 @@ function Receipt() {
       <br />
 
       <p className="text-center">Thank you for shopping!</p>
-
-      <div className="h-96">{/* temporary spacer to scroll */}</div>
     </section>
   );
 }
