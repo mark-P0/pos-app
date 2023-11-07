@@ -27,7 +27,7 @@ function accessNullableRef<T>(namedRef: Record<string, RefObject<T>>): T {
 }
 
 function LoginForm() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen, changeUser } = useAppContext();
 
   const inputUsernameRef = useRef<HTMLInputElement | null>(null);
   const inputPasswordRef = useRef<HTMLInputElement | null>(null);
@@ -63,14 +63,19 @@ function LoginForm() {
       return;
     }
 
-    changeScreen("feature-select");
+    finalizeLogin();
   }
-  function loginAsGuest() {
+  function finalizeLogin() {
+    changeUser(username);
     changeScreen("feature-select");
   }
   useEffect(() => {
+    /**
+     * - Wrap in an effect so the potential state-setting will happen after render
+     * - Setting state during render is "improper"
+     */
     if (username === "guest") {
-      loginAsGuest();
+      finalizeLogin();
     }
   });
 
@@ -124,7 +129,7 @@ function LoginForm() {
           <button
             className={buttonGuestCls}
             type="button"
-            onClick={loginAsGuest}
+            onClick={() => setUsername("guest")}
           >
             As Guest
           </button>
