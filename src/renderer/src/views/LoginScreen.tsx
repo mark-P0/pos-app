@@ -150,7 +150,9 @@ function LoginCard() {
   return (
     <section className={cls}>
       <header className="grid place-content-center">
-        <code className="text-3xl font-bold tracking-widest">pos-app</code>
+        <h1 className="text-5xl font-head uppercase tracking-widest">
+          <span className="font-bold">pos</span> app
+        </h1>
       </header>
 
       <LoginForm />
