@@ -4,7 +4,7 @@ import { Screen } from "@renderer/components/Screen.js";
 export function POSScreen() {
   return (
     <Screen withLogoutButton withFeaturesButton>
-      <section className="overflow-hidden h-full grid grid-cols-[2fr_2fr_1fr]">
+      <section className="overflow-hidden h-full grid grid-cols-[2fr_2fr_1fr] gap-6">
         <div className="bg-red-500/25">receipt</div>
         <ProductList />
         <div className="bg-yellow-500/25">buttons</div>
