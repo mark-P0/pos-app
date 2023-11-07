@@ -1,6 +1,6 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
 import { C, formatPrice } from "@renderer/utils.js";
+import { MachineInfo } from "./MachineInfo.js";
 
 type Product = ReturnType<typeof useProductsContext>["products"][number];
 
@@ -177,27 +177,6 @@ function MapTable(props: { mapping: Record<string, string | number> }) {
         ))}
       </thead>
     </table>
-  );
-}
-
-function MachineInfo() {
-  const { labels } = useAppContext();
-  const [appName, appVersion] = labels;
-
-  return (
-    <>
-      <p className="normal-case">
-        Served By:{" "}
-        <span className="text-red-500 font-bold">[LOGGED_IN_USER]</span>
-      </p>
-      <p className="normal-case">
-        <span className="text-red-500 font-bold">[DATE]</span>{" "}
-        <span className="text-red-500 font-bold">[TIME]</span>
-      </p>
-      <p className="normal-case">
-        {appName} v{appVersion}
-      </p>
-    </>
   );
 }
 
