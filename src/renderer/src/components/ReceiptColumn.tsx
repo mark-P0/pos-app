@@ -167,9 +167,9 @@ function MapTable(props: { mapping: Record<string, string | number> }) {
   return (
     <table className="w-full [&_td:nth-child(3)]:text-right">
       <colgroup>
-        <col span={1} className="w-[calc(4/12*100%)]" />
+        <col span={1} className="w-[calc(5/12*100%)]" />
         <col span={1} className="w-[calc(1/12*100%)]" />
-        <col span={1} className="w-[calc(7/12*100%)]" />
+        <col span={1} className="w-[calc(6/12*100%)]" />
       </colgroup>
       <thead>
         {Object.entries(mapping).map((entry, idx) => (

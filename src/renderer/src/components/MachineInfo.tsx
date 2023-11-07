@@ -17,9 +17,9 @@ export function MachineInfo() {
   return (
     <>
       <p className="normal-case text-center">Served by `{user}`</p>
+      <p className="normal-case text-center">{datetime}</p>
       <p className="normal-case text-center">
-        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-        {datetime} // {appName} v{appVersion}{" "}
+        {appName} v{appVersion}{" "}
       </p>
     </>
   );
