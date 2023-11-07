@@ -3,9 +3,10 @@ import { C } from "@renderer/utils.js";
 import { LuLogOut } from "react-icons/lu";
 
 export function LogoutButton() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen, changeUser } = useAppContext();
 
   function logout() {
+    changeUser(null);
     changeScreen("login");
   }
 
