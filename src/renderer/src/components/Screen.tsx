@@ -35,7 +35,7 @@ export function Screen(
 
   return (
     <main className={cls}>
-      <header className="flex flex-row-reverse p-6">
+      <header className="flex flex-row-reverse px-4 py-3">
         <DarkModeToggle />
         {withLogoutButton && <LogoutButton />}
         {withFeaturesButton && <FeaturesButton />}
