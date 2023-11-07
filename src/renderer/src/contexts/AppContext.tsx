@@ -9,6 +9,8 @@ type AppValues = {
   screen: Screen;
   changeScreen: (to: Screen) => void;
   labels: readonly [string, string];
+  user: string | null;
+  changeUser: (to: string | null) => void;
 };
 const AppContext = createContext<AppValues | null>(null);
 
@@ -33,10 +35,15 @@ export function AppProvider(props: PropsWithChildren) {
     })();
   }, []);
 
+  const [user, setUser] = useState<string | null>(null);
+  function changeUser(to: string | null) {
+    setUser(to);
+  }
+
   /**
    * - Get the type of this, e.g. via hover definitions
    * - Copy type into context type near the top
    */
-  const values = { screen, changeScreen, labels };
+  const values = { screen, changeScreen, labels, user, changeUser };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 }
