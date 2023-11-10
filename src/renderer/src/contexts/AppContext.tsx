@@ -13,10 +13,23 @@ function useScreen() {
   return { screen, changeScreen };
 }
 
+type Labels = Awaited<ReturnType<typeof ipcInvoke<"app:getNameAndVersion">>>;
+function useLabels() {
+  const [labels, setLabels] = useState<Labels>(["", ""]);
+  useEffect(() => {
+    (async () => {
+      const labels = await ipcInvoke("app:getNameAndVersion");
+      setLabels(labels);
+    })();
+  }, []);
+
+  return labels;
+}
+
 type AppValues = {
   screen: Screen;
   changeScreen: (to: Screen) => void;
-  labels: readonly [string, string];
+  labels: Labels;
   user: string | null;
   changeUser: (to: string | null) => void;
 };
@@ -27,15 +40,7 @@ export function useAppContext() {
 export function AppProvider(props: PropsWithChildren) {
   const { children } = props;
   const { screen, changeScreen } = useScreen();
-
-  type Labels = Awaited<ReturnType<typeof ipcInvoke<"app:getNameAndVersion">>>;
-  const [labels, setLabels] = useState<Labels>(["", ""]);
-  useEffect(() => {
-    (async () => {
-      const labels = await ipcInvoke("app:getNameAndVersion");
-      setLabels(labels);
-    })();
-  }, []);
+  const labels = useLabels();
 
   const [user, setUser] = useState<string | null>(null);
   function changeUser(to: string | null) {
