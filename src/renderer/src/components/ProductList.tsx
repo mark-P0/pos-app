@@ -1,3 +1,4 @@
+import { useCartContext } from "@renderer/contexts/CartContext.js";
 import {
   Product,
   useProductsContext,
@@ -7,6 +8,7 @@ import { C, formatPrice } from "@renderer/utils.js";
 function ProductListItemButton(props: { product: Product }) {
   const { product } = props;
   const { sku, name, category, price } = product;
+  const { addToCart } = useCartContext();
 
   const imgUrl = `pos-app:///data/images/${sku}.png`;
   const imgAlt = `Image of product "${name}"`;
@@ -19,7 +21,7 @@ function ProductListItemButton(props: { product: Product }) {
     "grid grid-cols-[1fr_4fr_1fr] gap-4",
   );
   return (
-    <button className={cls}>
+    <button className={cls} onClick={() => addToCart(sku, 1)}>
       <img src={imgUrl} alt={imgAlt} />
       <div className="grid gap-1">
         <h2 className="text-lg font-head leading-tight">{name}</h2>
