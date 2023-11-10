@@ -21,19 +21,21 @@ function ProductListItemButton(props: { product: Product }) {
     "grid grid-cols-[1fr_4fr_1fr] gap-4",
   );
   return (
-    <button className={cls} onClick={() => addToCart(sku, 1)}>
-      <img src={imgUrl} alt={imgAlt} />
-      <div className="grid gap-1">
-        <h2 className="text-lg font-head leading-tight">{name}</h2>
-        <p className="text-xs uppercase tracking-widest opacity-80 dark:opacity-50">
-          {category}
-        </p>
-      </div>
-      <div className="w-full h-full">
-        <p className="text-xs tracking-widest text-right font-bold">
-          {formatPrice(price)}
-        </p>
-      </div>
+    <button onClick={() => addToCart(sku, 1)}>
+      <section className={cls}>
+        <img src={imgUrl} alt={imgAlt} />
+        <div className="grid gap-1 auto-rows-min">
+          <h2 className="text-lg font-head leading-tight">{name}</h2>
+          <p className="text-xs uppercase tracking-widest opacity-80 dark:opacity-50">
+            {category}
+          </p>
+        </div>
+        <div className="w-full h-full">
+          <p className="text-xs tracking-widest text-right font-bold">
+            {formatPrice(price)}
+          </p>
+        </div>
+      </section>
     </button>
   );
 }
