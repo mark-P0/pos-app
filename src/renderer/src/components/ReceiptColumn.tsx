@@ -1,7 +1,7 @@
 import { C, formatPrice } from "@renderer/utils.js";
+import { CartTable } from "./CartTable.js";
 import { MachineInfo } from "./MachineInfo.js";
 import { MapTable } from "./MapTable.js";
-import { ProductTable } from "./ProductTable.js";
 import { StoreDetails } from "./StoreDetails.js";
 
 function Receipt() {
@@ -19,7 +19,7 @@ function Receipt() {
       <p className="text-center">This serves as your sales invoice</p>
       <br />
 
-      <ProductTable />
+      <CartTable />
       <br />
 
       <MapTable

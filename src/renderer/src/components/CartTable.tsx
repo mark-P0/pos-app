@@ -52,7 +52,7 @@ function TableEntry(props: { product: Product }) {
   );
 }
 
-export function ProductTable() {
+export function CartTable() {
   const { products } = useProductsContext();
 
   const totalQty = products.length;
