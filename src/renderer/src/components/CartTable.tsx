@@ -11,6 +11,10 @@ function sum(...numbers: number[]) {
   return res;
 }
 
+function raise(msg: string): never {
+  throw new Error(msg);
+}
+
 function RowBreak() {
   return (
     <tr>
@@ -36,9 +40,10 @@ function TableRow(props: { cells: Array<string | number> }) {
 
 function TableEntry(props: { product: Product }) {
   const { product } = props;
-  const { name, price } = product;
+  const { sku, name, price } = product;
+  const { cart } = useCartContext();
 
-  const qty = 2;
+  const qty = cart.get(sku) ?? raise(`Product SKU "${sku}" not found in cart`);
   const subtotal = qty * price;
 
   return (
@@ -55,11 +60,21 @@ function TableEntry(props: { product: Product }) {
 
 export function CartTable() {
   const { cart } = useCartContext();
-  let { products } = useProductsContext();
-  products = products.filter((product) => cart.has(product.sku));
+  const { productMap } = useProductsContext();
+  const products = Array.from(
+    cart.keys(),
+    (sku) => productMap.get(sku) ?? raise(`Unknown SKU on cart "${sku}"`),
+  );
 
-  const totalQty = products.length;
-  const totalPrice = sum(...products.map(({ price }) => price));
+  const cartProductPricesAndQty = Array.from(cart.entries(), ([sku, qty]) => {
+    const price =
+      productMap.get(sku)?.price ?? raise(`Unknown SKU on cart "${sku}"`);
+    return [price, qty];
+  });
+  const totalQty = sum(...cart.values());
+  const totalPrice = sum(
+    ...cartProductPricesAndQty.map(([price, qty]) => price * qty),
+  );
   const cash = totalPrice;
   const change = cash - totalPrice;
 
@@ -73,10 +88,10 @@ export function CartTable() {
   return (
     <table className={cls}>
       <colgroup>
-        <col span={1} className="w-[calc(5/10*100%)]" />
-        <col span={1} className="w-[calc(1/10*100%)]" />
-        <col span={1} className="w-[calc(2/10*100%)]" />
-        <col span={1} className="w-[calc(2/10*100%)]" />
+        <col span={1} className="w-[calc(4/12*100%)]" />
+        <col span={1} className="w-[calc(2/12*100%)]" />
+        <col span={1} className="w-[calc(3/12*100%)]" />
+        <col span={1} className="w-[calc(3/12*100%)]" />
       </colgroup>
       <thead>
         {/* TODO Use `<th>` instead? */}
