@@ -1,3 +1,4 @@
+import { useCartContext } from "@renderer/contexts/CartContext.js";
 import {
   Product,
   useProductsContext,
@@ -53,7 +54,9 @@ function TableEntry(props: { product: Product }) {
 }
 
 export function CartTable() {
-  const { products } = useProductsContext();
+  const { cart } = useCartContext();
+  let { products } = useProductsContext();
+  products = products.filter((product) => cart.has(product.sku));
 
   const totalQty = products.length;
   const totalPrice = sum(...products.map(({ price }) => price));
