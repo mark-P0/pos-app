@@ -3,21 +3,10 @@ import { useNullableContext } from "./utils.js";
 
 const { ipcInvoke } = window.api;
 
-export type Products = Awaited<ReturnType<typeof ipcInvoke<"db:getAllProducts">>>;
-export type Product = Products[number]
+type Products = Awaited<ReturnType<typeof ipcInvoke<"db:getAllProducts">>>;
+export type Product = Products[number];
 
-type ProductsValues = {
-  products: Products;
-};
-const ProductsContext = createContext<ProductsValues | null>(null);
-
-export function useProductsContext() {
-  return useNullableContext({ ProductsContext });
-}
-
-export function ProductsProvider(props: PropsWithChildren) {
-  const { children } = props;
-
+function useProducts() {
   const [products, setProducts] = useState<Products>([]);
   useEffect(() => {
     (async () => {
@@ -25,6 +14,20 @@ export function ProductsProvider(props: PropsWithChildren) {
       setProducts(products);
     })();
   }, []);
+
+  return products;
+}
+
+type ProductsValues = {
+  products: Products;
+};
+const ProductsContext = createContext<ProductsValues | null>(null);
+export function useProductsContext() {
+  return useNullableContext({ ProductsContext });
+}
+export function ProductsProvider(props: PropsWithChildren) {
+  const { children } = props;
+  const products = useProducts();
 
   const values = { products };
   return (
