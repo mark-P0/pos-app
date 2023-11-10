@@ -26,12 +26,22 @@ function useLabels() {
   return labels;
 }
 
+type User = string | null;
+function useUser() {
+  const [user, setUser] = useState<User>(null);
+  function changeUser(to: User) {
+    setUser(to);
+  }
+
+  return { user, changeUser };
+}
+
 type AppValues = {
   screen: Screen;
   changeScreen: (to: Screen) => void;
   labels: Labels;
-  user: string | null;
-  changeUser: (to: string | null) => void;
+  user: User;
+  changeUser: (to: User) => void;
 };
 const AppContext = createContext<AppValues | null>(null);
 export function useAppContext() {
@@ -41,11 +51,7 @@ export function AppProvider(props: PropsWithChildren) {
   const { children } = props;
   const { screen, changeScreen } = useScreen();
   const labels = useLabels();
-
-  const [user, setUser] = useState<string | null>(null);
-  function changeUser(to: string | null) {
-    setUser(to);
-  }
+  const { user, changeUser } = useUser();
 
   /**
    * - Get the type of this, e.g. via hover definitions
