@@ -3,7 +3,8 @@ import { useNullableContext } from "./utils.js";
 
 const { ipcInvoke } = window.api;
 
-type Products = Awaited<ReturnType<typeof ipcInvoke<"db:getAllProducts">>>;
+export type Products = Awaited<ReturnType<typeof ipcInvoke<"db:getAllProducts">>>;
+export type Product = Products[number]
 
 type ProductsValues = {
   products: Products;

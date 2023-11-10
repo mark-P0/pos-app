@@ -1,7 +1,8 @@
-import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
+import {
+  Product,
+  useProductsContext,
+} from "@renderer/contexts/ProductsContext.js";
 import { C, formatPrice } from "@renderer/utils.js";
-
-type Product = ReturnType<typeof useProductsContext>["products"][number];
 
 function sum(...numbers: number[]) {
   let res = 0;
