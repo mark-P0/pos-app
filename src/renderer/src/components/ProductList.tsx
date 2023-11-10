@@ -5,7 +5,7 @@ import {
 } from "@renderer/contexts/ProductsContext.js";
 import { C, formatPrice } from "@renderer/utils.js";
 
-function ProductListItemButton(props: { product: Product }) {
+function ProductButton(props: { product: Product }) {
   const { product } = props;
   const { sku, name, category, price } = product;
   const { addToCart } = useCartContext();
@@ -58,7 +58,7 @@ export function ProductList() {
     <ol className={cls}>
       {products.map((product) => (
         <li key={product.sku}>
-          <ProductListItemButton product={product} />
+          <ProductButton product={product} />
         </li>
       ))}
     </ol>
