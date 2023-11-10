@@ -4,6 +4,14 @@ import { useNullableContext } from "./utils.js";
 const { ipcInvoke } = window.api;
 
 type Screen = "login" | "feature-select" | "pos" | "inv-mgmt";
+function useScreen() {
+  const [screen, setScreen] = useState<Screen>("login");
+  function changeScreen(to: Screen) {
+    setScreen(to);
+  }
+
+  return { screen, changeScreen };
+}
 
 type AppValues = {
   screen: Screen;
@@ -13,18 +21,12 @@ type AppValues = {
   changeUser: (to: string | null) => void;
 };
 const AppContext = createContext<AppValues | null>(null);
-
 export function useAppContext() {
   return useNullableContext({ AppContext });
 }
-
 export function AppProvider(props: PropsWithChildren) {
   const { children } = props;
-
-  const [screen, setScreen] = useState<Screen>("login");
-  function changeScreen(to: Screen) {
-    setScreen(to);
-  }
+  const { screen, changeScreen } = useScreen();
 
   type Labels = Awaited<ReturnType<typeof ipcInvoke<"app:getNameAndVersion">>>;
   const [labels, setLabels] = useState<Labels>(["", ""]);
