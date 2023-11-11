@@ -7,11 +7,20 @@ function useCart() {
   const [cart, setCart] = useState<Cart>(new Map());
   const isCartEmpty = cart.size === 0;
 
+  function rebuildCart() {
+    let entries = [...cart.entries()];
+
+    /* Remove items without quantities */
+    entries = entries.filter(([, v]) => v > 0);
+
+    const newCart = new Map(entries);
+    setCart(newCart);
+  }
+
   function addToCart(sku: Product["sku"], qty: number) {
     const ct = cart.get(sku) ?? 0;
     cart.set(sku, ct + qty);
-    const newCart = new Map(cart);
-    setCart(newCart);
+    rebuildCart();
   }
 
   return { cart, isCartEmpty, addToCart };
