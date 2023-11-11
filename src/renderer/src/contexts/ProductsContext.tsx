@@ -15,11 +15,17 @@ function useProducts() {
     })();
   }, []);
 
-  return products;
+  const productMap = new Map<Product["sku"], Product>();
+  for (const product of products) {
+    productMap.set(product.sku, product);
+  }
+
+  return { products, productMap };
 }
 
 type ProductsValues = {
   products: Products;
+  productMap: Map<Product["sku"], Product>;
 };
 const ProductsContext = createContext<ProductsValues | null>(null);
 export function useProductsContext() {
@@ -27,9 +33,9 @@ export function useProductsContext() {
 }
 export function ProductsProvider(props: PropsWithChildren) {
   const { children } = props;
-  const products = useProducts();
+  const { products, productMap } = useProducts();
 
-  const values = { products };
+  const values = { products, productMap };
   return (
     <ProductsContext.Provider value={values}>
       {children}
