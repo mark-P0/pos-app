@@ -15,3 +15,12 @@ const PriceFormatter = Intl.NumberFormat(undefined, {
 export function formatPrice(price: number) {
   return PriceFormatter.format(price);
 }
+
+export const classes = {
+  scrollbar: C(
+    "overflow-y-auto",
+    "scrollbar-thin",
+    "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
+    "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
+  ),
+} as const;

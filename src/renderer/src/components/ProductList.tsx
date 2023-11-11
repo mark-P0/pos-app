@@ -3,7 +3,7 @@ import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
-import { C, formatPrice } from "@renderer/utils.js";
+import { C, classes, formatPrice } from "@renderer/utils.js";
 
 function ProductCard(props: { product: Product }) {
   const { product } = props;
@@ -89,13 +89,7 @@ export function ProductList() {
   const { products } = useProductsContext();
 
   const cls = C(
-    ...[
-      "overflow-y-auto",
-      "scrollbar-thin",
-      "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
-      "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
-      "pr-3 pb-3",
-    ],
+    ...[classes.scrollbar, "pr-3 pb-3"],
     "grid gap-3",
     "select-none",
   );
