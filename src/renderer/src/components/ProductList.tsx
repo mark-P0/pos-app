@@ -44,19 +44,22 @@ function ProductCard(props: { product: Product }) {
 function QuantityCounter(props: {
   qty: number;
   setQty: Dispatch<SetStateAction<number>>;
-  sku: Product["sku"];
+  product: Product;
 }) {
-  const { qty, setQty, sku } = props;
+  const { qty, setQty, product } = props;
+  const { sku, stock } = product;
   const { cart, addToCart } = useCartContext();
   const { changeContent } = useModalContext();
 
-  const min = (cart.get(sku) ?? 0) * -1;
+  const currentQty = cart.get(sku) ?? 0;
+  const min = currentQty * -1;
+  const max = stock - currentQty;
 
   function decrement() {
     setQty(Math.max(min, qty - 1));
   }
   function increment() {
-    setQty(qty + 1);
+    setQty(Math.min(max, qty + 1));
   }
   function commit() {
     addToCart(sku, qty);
@@ -96,7 +99,12 @@ function QuantityCounter(props: {
           {qty < 0 ? "Remove" : "Add"} <span className="font-bold">{qty}</span>
         </span>
       </button>
-      <button type="button" className={buttonCounterCls} onClick={increment}>
+      <button
+        type="button"
+        className={buttonCounterCls}
+        onClick={increment}
+        disabled={qty === max}
+      >
         <LuPlus />
       </button>
     </form>
@@ -105,11 +113,10 @@ function QuantityCounter(props: {
 
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
-  const { sku } = product;
   const [qty, setQty] = useState(0);
 
   /** Copy types of this (e.g. via hover definition) to counter prop type */
-  const counterProps = { qty, setQty, sku };
+  const counterProps = { qty, setQty, product };
 
   const divCls = C("px-3 py-2", classes.card);
   const cls = C(
