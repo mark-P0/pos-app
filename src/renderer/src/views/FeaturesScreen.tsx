@@ -39,7 +39,7 @@ export function FeaturesScreen() {
   const cls = C(
     "overflow-hidden",
     "w-max", // Without this, the absolute position properties below will resize the element...
-    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    classes.absoluteCenter,
     "grid grid-cols-2 gap-12",
   );
   return (

@@ -142,7 +142,7 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
-    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    classes.absoluteCenter,
     "w-[28rem] grid gap-12 p-12 pb-6",
     classes.card,
     "transition",

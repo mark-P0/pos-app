@@ -17,6 +17,9 @@ export function formatPrice(price: number) {
 }
 
 export const classes = {
+  absoluteCenter: C(
+    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+  ),
   scrollbar: C(
     "overflow-y-auto",
     "scrollbar-thin",
