@@ -47,11 +47,13 @@ function QuantityCounter(props: {
   sku: Product["sku"];
 }) {
   const { qty, setQty, sku } = props;
-  const { addToCart } = useCartContext();
+  const { cart, addToCart } = useCartContext();
   const { changeContent } = useModalContext();
 
+  const min = (cart.get(sku) ?? 0) * -1;
+
   function decrement() {
-    setQty(qty - 1);
+    setQty(Math.max(min, qty - 1));
   }
   function increment() {
     setQty(qty + 1);
@@ -64,19 +66,24 @@ function QuantityCounter(props: {
   const buttonCounterCls = C(
     "h-8 aspect-square",
     "grid place-content-center",
-    "bg-cyan-800 hover:bg-cyan-700 active:scale-95 text-white",
+    "bg-cyan-800 enabled:hover:bg-cyan-700 enabled:active:scale-95 text-white disabled:opacity-50",
     "transition",
   );
   const commitButtonCls = C(
     "h-8 w-32",
     "grid place-content-center",
-    "border-2 border-cyan-800",
+    "border-y-2 border-cyan-800",
     "hover:bg-rose-700/25 dark:hover:bg-rose-700/50 active:scale-95",
     "transition",
   );
   return (
     <form className="flex">
-      <button type="button" className={buttonCounterCls} onClick={decrement}>
+      <button
+        type="button"
+        className={buttonCounterCls}
+        onClick={decrement}
+        disabled={qty === min}
+      >
         <LuMinus />
       </button>
       <button type="button" className={commitButtonCls} onClick={commit}>
