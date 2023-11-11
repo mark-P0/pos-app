@@ -73,7 +73,7 @@ function QuantityCounter(props: {
     "h-8 w-32",
     "grid place-content-center",
     "border-y-2 border-cyan-800",
-    "hover:bg-rose-700/25 dark:hover:bg-rose-700/50 active:scale-95",
+    "enabled:hover:bg-rose-700/25 dark:enabled:hover:bg-rose-700/50 enabled:active:scale-95 disabled:opacity-50",
     "transition",
   );
   return (
@@ -86,7 +86,12 @@ function QuantityCounter(props: {
       >
         <LuMinus />
       </button>
-      <button type="button" className={commitButtonCls} onClick={commit}>
+      <button
+        type="button"
+        className={commitButtonCls}
+        onClick={commit}
+        disabled={qty === 0}
+      >
         <span>
           {qty < 0 ? "Remove" : "Add"} <span className="font-bold">{qty}</span>
         </span>
