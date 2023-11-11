@@ -1,6 +1,6 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C } from "@renderer/utils.js";
+import { C, classes } from "@renderer/utils.js";
 import { ButtonHTMLAttributes } from "react";
 import { FaCashRegister } from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
@@ -19,7 +19,9 @@ function FigureButton(props: {
   const cls = C(
     "grid gap-8 w-full aspect-square p-8 pt-12 rounded-xl",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
-    "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-95",
+    classes.interactiveHoverBg,
+    "active:scale-95",
+    "transition",
   );
   return (
     <button type="button" {...buttonProps}>

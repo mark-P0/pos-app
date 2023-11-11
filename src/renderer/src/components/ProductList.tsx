@@ -76,7 +76,9 @@ function ProductButton(props: { product: Product }) {
     "w-full text-left",
     "rounded-lg px-3 py-2",
     "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
-    "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-[.98]",
+    classes.interactiveHoverBg,
+    "active:scale-[.98]",
+    "transition",
   );
   return (
     <button className={cls} onClick={showQuantityPrompt}>
