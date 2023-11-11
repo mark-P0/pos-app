@@ -45,7 +45,7 @@ function QuantityPrompt(props: { product: Product }) {
   const cls = C(
     "p-3 rounded-lg",
     "w-[60vw]", // 3/5 of full-width
-    ...[classes.bgAndtext, classes.selectionBgAndtext],
+    ...[classes.bg, classes.text, classes.selection],
     "transition",
   );
   return (

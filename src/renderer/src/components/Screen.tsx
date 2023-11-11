@@ -21,7 +21,7 @@ function ActualScreen(
     "overflow-hidden relative",
     "h-screen flex flex-col",
     "font-body",
-    ...[classes.bgAndtext, classes.selectionBgAndtext],
+    ...[classes.bg, classes.text, classes.selection],
     "transition",
   );
   return (

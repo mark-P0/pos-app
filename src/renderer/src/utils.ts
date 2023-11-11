@@ -26,10 +26,12 @@ export const classes = {
     "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
     "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
   ),
-  bgAndtext: C("bg-white text-cyan-950", "dark:bg-cyan-950 dark:text-white"),
-  selectionBgAndtext: C(
-    "selection:bg-cyan-950 selection:text-white",
-    "dark:selection:bg-white dark:selection:text-cyan-950",
+  bg: C("bg-white dark:bg-cyan-950"),
+  text: C("text-cyan-950 dark:text-white"),
+  selection: C(
+    /* Inverse of bg and text classes */
+    "selection:bg-cyan-950 dark:selection:bg-white",
+    "selection:text-white dark:selection:text-cyan-950",
   ),
   card: C(
     "border-2 border-cyan-950",
