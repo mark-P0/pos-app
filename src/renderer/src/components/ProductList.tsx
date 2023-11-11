@@ -43,14 +43,10 @@ function QuantityPrompt(props: { product: Product }) {
 
   const divCls = C("px-3 py-2", classes.card);
   const cls = C(
-    "bg-white dark:bg-cyan-950",
     "p-3 rounded-lg",
-    "w-[calc(100vw*3/5)]",
+    "w-[60vw]", // 3/5 of full-width
+    ...[classes.bgAndtext, classes.selectionBgAndtext],
     "transition",
-    ...[
-      "dark:bg-cyan-950 dark:text-white",
-      "dark:selection:bg-white dark:selection:text-cyan-950",
-    ],
   );
   return (
     <article className={cls}>
@@ -71,7 +67,7 @@ function ProductButton(props: { product: Product }) {
 
   const cls = C(
     "w-full text-left",
-    "rounded-lg px-3 py-2",
+    "px-3 py-2",
     classes.card,
     classes.interactiveHoverBg,
     "active:scale-[.98]",
