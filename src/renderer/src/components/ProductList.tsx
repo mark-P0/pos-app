@@ -1,9 +1,12 @@
+import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
 import { C, classes, formatPrice } from "@renderer/utils.js";
+import { Dispatch, SetStateAction, useState } from "react";
+import { LuMinus, LuPlus } from "react-icons/lu";
 
 function ProductCard(props: { product: Product }) {
   const { product } = props;
@@ -38,21 +41,86 @@ function ProductCard(props: { product: Product }) {
   );
 }
 
+function QuantityCounter(props: {
+  qty: number;
+  setQty: Dispatch<SetStateAction<number>>;
+  sku: Product["sku"];
+}) {
+  const { qty, setQty, sku } = props;
+  const { addToCart } = useCartContext();
+  const { changeContent } = useModalContext();
+
+  function decrement() {
+    setQty(qty - 1);
+  }
+  function increment() {
+    setQty(qty + 1);
+  }
+  function commit() {
+    addToCart(sku, qty);
+    changeContent(null);
+  }
+
+  const buttonCounterCls = C(
+    "h-8 aspect-square",
+    "grid place-content-center",
+    "bg-cyan-800 hover:bg-cyan-700 active:scale-95 text-white",
+    "transition",
+  );
+  const commitButtonCls = C(
+    "h-8 w-32",
+    "grid place-content-center",
+    "border-2 border-cyan-800",
+    "hover:bg-rose-700/25 dark:hover:bg-rose-700/50 active:scale-95",
+    "transition",
+  );
+  return (
+    <form className="flex">
+      <button type="button" className={buttonCounterCls} onClick={decrement}>
+        <LuMinus />
+      </button>
+      <button type="button" className={commitButtonCls} onClick={commit}>
+        <span>
+          {qty < 0 ? "Remove" : "Add"} <span className="font-bold">{qty}</span>
+        </span>
+      </button>
+      <button type="button" className={buttonCounterCls} onClick={increment}>
+        <LuPlus />
+      </button>
+    </form>
+  );
+}
+
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
+  const { sku } = product;
+  const [qty, setQty] = useState(0);
+
+  /** Copy types of this (e.g. via hover definition) to counter prop type */
+  const counterProps = { qty, setQty, sku };
 
   const divCls = C("px-3 py-2", classes.card);
   const cls = C(
-    "p-3 rounded-lg",
+    "select-none",
     "w-[60vw]", // 3/5 of full-width
+    "grid gap-3",
+    "p-6 rounded-lg",
     ...[classes.bg, classes.text, classes.selection],
     "transition",
   );
   return (
     <article className={cls}>
+      <header>
+        <h3 className="font-head text-3xl">How many of this product to add?</h3>
+      </header>
+
       <div className={divCls}>
         <ProductCard product={product} />
       </div>
+
+      <footer className="flex justify-end">
+        <QuantityCounter {...counterProps} />
+      </footer>
     </article>
   );
 }
