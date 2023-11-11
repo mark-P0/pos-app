@@ -10,7 +10,7 @@ function CurtainDialog() {
     "absolute z-10 w-full h-full",
     "grid place-content-center",
     "bg-transparent dark:bg-cyan-950/50",
-    "text-cyan-950 dark:text-white",
+    classes.text,
     "transition",
   );
   return (
