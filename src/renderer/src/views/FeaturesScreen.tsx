@@ -17,8 +17,8 @@ function FigureButton(props: {
   const buttonProps: HTMLButtonProps = { onClick };
 
   const cls = C(
-    "grid gap-8 w-full aspect-square p-8 pt-12 rounded-xl",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
+    "grid gap-8 w-full aspect-square p-8 pt-12",
+    classes.card,
     classes.interactiveHoverBg,
     "active:scale-95",
     "transition",

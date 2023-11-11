@@ -41,10 +41,7 @@ function ProductCard(props: { product: Product }) {
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
 
-  const divCls = C(
-    "rounded-lg px-3 py-2",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
-  );
+  const divCls = C("px-3 py-2", classes.card);
   const cls = C(
     "bg-white dark:bg-cyan-950",
     "p-3 rounded-lg",
@@ -75,7 +72,7 @@ function ProductButton(props: { product: Product }) {
   const cls = C(
     "w-full text-left",
     "rounded-lg px-3 py-2",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
+    classes.card,
     classes.interactiveHoverBg,
     "active:scale-[.98]",
     "transition",

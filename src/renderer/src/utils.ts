@@ -23,5 +23,10 @@ export const classes = {
     "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
     "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
   ),
+  card: C(
+    "border-2 border-cyan-950",
+    "dark:border-transparent dark:bg-white/10",
+    "rounded-lg",
+  ),
   interactiveHoverBg: C("hover:bg-cyan-950/10 dark:hover:bg-white/20"),
 } as const;
