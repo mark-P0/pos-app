@@ -1,5 +1,5 @@
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
-import { C } from "@renderer/utils.js";
+import { C, classes } from "@renderer/utils.js";
 import { PropsWithChildren } from "react";
 import { DarkModeToggle } from "./DarkModeToggle.js";
 import { FeaturesButton } from "./FeaturesButton.js";
@@ -21,16 +21,7 @@ function ActualScreen(
     "overflow-hidden relative",
     "h-screen flex flex-col",
     "font-body",
-    ...[
-      ...[
-        "bg-white text-cyan-950",
-        "selection:bg-cyan-950 selection:text-white",
-      ],
-      ...[
-        "dark:bg-cyan-950 dark:text-white",
-        "dark:selection:bg-white dark:selection:text-cyan-950",
-      ],
-    ],
+    ...[classes.bg, classes.text, classes.selection],
     "transition",
   );
   return (

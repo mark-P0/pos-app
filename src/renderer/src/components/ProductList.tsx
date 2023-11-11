@@ -3,7 +3,7 @@ import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
-import { C, formatPrice } from "@renderer/utils.js";
+import { C, classes, formatPrice } from "@renderer/utils.js";
 
 function ProductCard(props: { product: Product }) {
   const { product } = props;
@@ -41,19 +41,12 @@ function ProductCard(props: { product: Product }) {
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
 
-  const divCls = C(
-    "rounded-lg px-3 py-2",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
-  );
+  const divCls = C("px-3 py-2", classes.card);
   const cls = C(
-    "bg-white dark:bg-cyan-950",
     "p-3 rounded-lg",
-    "w-[calc(100vw*3/5)]",
+    "w-[60vw]", // 3/5 of full-width
+    ...[classes.bg, classes.text, classes.selection],
     "transition",
-    ...[
-      "dark:bg-cyan-950 dark:text-white",
-      "dark:selection:bg-white dark:selection:text-cyan-950",
-    ],
   );
   return (
     <article className={cls}>
@@ -74,9 +67,11 @@ function ProductButton(props: { product: Product }) {
 
   const cls = C(
     "w-full text-left",
-    "rounded-lg px-3 py-2",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10",
-    "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-[.98]",
+    "px-3 py-2",
+    classes.card,
+    classes.interactiveHoverBg,
+    "active:scale-[.98]",
+    "transition",
   );
   return (
     <button className={cls} onClick={showQuantityPrompt}>
@@ -89,13 +84,7 @@ export function ProductList() {
   const { products } = useProductsContext();
 
   const cls = C(
-    ...[
-      "overflow-y-auto",
-      "scrollbar-thin",
-      "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
-      "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
-      "pr-3 pb-3",
-    ],
+    ...[classes.scrollbar, "pr-3 pb-3"],
     "grid gap-3",
     "select-none",
   );
