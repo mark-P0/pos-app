@@ -1,10 +1,13 @@
+import { raise, sum } from "@renderer/utils.js";
 import { useState } from "react";
-import { Product } from "./ProductsContext.js";
+import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
 
 type Cart = Map<Product["sku"], number>;
 function useCart() {
   const [cart, setCart] = useState<Cart>(new Map());
+  const { productMap } = useProductsContext();
+
   const isCartEmpty = cart.size === 0;
 
   function rebuildCart() {
@@ -27,7 +30,29 @@ function useCart() {
     setCart(new Map());
   }
 
-  return { cart, isCartEmpty, addToCart, clearCart };
+  function* generateCartProductAndQty() {
+    for (const [sku, qty] of cart.entries()) {
+      const product =
+        productMap.get(sku) ?? raise(`Unknown SKU on cart "${sku}"`);
+      yield [product, qty] as const;
+    }
+  }
+
+  function* generatePriceQtyMultiplication() {
+    for (const [product, qty] of generateCartProductAndQty()) {
+      yield product.price * qty;
+    }
+  }
+  const totalCartPrice = sum(...generatePriceQtyMultiplication());
+
+  return {
+    cart,
+    isCartEmpty,
+    addToCart,
+    clearCart,
+    generateCartProductAndQty,
+    totalCartPrice,
+  };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => ({

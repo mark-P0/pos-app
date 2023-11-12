@@ -1,19 +1,6 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
-import {
-  Product,
-  useProductsContext,
-} from "@renderer/contexts/ProductsContext.js";
-import { C, formatPrice } from "@renderer/utils.js";
-
-function sum(...numbers: number[]) {
-  let res = 0;
-  for (const num of numbers) res += num;
-  return res;
-}
-
-function raise(msg: string): never {
-  throw new Error(msg);
-}
+import { Product } from "@renderer/contexts/ProductsContext.js";
+import { C, formatPrice, raise, sum } from "@renderer/utils.js";
 
 function RowBreak() {
   return (
@@ -59,24 +46,15 @@ function TableEntry(props: { product: Product }) {
 }
 
 export function CartTable() {
-  const { cart } = useCartContext();
-  const { productMap } = useProductsContext();
+  const { cart, generateCartProductAndQty, totalCartPrice } = useCartContext();
   const products = Array.from(
-    cart.keys(),
-    (sku) => productMap.get(sku) ?? raise(`Unknown SKU on cart "${sku}"`),
+    generateCartProductAndQty(),
+    ([product]) => product,
   );
 
-  const cartProductPricesAndQty = Array.from(cart.entries(), ([sku, qty]) => {
-    const price =
-      productMap.get(sku)?.price ?? raise(`Unknown SKU on cart "${sku}"`);
-    return [price, qty];
-  });
   const totalQty = sum(...cart.values());
-  const totalPrice = sum(
-    ...cartProductPricesAndQty.map(([price, qty]) => price * qty),
-  );
-  const cash = totalPrice;
-  const change = cash - totalPrice;
+  const cash = totalCartPrice;
+  const change = cash - totalCartPrice;
 
   const clsColumnAlignment = C(
     "[&_td:nth-child(1)]:text-left",
@@ -110,7 +88,9 @@ export function CartTable() {
         </tr>
         <RowBreak />
 
-        <TableRow cells={["Total", totalQty, "", formatPrice(totalPrice)]} />
+        <TableRow
+          cells={["Total", totalQty, "", formatPrice(totalCartPrice)]}
+        />
         <TableRow cells={["Cash", "", "", formatPrice(cash)]} />
         <TableRow cells={["Change", "", "", formatPrice(change)]} />
       </tbody>
