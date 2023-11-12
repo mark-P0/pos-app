@@ -46,7 +46,9 @@ function ResetPrompt() {
 }
 
 function CheckoutPrompt() {
-  const { totalCartPrice } = useCartContext();
+  const { totalCartPrice, pay } = useCartContext();
+  const { changeContent } = useModalContext();
+
   const [amount, setAmount] = useState(totalCartPrice);
   function updateAmount(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
@@ -57,6 +59,10 @@ function CheckoutPrompt() {
 
   function setExactAmount() {
     setAmount(totalCartPrice);
+  }
+  function checkout() {
+    pay(amount);
+    changeContent(null);
   }
 
   const currencySymbol = formatPrice(amount)[0];
@@ -104,6 +110,7 @@ function CheckoutPrompt() {
           type="button"
           className={confirmCls}
           disabled={amount < totalCartPrice}
+          onClick={checkout}
         >
           Confirm
         </button>
