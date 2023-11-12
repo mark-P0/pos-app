@@ -23,7 +23,11 @@ function useCart() {
     rebuildCart();
   }
 
-  return { cart, isCartEmpty, addToCart };
+  function clearCart() {
+    setCart(new Map());
+  }
+
+  return { cart, isCartEmpty, addToCart, clearCart };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => ({
