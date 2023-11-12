@@ -1,5 +1,5 @@
-import { raise, sum } from "@renderer/utils.js";
-import { useRef, useState } from "react";
+import { raise, randomString, sum } from "@renderer/utils.js";
+import { useEffect, useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
 
@@ -75,9 +75,16 @@ function usePayment(cartValues: ReturnType<typeof useCart>) {
 function useReceiptRef() {
   const receiptRef = useRef<HTMLElement | null>(null);
 
-  return {
-    receiptRef,
-  };
+  return { receiptRef };
+}
+
+function useTransactionId() {
+  const [transactionId, setTransactionId] = useState("");
+  useEffect(() => {
+    setTransactionId(randomString(16));
+  }, []);
+
+  return { transactionId };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => {
@@ -87,5 +94,6 @@ export const [useCartContext, CartProvider] = createNewContext(() => {
     ...cartValues,
     ...usePayment(cartValues),
     ...useReceiptRef(),
+    ...useTransactionId(),
   };
 });
