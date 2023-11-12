@@ -40,6 +40,12 @@ export const classes = {
   ),
   interactiveHoverBg: C("hover:bg-cyan-950/10 dark:hover:bg-white/20"),
   button: {
+    primary: C(
+      "bg-rose-700",
+      "enabled:hover:bg-rose-600 enabled:active:scale-95",
+      "disabled:opacity-50",
+      "text-white",
+    ),
     secondary: C(
       "bg-cyan-800",
       "enabled:hover:bg-cyan-700 enabled:active:scale-95",
