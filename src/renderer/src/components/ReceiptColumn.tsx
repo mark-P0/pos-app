@@ -26,7 +26,7 @@ function Receipt() {
   const { isCartEmpty, receiptRef } = useCartContext();
 
   const cls = C(
-    "bg-white m-6 mt-0 shadow-xl",
+    "bg-white shadow-xl",
     "font-mono text-black uppercase text-xs leading-tight",
     "select-none cursor-not-allowed",
     "p-6",
@@ -75,7 +75,7 @@ function Receipt() {
 export function ReceiptColumn() {
   const { isCartEmpty } = useCartContext();
 
-  const cls = C("relative", classes.scrollbar);
+  const cls = C("relative", classes.scrollbar, "p-6 pt-0");
   return (
     <div className={cls}>
       {isCartEmpty && <CurtainDialog />}
