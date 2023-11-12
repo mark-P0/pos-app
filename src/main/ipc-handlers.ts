@@ -21,6 +21,9 @@ const ChannelHandlers = {
   ) => {
     return await assessUserCredentials(user);
   },
+  "app:getNameAndVersion": () => {
+    return [app.getName(), app.getVersion()] as const;
+  },
 } as const;
 
 /** https://stackoverflow.com/a/67605309 */

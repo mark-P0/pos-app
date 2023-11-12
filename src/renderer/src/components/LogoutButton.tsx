@@ -1,17 +1,20 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C } from "@renderer/utils.js";
+import { C, classes } from "@renderer/utils.js";
 import { LuLogOut } from "react-icons/lu";
 
 export function LogoutButton() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen, changeUser } = useAppContext();
 
   function logout() {
+    changeUser(null);
     changeScreen("login");
   }
 
   const cls = C(
     "overflow-hidden w-12 aspect-square rounded-full p-3",
-    "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-90",
+    classes.interactiveHoverBg,
+    "active:scale-90",
+    "transition",
   );
   return (
     <button className={cls} onClick={logout}>
