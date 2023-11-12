@@ -4,12 +4,18 @@ import { C, classes } from "@renderer/utils.js";
 
 function ResetPrompt() {
   const { changeContent } = useModalContext();
+  const { clearCart } = useCartContext();
 
   function cancel() {
     changeContent(null);
   }
+  function confirm() {
+    clearCart();
+    changeContent(null);
+  }
 
   const cancelCls = C("px-4 py-1", classes.button.secondary);
+  const confirmCls = C("px-4 py-1", classes.button.primary);
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width
@@ -29,6 +35,9 @@ function ResetPrompt() {
       <footer className="ml-auto grid grid-flow-col auto-cols-fr gap-3">
         <button className={cancelCls} onClick={cancel}>
           No
+        </button>
+        <button className={confirmCls} onClick={confirm}>
+          Yes
         </button>
       </footer>
     </article>
