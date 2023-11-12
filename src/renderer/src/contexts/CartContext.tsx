@@ -45,6 +45,17 @@ function useCart() {
   }
   const totalCartPrice = sum(...generatePriceQtyMultiplication());
 
+  const [payment, setPayment] = useState<number | null>(null);
+  function pay(amount: number) {
+    if (amount < totalCartPrice) {
+      throw new Error(
+        `Payment ${amount} less than cart price ${totalCartPrice}`,
+      );
+    }
+
+    setPayment(amount);
+  }
+
   return {
     cart,
     isCartEmpty,
@@ -52,6 +63,7 @@ function useCart() {
     clearCart,
     generateCartProductAndQty,
     totalCartPrice,
+    ...{ payment, pay },
   };
 }
 
