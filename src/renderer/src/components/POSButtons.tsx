@@ -1,7 +1,7 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { C, classes, formatPrice } from "@renderer/utils.js";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 function ResetPrompt() {
   const { changeContent } = useModalContext();
@@ -120,6 +120,11 @@ function CheckoutPrompt() {
 }
 
 function PostCheckoutPrompt() {
+  const { saveReceiptAsSVG } = useCartContext();
+  useEffect(() => {
+    saveReceiptAsSVG();
+  }, []);
+
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width

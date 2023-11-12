@@ -1,7 +1,10 @@
 import { raise, randomString, sum } from "@renderer/utils.js";
+import { toSvgString } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
+
+const { ipcInvoke } = window.api;
 
 type Cart = Map<Product["sku"], number>;
 function useCart() {
@@ -72,12 +75,6 @@ function usePayment(cartValues: ReturnType<typeof useCart>) {
   return { payment, pay };
 }
 
-function useReceiptRef() {
-  const receiptRef = useRef<HTMLElement | null>(null);
-
-  return { receiptRef };
-}
-
 function useTransactionId() {
   const [transactionId, setTransactionId] = useState("");
   useEffect(() => {
@@ -87,13 +84,39 @@ function useTransactionId() {
   return { transactionId };
 }
 
+function useReceiptRef(
+  transactionIdValues: ReturnType<typeof useTransactionId>,
+) {
+  const { transactionId } = transactionIdValues;
+  const paths = {
+    svg: `data/receipts/${transactionId}.svg`,
+  };
+
+  const receiptRef = useRef<HTMLElement | null>(null);
+  function accessReceiptEl() {
+    const receipt = receiptRef.current;
+    if (receipt === null) {
+      throw new Error();
+    }
+    return receipt;
+  }
+
+  async function saveReceiptAsSVG() {
+    const svgString = await toSvgString(accessReceiptEl());
+    await ipcInvoke("fs:writeTextFile", paths.svg, svgString);
+  }
+
+  return { receiptRef, saveReceiptAsSVG };
+}
+
 export const [useCartContext, CartProvider] = createNewContext(() => {
   const cartValues = useCart();
+  const transactionIdValues = useTransactionId();
 
   return {
     ...cartValues,
     ...usePayment(cartValues),
-    ...useReceiptRef(),
-    ...useTransactionId(),
+    ...transactionIdValues,
+    ...useReceiptRef(transactionIdValues),
   };
 });
