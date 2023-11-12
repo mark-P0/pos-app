@@ -1,12 +1,13 @@
 import { raise, sum } from "@renderer/utils.js";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
 
 type Cart = Map<Product["sku"], number>;
 function useCart() {
-  const [cart, setCart] = useState<Cart>(new Map());
   const { productMap } = useProductsContext();
+  const [cart, setCart] = useState<Cart>(new Map());
+  const receiptRef = useRef<HTMLElement | null>(null);
 
   const isCartEmpty = cart.size === 0;
 
@@ -63,6 +64,7 @@ function useCart() {
     clearCart,
     generateCartProductAndQty,
     totalCartPrice,
+    receiptRef,
     ...{ payment, pay },
   };
 }

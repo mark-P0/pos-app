@@ -23,7 +23,7 @@ function CurtainDialog() {
 }
 
 function Receipt() {
-  const { isCartEmpty } = useCartContext();
+  const { isCartEmpty, receiptRef } = useCartContext();
 
   const cls = C(
     "bg-white m-6 mt-0 shadow-xl",
@@ -34,7 +34,7 @@ function Receipt() {
     "transition",
   );
   return (
-    <section className={cls}>
+    <section ref={receiptRef} className={cls}>
       <StoreDetails />
       <br />
 
