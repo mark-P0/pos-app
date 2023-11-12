@@ -1,21 +1,4 @@
-function randomInt(from: number, to: number) {
-  const range = to - from;
-  return from + Math.floor(Math.random() * range);
-}
-function randomIntByLength(length: number) {
-  return randomInt(10 ** (length - 1), 10 ** length);
-}
-
-function randomChoice<T>(seq: ArrayLike<T>): T {
-  const idx = randomInt(0, seq.length);
-  return seq[idx];
-}
-function randomString(
-  length: number,
-  chars: ArrayLike<string> = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-) {
-  return Array.from({ length }, () => randomChoice(chars)).join("");
-}
+import { randomIntByLength, randomString } from "@renderer/utils.js";
 
 /* TODO Extract this from database? */
 const store = {
