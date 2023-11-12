@@ -1,6 +1,6 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { useState } from "react";
 import { Product } from "./ProductsContext.js";
-import { useNullableContext } from "./utils.js";
+import { createNewContext } from "./utils.js";
 
 type Cart = Map<Product["sku"], number>;
 function useCart() {
@@ -23,22 +23,13 @@ function useCart() {
     rebuildCart();
   }
 
-  return { cart, isCartEmpty, addToCart };
+  function clearCart() {
+    setCart(new Map());
+  }
+
+  return { cart, isCartEmpty, addToCart, clearCart };
 }
 
-type CartValues = {
-  cart: Cart;
-  isCartEmpty: boolean;
-  addToCart: (sku: Product["sku"], qty: number) => void;
-};
-const CartContext = createContext<CartValues | null>(null);
-export function useCartContext() {
-  return useNullableContext({ CartContext });
-}
-export function CartProvider(props: PropsWithChildren) {
-  const { children } = props;
-  const { cart, isCartEmpty, addToCart } = useCart();
-
-  const values = { cart, isCartEmpty, addToCart };
-  return <CartContext.Provider value={values}>{children}</CartContext.Provider>;
-}
+export const [useCartContext, CartProvider] = createNewContext(() => ({
+  ...useCart(),
+}));
