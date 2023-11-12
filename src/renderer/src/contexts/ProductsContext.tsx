@@ -1,5 +1,5 @@
-import { PropsWithChildren, createContext, useEffect, useState } from "react";
-import { useNullableContext } from "./utils.js";
+import { useEffect, useState } from "react";
+import { createNewContext } from "./utils.js";
 
 const { ipcInvoke } = window.api;
 
@@ -23,22 +23,6 @@ function useProducts() {
   return { products, productMap };
 }
 
-type ProductsValues = {
-  products: Products;
-  productMap: Map<Product["sku"], Product>;
-};
-const ProductsContext = createContext<ProductsValues | null>(null);
-export function useProductsContext() {
-  return useNullableContext({ ProductsContext });
-}
-export function ProductsProvider(props: PropsWithChildren) {
-  const { children } = props;
-  const { products, productMap } = useProducts();
-
-  const values = { products, productMap };
-  return (
-    <ProductsContext.Provider value={values}>
-      {children}
-    </ProductsContext.Provider>
-  );
-}
+export const [useProductsContext, ProductsProvider] = createNewContext(() => ({
+  ...useProducts(),
+}));
