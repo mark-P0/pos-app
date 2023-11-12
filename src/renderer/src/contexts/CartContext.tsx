@@ -7,7 +7,6 @@ type Cart = Map<Product["sku"], number>;
 function useCart() {
   const { productMap } = useProductsContext();
   const [cart, setCart] = useState<Cart>(new Map());
-  const receiptRef = useRef<HTMLElement | null>(null);
 
   const isCartEmpty = cart.size === 0;
 
@@ -46,7 +45,20 @@ function useCart() {
   }
   const totalCartPrice = sum(...generatePriceQtyMultiplication());
 
+  return {
+    cart,
+    isCartEmpty,
+    addToCart,
+    clearCart,
+    generateCartProductAndQty,
+    totalCartPrice,
+  };
+}
+
+function usePayment(cartValues: ReturnType<typeof useCart>) {
+  const { totalCartPrice } = cartValues;
   const [payment, setPayment] = useState<number | null>(null);
+
   function pay(amount: number) {
     if (amount < totalCartPrice) {
       throw new Error(
@@ -57,18 +69,23 @@ function useCart() {
     setPayment(amount);
   }
 
+  return { payment, pay };
+}
+
+function useReceiptRef() {
+  const receiptRef = useRef<HTMLElement | null>(null);
+
   return {
-    cart,
-    isCartEmpty,
-    addToCart,
-    clearCart,
-    generateCartProductAndQty,
-    totalCartPrice,
     receiptRef,
-    ...{ payment, pay },
   };
 }
 
-export const [useCartContext, CartProvider] = createNewContext(() => ({
-  ...useCart(),
-}));
+export const [useCartContext, CartProvider] = createNewContext(() => {
+  const cartValues = useCart();
+
+  return {
+    ...cartValues,
+    ...usePayment(cartValues),
+    ...useReceiptRef(),
+  };
+});
