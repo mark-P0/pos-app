@@ -62,7 +62,7 @@ function CheckoutPrompt() {
   }
   function checkout() {
     pay(amount);
-    changeContent(null);
+    changeContent(<PostCheckoutPrompt />);
   }
 
   const currencySymbol = formatPrice(amount)[0];
@@ -115,6 +115,26 @@ function CheckoutPrompt() {
           Confirm
         </button>
       </footer>
+    </form>
+  );
+}
+
+function PostCheckoutPrompt() {
+  const cls = C(
+    "select-none",
+    "w-[60vw]", // 3/5 of full-width
+    "grid gap-3",
+    "p-6 rounded-lg",
+    ...[classes.bg, classes.text, classes.selection],
+    "transition",
+  );
+  return (
+    <form className={cls}>
+      <header>
+        <h3 className="font-head text-3xl">Transaction success!</h3>
+      </header>
+
+      <p>Here is the transaction receipt:</p>
     </form>
   );
 }
