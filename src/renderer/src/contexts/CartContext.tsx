@@ -78,10 +78,14 @@ function usePayment(cartValues: ReturnType<typeof useCart>) {
 function useTransactionId() {
   const [transactionId, setTransactionId] = useState("");
   useEffect(() => {
-    setTransactionId(randomString(16));
+    regenerateTransactionId();
   }, []);
 
-  return { transactionId };
+  function regenerateTransactionId() {
+    setTransactionId(randomString(16));
+  }
+
+  return { transactionId, regenerateTransactionId };
 }
 
 function useReceiptRef(

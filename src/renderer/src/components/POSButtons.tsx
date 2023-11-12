@@ -1,3 +1,4 @@
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { C, classes, formatPrice } from "@renderer/utils.js";
@@ -120,11 +121,36 @@ function CheckoutPrompt() {
 }
 
 function PostCheckoutPrompt() {
-  const { saveReceiptAsSVG } = useCartContext();
+  const { changeScreen } = useAppContext();
+  const { changeContent } = useModalContext();
+  const { saveReceiptAsSVG, clearCart, regenerateTransactionId } =
+    useCartContext();
   useEffect(() => {
-    saveReceiptAsSVG();
+    setTimeout(() => {
+      saveReceiptAsSVG();
+    }, 250);
   }, []);
 
+  function chooseFeature() {
+    newTransaction();
+    changeScreen("feature-select");
+  }
+  function newTransaction() {
+    clearCart();
+    changeContent(null);
+    regenerateTransactionId();
+  }
+
+  const chooseFeatureCls = C(
+    "px-4 py-1",
+    classes.button.secondary,
+    "transition",
+  );
+  const newTransactionCls = C(
+    "px-4 py-1",
+    classes.button.primary,
+    "transition",
+  );
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width
@@ -140,6 +166,23 @@ function PostCheckoutPrompt() {
       </header>
 
       <p>Here is the transaction receipt:</p>
+
+      <footer className="flex justify-end gap-3">
+        <button
+          type="button"
+          className={chooseFeatureCls}
+          onClick={chooseFeature}
+        >
+          Choose Feature
+        </button>
+        <button
+          type="button"
+          className={newTransactionCls}
+          onClick={newTransaction}
+        >
+          New Transaction
+        </button>
+      </footer>
     </form>
   );
 }
