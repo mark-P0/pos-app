@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  html-to-image@1.11.11:
+    hash: k7l5mbejjt7lbcbnlq2myhoxka
+    path: patches/html-to-image@1.11.11.patch
+
 dependencies:
   '@electron-toolkit/preload':
     specifier: ^2.0.0
@@ -69,7 +74,7 @@ devDependencies:
     version: 7.33.2(eslint@8.52.0)
   html-to-image:
     specifier: ^1.11.11
-    version: 1.11.11
+    version: 1.11.11(patch_hash=k7l5mbejjt7lbcbnlq2myhoxka)
   postcss:
     specifier: ^8.4.31
     version: 8.4.31
@@ -2834,9 +2839,10 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /html-to-image@1.11.11:
+  /html-to-image@1.11.11(patch_hash=k7l5mbejjt7lbcbnlq2myhoxka):
     resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
     dev: true
+    patched: true
 
   /http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}

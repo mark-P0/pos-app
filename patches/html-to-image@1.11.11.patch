@@ -1,0 +1,59 @@
+diff --git a/es/index.js b/es/index.js
+index 0eda9388109fc26752b7df643813f80e135c95e5..b79c9ef3c2fd16583c2874b553794ef4e3806bee 100644
+--- a/es/index.js
++++ b/es/index.js
+@@ -3,6 +3,43 @@ import { embedImages } from './embed-images';
+ import { applyStyle } from './apply-style';
+ import { embedWebFonts, getWebFontCSS } from './embed-webfonts';
+ import { getImageSize, getPixelRatio, createImage, canvasToBlob, nodeToDataURL, checkCanvasDimensions, } from './util';
++
++/** `nodeToDataURL()` but only puts node inside new SVG, and return that SVG */
++async function nodeToSvg(node, width, height) {
++  const xmlns = 'http://www.w3.org/2000/svg'
++  const svg = document.createElementNS(xmlns, 'svg')
++  const foreignObject = document.createElementNS(xmlns, 'foreignObject')
++
++  svg.setAttribute('width', `${width}`)
++  svg.setAttribute('height', `${height}`)
++  svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
++
++  foreignObject.setAttribute('width', '100%')
++  foreignObject.setAttribute('height', '100%')
++  foreignObject.setAttribute('x', '0')
++  foreignObject.setAttribute('y', '0')
++  foreignObject.setAttribute('externalResourcesRequired', 'true')
++
++  svg.appendChild(foreignObject)
++  foreignObject.appendChild(node)
++  return svg
++}
++/** `toSvg()` but returns SVG node as is */
++export async function toSvgNode(node, options = {}) {
++    const { width, height } = getImageSize(node, options);
++    const clonedNode = (await cloneNode(node, options, true));
++    await embedWebFonts(clonedNode, options);
++    await embedImages(clonedNode, options);
++    applyStyle(clonedNode, options);
++    return await nodeToSvg(clonedNode, width, height);
++}
++/** `svgToDataURL()` but only serializing */
++export async function toSvgString(node, options = {}) {
++    const svg = await toSvgNode(node, options);
++
++    return new XMLSerializer().serializeToString(svg)
++}
++
+ export async function toSvg(node, options = {}) {
+     const { width, height } = getImageSize(node, options);
+     const clonedNode = (await cloneNode(node, options, true));
+diff --git a/lib/index.d.ts b/lib/index.d.ts
+index 0f6739c6f5ef6256ba3ae85e3626c885df110da7..f04699cc1c542072005952ac4a3e07ef42c9d3f2 100644
+--- a/lib/index.d.ts
++++ b/lib/index.d.ts
+@@ -1,5 +1,6 @@
+ import { Options } from './types';
+ export declare function toSvg<T extends HTMLElement>(node: T, options?: Options): Promise<string>;
++export declare function toSvgString<T extends HTMLElement>(node: T, options?: Options): Promise<string>;
+ export declare function toCanvas<T extends HTMLElement>(node: T, options?: Options): Promise<HTMLCanvasElement>;
+ export declare function toPixelData<T extends HTMLElement>(node: T, options?: Options): Promise<Uint8ClampedArray>;
+ export declare function toPng<T extends HTMLElement>(node: T, options?: Options): Promise<string>;

@@ -53,5 +53,10 @@
     "tailwindcss": "^3.3.5",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "html-to-image@1.11.11": "patches/html-to-image@1.11.11.patch"
+    }
   }
 }
