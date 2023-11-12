@@ -46,14 +46,15 @@ function TableEntry(props: { product: Product }) {
 }
 
 export function CartTable() {
-  const { cart, generateCartProductAndQty, totalCartPrice } = useCartContext();
+  const { cart, generateCartProductAndQty, totalCartPrice, payment } =
+    useCartContext();
   const products = Array.from(
     generateCartProductAndQty(),
     ([product]) => product,
   );
 
   const totalQty = sum(...cart.values());
-  const cash = totalCartPrice;
+  const cash = payment ?? totalCartPrice;
   const change = cash - totalCartPrice;
 
   const clsColumnAlignment = C(
@@ -91,8 +92,12 @@ export function CartTable() {
         <TableRow
           cells={["Total", totalQty, "", formatPrice(totalCartPrice)]}
         />
-        <TableRow cells={["Cash", "", "", formatPrice(cash)]} />
-        <TableRow cells={["Change", "", "", formatPrice(change)]} />
+        {payment !== null && (
+          <TableRow cells={["Cash", "", "", formatPrice(cash)]} />
+        )}
+        {payment !== null && (
+          <TableRow cells={["Change", "", "", formatPrice(change)]} />
+        )}
       </tbody>
     </table>
   );
