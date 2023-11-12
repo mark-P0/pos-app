@@ -10,10 +10,11 @@ function randomChoice<T>(seq: ArrayLike<T>): T {
   const idx = randomInt(0, seq.length);
   return seq[idx];
 }
-function randomChar() {
-  return randomChoice(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-  );
+function randomString(
+  length: number,
+  chars: ArrayLike<string> = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+) {
+  return Array.from({ length }, () => randomChoice(chars)).join("");
 }
 
 /* TODO Extract this from database? */
@@ -30,7 +31,7 @@ const store = {
     randomIntByLength(3),
     randomIntByLength(4),
   ].join(" "),
-  sn: Array.from({ length: 8 }, randomChar).join(""),
+  sn: randomString(8),
 };
 
 export function StoreDetails() {
