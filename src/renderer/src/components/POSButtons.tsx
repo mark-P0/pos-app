@@ -52,15 +52,19 @@ export function POSButtons() {
     changeContent(<ResetPrompt />);
   }
 
-  const resetCls = C("px-2 py-1", classes.button.secondary, "transition");
+  const resetCls = C("px-2 py-3", classes.button.secondary, "transition");
+  const checkoutCls = C("px-2 py-3", classes.button.primary, "transition");
   return (
-    <aside className="grid auto-rows-min">
+    <aside className="grid gap-3 auto-rows-min">
       <button
         className={resetCls}
         disabled={isCartEmpty}
         onClick={showResetPrompt}
       >
         Reset
+      </button>
+      <button className={checkoutCls} disabled={isCartEmpty}>
+        Checkout
       </button>
     </aside>
   );
