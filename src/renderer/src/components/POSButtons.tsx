@@ -1,6 +1,7 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
-import { C, classes } from "@renderer/utils.js";
+import { C, classes, formatPrice } from "@renderer/utils.js";
+import { ChangeEvent, useState } from "react";
 
 function ResetPrompt() {
   const { changeContent } = useModalContext();
@@ -14,8 +15,8 @@ function ResetPrompt() {
     changeContent(null);
   }
 
-  const cancelCls = C("px-4 py-1", classes.button.secondary);
-  const confirmCls = C("px-4 py-1", classes.button.primary);
+  const cancelCls = C("px-4 py-1", classes.button.secondary, "transition");
+  const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width
@@ -44,12 +45,82 @@ function ResetPrompt() {
   );
 }
 
+function CheckoutPrompt() {
+  const { totalCartPrice } = useCartContext();
+  const [amount, setAmount] = useState(totalCartPrice);
+  function updateAmount(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+
+    const newAmount = Number.parseInt(input.value);
+    setAmount(Number.isNaN(newAmount) ? 0 : newAmount);
+  }
+
+  function setExactAmount() {
+    setAmount(totalCartPrice);
+  }
+
+  const currencySymbol = formatPrice(amount)[0];
+
+  const labelCls = C(
+    "grid grid-cols-[auto_1fr] items-center gap-3",
+    "p-1 pl-3",
+    classes.card,
+    classes.interactiveHoverBg,
+    "transition",
+  );
+  const inputCls = C("px-2 py-1", "bg-transparent");
+  const basePayCls = C("px-4 py-1", classes.button.secondary, "transition");
+  const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
+  const cls = C(
+    "select-none",
+    "w-[60vw]", // 3/5 of full-width
+    "grid gap-3",
+    "p-6 rounded-lg",
+    ...[classes.bg, classes.text, classes.selection],
+    "transition",
+  );
+  return (
+    <form className={cls}>
+      <header>
+        <h3 className="font-head text-3xl">Enter payment amount:</h3>
+      </header>
+
+      <label className={labelCls}>
+        {currencySymbol}
+        <input
+          type="number"
+          className={inputCls}
+          value={amount}
+          onChange={updateAmount}
+        />
+      </label>
+
+      <footer className="flex justify-end gap-3">
+        <button type="button" className={basePayCls} onClick={setExactAmount}>
+          Use exact{" "}
+          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
+        </button>
+        <button
+          type="button"
+          className={confirmCls}
+          disabled={amount < totalCartPrice}
+        >
+          Confirm
+        </button>
+      </footer>
+    </form>
+  );
+}
+
 export function POSButtons() {
   const { isCartEmpty } = useCartContext();
   const { changeContent } = useModalContext();
 
   function showResetPrompt() {
     changeContent(<ResetPrompt />);
+  }
+  function showCheckoutPrompt() {
+    changeContent(<CheckoutPrompt />);
   }
 
   const resetCls = C("px-2 py-3", classes.button.secondary, "transition");
@@ -63,7 +134,11 @@ export function POSButtons() {
       >
         Reset
       </button>
-      <button className={checkoutCls} disabled={isCartEmpty}>
+      <button
+        className={checkoutCls}
+        disabled={isCartEmpty}
+        onClick={showCheckoutPrompt}
+      >
         Checkout
       </button>
     </aside>
