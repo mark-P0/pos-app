@@ -1,4 +1,4 @@
-import { Context, useContext } from "react";
+import { Context, PropsWithChildren, createContext, useContext } from "react";
 
 /**
  * Wrapper for context pattern where the default value is `null`
@@ -15,7 +15,6 @@ export function useNullableContext<T>(
     throw new Error("Possible improper use of custom context hook");
   }
   const [name, context] = entries[0];
-
   const values = useContext(context);
   if (values === null) {
     throw new Error(`${name} not provided`);
