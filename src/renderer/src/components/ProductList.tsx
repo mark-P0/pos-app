@@ -171,7 +171,7 @@ export function ProductList() {
   const { products } = useProductsContext();
 
   const cls = C(
-    ...[classes.scrollbar, "pr-3 pb-3"],
+    ...[classes.scrollbar, "p-3 pt-0"],
     "grid gap-3",
     "select-none",
   );

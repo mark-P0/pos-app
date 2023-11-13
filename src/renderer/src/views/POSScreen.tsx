@@ -8,7 +8,7 @@ export function POSScreen() {
   return (
     <CartProvider>
       <Screen withLogoutButton withFeaturesButton>
-        <section className="overflow-hidden h-full grid grid-cols-[2fr_3fr_1fr] gap-6">
+        <section className="overflow-hidden h-full grid grid-cols-[2fr_3fr_1fr]">
           <ReceiptColumn />
           <ProductList />
           <POSButtons />

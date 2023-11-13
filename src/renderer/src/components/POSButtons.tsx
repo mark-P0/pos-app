@@ -214,7 +214,7 @@ export function POSButtons() {
   const resetCls = C("px-2 py-3", classes.button.secondary, "transition");
   const checkoutCls = C("px-2 py-3", classes.button.primary, "transition");
   return (
-    <aside className="grid gap-3 auto-rows-min">
+    <aside className="grid gap-3 auto-rows-min p-3 pt-0">
       <button
         className={resetCls}
         disabled={isCartEmpty}
