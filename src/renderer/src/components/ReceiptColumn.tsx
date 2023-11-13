@@ -77,9 +77,12 @@ export function ReceiptColumn() {
 
   const cls = C("relative", classes.scrollbar, "p-6 pt-0");
   return (
-    <div className={cls}>
+    <figure className={cls}>
       {isCartEmpty && <CurtainDialog />}
       <Receipt />
-    </div>
+      <figcaption className="hidden">
+        Receipt for the current transaction
+      </figcaption>
+    </figure>
   );
 }
