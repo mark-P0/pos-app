@@ -71,19 +71,36 @@ export const classes = {
     "dark:border-transparent dark:bg-white/10",
     "rounded-lg",
   ),
-  interactiveHoverBg: C("hover:bg-cyan-950/10 dark:hover:bg-white/20"),
+  interactiveHoverBg: C(
+    "hover:bg-cyan-950/10 dark:hover:bg-white/20",
+    "focus-visible:bg-cyan-950/10 dark:focus-visible:bg-white/20",
+  ),
   button: {
     primary: C(
       "bg-rose-700",
-      "enabled:hover:bg-rose-600 enabled:active:scale-95",
+      ...[
+        "enabled:hover:bg-rose-600",
+        "enabled:focus-visible:bg-rose-600",
+        "enabled:active:scale-95",
+      ],
       "disabled:opacity-50",
       "text-white",
     ),
     secondary: C(
       "bg-cyan-800",
-      "enabled:hover:bg-cyan-700 enabled:active:scale-95",
+      ...[
+        "enabled:hover:bg-cyan-700",
+        "enabled:focus-visible:bg-cyan-700",
+        "enabled:active:scale-95",
+      ],
       "disabled:opacity-50",
       "text-white",
     ),
   },
+  outline: C(
+    "focus-visible:[&_*]:outline-amber-400",
+    "focus-visible:[&_*]:outline", // Removes white "border" (https://stackoverflow.com/a/61971294)
+    "focus-visible:[&_*]:outline-4",
+    "focus-visible:[&_*]:outline-offset-4",
+  ),
 } as const;

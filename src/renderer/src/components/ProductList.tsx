@@ -76,7 +76,10 @@ function QuantityCounter(props: {
     "h-8 w-32",
     "grid place-content-center",
     "border-y-2 border-cyan-800",
-    "enabled:hover:bg-rose-700/25 dark:enabled:hover:bg-rose-700/50 enabled:active:scale-95 disabled:opacity-50",
+    "enabled:hover:bg-rose-700/25 dark:enabled:hover:bg-rose-700/50",
+    "enabled:focus-visible:bg-rose-700/25 dark:enabled:focus-visible:bg-rose-700/50",
+    "enabled:active:scale-95",
+    "disabled:opacity-50",
     "transition",
   );
   return (

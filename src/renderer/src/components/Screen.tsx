@@ -22,6 +22,7 @@ function ActualScreen(
     "h-screen flex flex-col",
     "font-body",
     ...[classes.bg, classes.text, classes.selection],
+    classes.outline,
     "transition",
   );
   return (
