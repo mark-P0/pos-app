@@ -123,12 +123,17 @@ function CheckoutPrompt() {
 function PostCheckoutPrompt() {
   const { changeScreen } = useAppContext();
   const { changeContent } = useModalContext();
-  const { saveReceiptAsSVG, clearCart, regenerateTransactionId } =
+  const { convertReceiptToPngUri, clearCart, regenerateTransactionId } =
     useCartContext();
+
+  const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
-    setTimeout(() => {
-      saveReceiptAsSVG();
-    }, 250);
+    async function initializeImgSrc() {
+      const uri = await convertReceiptToPngUri();
+      setSrc(uri);
+    }
+
+    setTimeout(initializeImgSrc, 500);
   }, []);
 
   function chooseFeature() {
@@ -151,12 +156,15 @@ function PostCheckoutPrompt() {
     classes.button.primary,
     "transition",
   );
+  const receiptCls = C("grid place-items-center", classes.scrollbar);
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width
     "grid gap-3",
     "p-6 rounded-lg",
     ...[classes.bg, classes.text, classes.selection],
+    "overflow-hidden",
+    "h-full",
     "transition",
   );
   return (
@@ -165,7 +173,13 @@ function PostCheckoutPrompt() {
         <h3 className="font-head text-3xl">Transaction success!</h3>
       </header>
 
-      <p>Here is the transaction receipt:</p>
+      {src === null ? (
+        <p>Printing the receipt...</p>
+      ) : (
+        <div className={receiptCls}>
+          <img src={src} alt="An image of the receipt" />
+        </div>
+      )}
 
       <footer className="flex justify-end gap-3">
         <button

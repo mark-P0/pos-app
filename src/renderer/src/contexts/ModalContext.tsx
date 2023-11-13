@@ -47,6 +47,8 @@ export function Modal() {
   }
 
   const cls = C(
+    "overflow-hidden",
+    isOpen && "h-full w-full grid place-content-center",
     "backdrop:bg-cyan-950/50 dark:backdrop:bg-white/25",
     "bg-transparent",
     "transition backdrop:transition",

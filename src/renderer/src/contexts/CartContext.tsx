@@ -1,5 +1,5 @@
 import { raise, randomString, sum } from "@renderer/utils.js";
-import { toSvgString } from "html-to-image";
+import { toPng, toSvgString } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
@@ -110,7 +110,12 @@ function useReceiptRef(
     await ipcInvoke("fs:writeTextFile", paths.svg, svgString);
   }
 
-  return { receiptRef, saveReceiptAsSVG };
+  async function convertReceiptToPngUri() {
+    const pngUri = await toPng(accessReceiptEl());
+    return pngUri;
+  }
+
+  return { receiptRef, saveReceiptAsSVG, convertReceiptToPngUri };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => {
