@@ -69,7 +69,7 @@ function QuantityCounter(props: {
   const buttonCounterCls = C(
     "h-8 aspect-square",
     "grid place-content-center",
-    "bg-cyan-800 enabled:hover:bg-cyan-700 enabled:active:scale-95 text-white disabled:opacity-50",
+    classes.button.secondary,
     "transition",
   );
   const commitButtonCls = C(

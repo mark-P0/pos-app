@@ -1,13 +1,6 @@
 import { C } from "@renderer/utils.js";
-import {
-  PropsWithChildren,
-  SyntheticEvent,
-  createContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useNullableContext } from "./utils.js";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { createNewContext } from "./utils.js";
 
 function useContent() {
   const [content, setContent] = useState<JSX.Element | null>(null);
@@ -54,6 +47,8 @@ export function Modal() {
   }
 
   const cls = C(
+    "overflow-hidden",
+    isOpen && "h-full w-full grid place-content-center",
     "backdrop:bg-cyan-950/50 dark:backdrop:bg-white/25",
     "bg-transparent",
     "transition backdrop:transition",
@@ -72,20 +67,6 @@ export function Modal() {
   );
 }
 
-type ModalValues = {
-  content: JSX.Element | null;
-  changeContent: (to: JSX.Element | null) => void;
-};
-const ModalContext = createContext<ModalValues | null>(null);
-export function useModalContext() {
-  return useNullableContext({ ModalContext });
-}
-export function ModalProvider(props: PropsWithChildren) {
-  const { children } = props;
-  const { content, changeContent } = useContent();
-
-  const values = { content, changeContent };
-  return (
-    <ModalContext.Provider value={values}>{children}</ModalContext.Provider>
-  );
-}
+export const [useModalContext, ModalProvider] = createNewContext(() => ({
+  ...useContent(),
+}));

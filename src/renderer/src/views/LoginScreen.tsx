@@ -84,14 +84,8 @@ function LoginForm() {
     "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
     "transition",
   );
-  const buttonCls = C(
-    "px-4 py-1",
-    "transition bg-rose-700 hover:bg-rose-600 active:scale-95 text-white",
-  );
-  const buttonGuestCls = C(
-    "px-4 py-1",
-    "transition bg-cyan-800 hover:bg-cyan-700 active:scale-95 text-white",
-  );
+  const buttonCls = C("px-4 py-1", classes.button.primary, "transition");
+  const buttonGuestCls = C("px-4 py-1", classes.button.secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={login}>
       <section className="grid gap-3">

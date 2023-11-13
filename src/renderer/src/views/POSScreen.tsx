@@ -1,3 +1,4 @@
+import { POSButtons } from "@renderer/components/POSButtons.js";
 import { ProductList } from "@renderer/components/ProductList.js";
 import { ReceiptColumn } from "@renderer/components/ReceiptColumn.js";
 import { Screen } from "@renderer/components/Screen.js";
@@ -10,7 +11,7 @@ export function POSScreen() {
         <section className="overflow-hidden h-full grid grid-cols-[2fr_3fr_1fr] gap-6">
           <ReceiptColumn />
           <ProductList />
-          <div className="bg-yellow-500/25">buttons</div>
+          <POSButtons />
         </section>
       </Screen>
     </CartProvider>

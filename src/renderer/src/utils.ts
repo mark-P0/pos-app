@@ -1,3 +1,36 @@
+export function raise(msg: string): never {
+  throw new Error(msg);
+}
+
+export function sum(...numbers: number[]) {
+  let res = 0;
+  for (const num of numbers) res += num;
+  return res;
+}
+
+/** https://stackoverflow.com/a/39914235 */
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function randomInt(from: number, to: number) {
+  const range = to - from;
+  return from + Math.floor(Math.random() * range);
+}
+export function randomIntByLength(length: number) {
+  return randomInt(10 ** (length - 1), 10 ** length);
+}
+export function randomChoice<T>(seq: ArrayLike<T>): T {
+  const idx = randomInt(0, seq.length);
+  return seq[idx];
+}
+export function randomString(
+  length: number,
+  chars: ArrayLike<string> = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+) {
+  return Array.from({ length }, () => randomChoice(chars)).join("");
+}
+
 function isString(value: unknown): value is string {
   return typeof value === "string";
 }
@@ -39,4 +72,18 @@ export const classes = {
     "rounded-lg",
   ),
   interactiveHoverBg: C("hover:bg-cyan-950/10 dark:hover:bg-white/20"),
+  button: {
+    primary: C(
+      "bg-rose-700",
+      "enabled:hover:bg-rose-600 enabled:active:scale-95",
+      "disabled:opacity-50",
+      "text-white",
+    ),
+    secondary: C(
+      "bg-cyan-800",
+      "enabled:hover:bg-cyan-700 enabled:active:scale-95",
+      "disabled:opacity-50",
+      "text-white",
+    ),
+  },
 } as const;
