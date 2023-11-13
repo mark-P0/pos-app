@@ -54,7 +54,7 @@ export const classes = {
     "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
   ),
   scrollbar: C(
-    "overflow-y-auto",
+    "overflow-y-scroll",
     "scrollbar-thin",
     "scrollbar-track-cyan-950/10 scrollbar-thumb-cyan-950",
     "dark:scrollbar-track-white/10 dark:scrollbar-thumb-white",
