@@ -123,17 +123,16 @@ function CheckoutPrompt() {
 function PostCheckoutPrompt() {
   const { changeScreen } = useAppContext();
   const { changeContent } = useModalContext();
-  const { convertReceiptToPngUri, clearCart, regenerateTransactionId } =
+  const { saveReceiptAsPng, clearCart, regenerateTransactionId } =
     useCartContext();
 
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
     async function initializeImgSrc() {
-      const uri = await convertReceiptToPngUri();
-      setSrc(uri);
+      const url = await saveReceiptAsPng();
+      setSrc(url);
     }
-
-    setTimeout(initializeImgSrc, 500);
+    setTimeout(initializeImgSrc, 250);
   }, []);
 
   function chooseFeature() {

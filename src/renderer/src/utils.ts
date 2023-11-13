@@ -8,6 +8,11 @@ export function sum(...numbers: number[]) {
   return res;
 }
 
+/** https://stackoverflow.com/a/39914235 */
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function randomInt(from: number, to: number) {
   const range = to - from;
   return from + Math.floor(Math.random() * range);

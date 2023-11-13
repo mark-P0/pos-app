@@ -30,6 +30,15 @@ const ChannelHandlers = {
   ) => {
     await writeFile(getActualFilePath(filename), content);
   },
+  /** https://stackoverflow.com/a/77266873 */
+  "fs:writePngUriToFile": async (
+    _: IpcMainInvokeEvent,
+    uri: string,
+    filename: string,
+  ) => {
+    const [, base64Data] = uri.split(",");
+    await writeFile(getActualFilePath(filename), base64Data, "base64");
+  },
   "app:getNameAndVersion": () => {
     return [app.getName(), app.getVersion()] as const;
   },

@@ -1,4 +1,4 @@
-import { raise, randomString, sum } from "@renderer/utils.js";
+import { raise, randomString, sleep, sum } from "@renderer/utils.js";
 import { toPng, toSvgString } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
@@ -95,6 +95,8 @@ function useReceiptRef(
   const paths = {
     svg: `data/receipts/${transactionId}.svg`,
   };
+  const pngFilename = `data/receipts/${transactionId}.png`;
+  const pngUrl = `pos-app:///${pngFilename}`;
 
   const receiptRef = useRef<HTMLElement | null>(null);
   function accessReceiptEl() {
@@ -110,12 +112,14 @@ function useReceiptRef(
     await ipcInvoke("fs:writeTextFile", paths.svg, svgString);
   }
 
-  async function convertReceiptToPngUri() {
+  async function saveReceiptAsPng() {
     const pngUri = await toPng(accessReceiptEl());
-    return pngUri;
+    await ipcInvoke("fs:writePngUriToFile", pngUri, pngFilename);
+    await sleep(250); // Extra time for writing(?)
+    return pngUrl;
   }
 
-  return { receiptRef, saveReceiptAsSVG, convertReceiptToPngUri };
+  return { receiptRef, saveReceiptAsSVG, saveReceiptAsPng };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => {
