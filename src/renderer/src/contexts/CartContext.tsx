@@ -1,5 +1,5 @@
 import { raise, randomString, sleep, sum } from "@renderer/utils.js";
-import { toPng, toSvgString } from "html-to-image";
+import { toPng } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
@@ -92,9 +92,6 @@ function useReceiptRef(
   transactionIdValues: ReturnType<typeof useTransactionId>,
 ) {
   const { transactionId } = transactionIdValues;
-  const paths = {
-    svg: `data/receipts/${transactionId}.svg`,
-  };
   const pngFilename = `data/receipts/${transactionId}.png`;
   const pngUrl = `pos-app:///${pngFilename}`;
 
@@ -107,11 +104,6 @@ function useReceiptRef(
     return receipt;
   }
 
-  async function saveReceiptAsSVG() {
-    const svgString = await toSvgString(accessReceiptEl());
-    await ipcInvoke("fs:writeTextFile", paths.svg, svgString);
-  }
-
   async function saveReceiptAsPng() {
     const pngUri = await toPng(accessReceiptEl());
     await ipcInvoke("fs:writePngUriToFile", pngUri, pngFilename);
@@ -119,7 +111,7 @@ function useReceiptRef(
     return pngUrl;
   }
 
-  return { receiptRef, saveReceiptAsSVG, saveReceiptAsPng };
+  return { receiptRef, saveReceiptAsPng };
 }
 
 export const [useCartContext, CartProvider] = createNewContext(() => {
