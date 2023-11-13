@@ -40,7 +40,7 @@ export function FeaturesScreen() {
     "overflow-hidden",
     "w-max", // Without this, the absolute position properties below will resize the element...
     classes.absoluteCenter,
-    "grid grid-cols-2 gap-12",
+    "grid grid-cols-2 gap-12 p-3",
   );
   return (
     <Screen withLogoutButton>
