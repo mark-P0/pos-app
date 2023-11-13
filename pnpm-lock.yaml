@@ -67,6 +67,9 @@ devDependencies:
   eslint-plugin-react:
     specifier: ^7.33.2
     version: 7.33.2(eslint@8.52.0)
+  html-to-image:
+    specifier: ^1.11.11
+    version: 1.11.11
   postcss:
     specifier: ^8.4.31
     version: 8.4.31
@@ -2829,6 +2832,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       lru-cache: 6.0.0
+    dev: true
+
+  /html-to-image@1.11.11:
+    resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
     dev: true
 
   /http-cache-semantics@4.1.1:
