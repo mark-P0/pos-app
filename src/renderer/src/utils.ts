@@ -86,4 +86,10 @@ export const classes = {
       "text-white",
     ),
   },
+  outline: C(
+    "focus-visible:[&_*]:outline-amber-400",
+    "focus-visible:[&_*]:outline", // Removes white "border" (https://stackoverflow.com/a/61971294)
+    "focus-visible:[&_*]:outline-4",
+    "focus-visible:[&_*]:outline-offset-4",
+  ),
 } as const;
