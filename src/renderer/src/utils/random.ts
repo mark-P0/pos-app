@@ -1,3 +1,11 @@
+/**
+ * Functions for generating random values
+ *
+ * The separator `$` is used to mimic namespacing,
+ * e.g. `random$int()` may be read as "the `int()` method of the `random` module/object "
+ */
+null;
+
 export function random$int(from: number, to: number) {
   const range = to - from;
   return from + Math.floor(Math.random() * range);
