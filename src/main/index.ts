@@ -5,8 +5,10 @@ import icon from "../../resources/icon.png?asset";
 import "./ipc-handlers.js";
 import "./protocol-handlers.js";
 
-/** Initialize app to dark mode */
-nativeTheme.themeSource = "dark";
+/** Initialize app to dark mode in development */
+if (is.dev) {
+  nativeTheme.themeSource = "dark";
+}
 
 /** https://www.electronjs.org/docs/latest/api/screen */
 function getEffectiveWindowDimensions() {

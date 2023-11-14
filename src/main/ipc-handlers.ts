@@ -3,19 +3,30 @@ import { writeFile } from "fs/promises";
 import { assessUserCredentials, getAllProducts } from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
 
+/** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
+function modulo(n: number, d: number) {
+  return ((n % d) + d) % d;
+}
+function wrappedAccess<T>(seq: ArrayLike<T>, idx: number): T {
+  const effectiveIdx = modulo(idx, seq.length);
+  return seq[effectiveIdx];
+}
+
 const ChannelHandlers = {
   "db:getAllProducts": async () => {
     const products = await getAllProducts();
     return products;
   },
   /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
-  "dark-mode:toggle": () => {
-    const isDarkMode = nativeTheme.shouldUseDarkColors;
-    if (isDarkMode) {
-      nativeTheme.themeSource = "light";
-    } else {
-      nativeTheme.themeSource = "dark";
-    }
+  "dark-mode:cycle": () => {
+    type Theme = typeof nativeTheme.themeSource;
+    const themes: Theme[] = ["system", "light", "dark"];
+    const idx = themes.indexOf(nativeTheme.themeSource);
+    nativeTheme.themeSource = wrappedAccess(themes, idx + 1); // Move theme forward
+    return nativeTheme.themeSource;
+  },
+  "dark-mode:status": () => {
+    return nativeTheme.themeSource;
   },
   "db:assessUserCredentials": async (
     _: IpcMainInvokeEvent,
