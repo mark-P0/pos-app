@@ -1,6 +1,6 @@
 import { C, classes } from "@renderer/utils.js";
 import { useEffect, useState } from "react";
-import { LuMoon, LuSun } from "react-icons/lu";
+import { LuMoon, LuSun, LuSunMoon } from "react-icons/lu";
 
 const { ipcInvoke } = window.api;
 
@@ -47,13 +47,19 @@ export function DarkModeToggle() {
       "text-amber-400",
       status === "light" && "opacity-100",
     );
+    const system = C(
+      icon,
+      "text-green-400", // In "between" light and dark colors
+      status === "system" && "opacity-100",
+    );
 
-    return { button, icon: { dark, light } };
+    return { button, icon: { dark, light, system } };
   })();
   return (
     <button className={cls.button} onClick={toggle}>
       <LuMoon className={cls.icon.dark} />
       <LuSun className={cls.icon.light} />
+      <LuSunMoon className={cls.icon.system} />
     </button>
   );
 }
