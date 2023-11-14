@@ -1,7 +1,7 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
 import { C, classes } from "@renderer/utils.js";
-import { PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
 
@@ -34,7 +34,7 @@ function FeaturesButton() {
   );
 }
 
-function ActualScreen(
+function WrappedScreen(
   props: PropsWithChildren<{
     withLogoutButton?: boolean;
     withFeaturesButton?: boolean;
@@ -67,16 +67,10 @@ function ActualScreen(
     </main>
   );
 }
-
-export function Screen(
-  props: PropsWithChildren<{
-    withLogoutButton?: boolean;
-    withFeaturesButton?: boolean;
-  }>,
-) {
+export function Screen(props: ComponentProps<typeof WrappedScreen>) {
   return (
     <ModalProvider>
-      <ActualScreen {...props} />
+      <WrappedScreen {...props} />
     </ModalProvider>
   );
 }
