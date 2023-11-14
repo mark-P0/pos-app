@@ -118,13 +118,14 @@ function QuantityCounter(props: {
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
   const [qty, setQty] = useState(0);
+  const { closeModal } = useModalContext();
 
   /** Copy types of this (e.g. via hover definition) to counter prop type */
   const counterProps = { qty, setQty, product };
 
   const divCls = C("px-3 py-2", classes.card);
   return (
-    <Prompt>
+    <Prompt onClose={closeModal}>
       {/* Wrap in fragment to make formatter not ignore spacing */}
       <>How many of this product to add?</>
 

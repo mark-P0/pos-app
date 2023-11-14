@@ -39,7 +39,7 @@ function ResetPrompt() {
 
 function CheckoutPrompt() {
   const { totalCartPrice, pay } = useCartContext();
-  const { showOnModal } = useModalContext();
+  const { showOnModal, closeModal } = useModalContext();
 
   const [amount, setAmount] = useState(totalCartPrice);
   function updateAmount(event: ChangeEvent<HTMLInputElement>) {
@@ -70,7 +70,7 @@ function CheckoutPrompt() {
   const basePayCls = C("px-4 py-1", classes.button.secondary, "transition");
   const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
   return (
-    <Prompt>
+    <Prompt onClose={closeModal}>
       <>Enter payment amount:</>
 
       <label className={labelCls}>

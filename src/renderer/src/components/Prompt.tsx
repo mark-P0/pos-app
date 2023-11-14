@@ -1,9 +1,24 @@
 import { C, classes } from "@renderer/utils.js";
-import { PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
+import { LuX } from "react-icons/lu";
+
+function CloseButton(props: ComponentProps<"button">) {
+  const cls = C(
+    "overflow-hidden w-12 aspect-square rounded-full p-3",
+    classes.interactiveHoverBg,
+    "active:scale-90",
+    "transition",
+  );
+  return (
+    <button {...props} type="button" className={cls}>
+      <LuX className="w-full h-full" />
+    </button>
+  );
+}
 
 /** Uses first three (3) children to set content; the others are not used */
-export function Prompt(props: PropsWithChildren) {
-  const { children } = props;
+export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
+  const { children, onClose } = props;
   const title = children?.[0];
   const body = children?.[1];
   const actions = children?.[2];
@@ -19,7 +34,10 @@ export function Prompt(props: PropsWithChildren) {
   );
   return (
     <form className={cls}>
-      <header className="font-head text-3xl">{title}</header>
+      <header className="flex justify-between items-center">
+        <span className="font-head text-3xl">{title}</span>
+        {onClose !== undefined && <CloseButton onClick={onClose} />}
+      </header>
       {body}
       <footer className="flex flex-row-reverse gap-3">{actions}</footer>
     </form>
