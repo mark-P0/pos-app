@@ -1,4 +1,4 @@
-import { randomIntByLength, randomString } from "@renderer/utils.js";
+import { random$intByLength, random$string } from "@renderer/utils/random.js";
 
 /* TODO Extract this from database? */
 const store = {
@@ -6,15 +6,15 @@ const store = {
   name: "C. Belen-11 Store", // cspell:disable-line
   /** https://www.grcdi.nl/gsb/philippines.html */
   address: ["979 Kundiman St., Sampaloc", "Manila, Philippines, 1009"], // cspell:disable-line
-  tin: [randomIntByLength(3), randomIntByLength(3), randomIntByLength(4)].join(" "), // prettier-ignore
-  min: randomIntByLength(18),
+  tin: [random$intByLength(3), random$intByLength(3), random$intByLength(4)].join(" "), // prettier-ignore
+  min: random$intByLength(18),
   contact: [
     "(+63)",
-    randomIntByLength(3),
-    randomIntByLength(3),
-    randomIntByLength(4),
+    random$intByLength(3),
+    random$intByLength(3),
+    random$intByLength(4),
   ].join(" "),
-  sn: randomString(8),
+  sn: random$string(8),
 };
 
 export function StoreDetails() {
