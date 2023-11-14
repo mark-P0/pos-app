@@ -10,6 +10,7 @@ export function Prompt(props: PropsWithChildren) {
 
   const cls = C(
     "select-none",
+    "overflow-hidden h-full",
     "w-[60vw]", // 3/5 of full-width
     "grid gap-3",
     "p-6 rounded-lg",
