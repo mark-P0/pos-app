@@ -8,19 +8,23 @@ type Status = Awaited<ReturnType<typeof ipcInvoke<"dark-mode:status">>>;
 function useStatus() {
   const [, setStatus] = useState<Status | null>(null);
   useEffect(() => {
-    async function initializeStatus() {
-      const status = await ipcInvoke("dark-mode:status");
-      setStatus(status);
-    }
-    initializeStatus();
+    reflectStatus();
   }, []);
+
+  async function reflectStatus() {
+    const status = await ipcInvoke("dark-mode:status");
+    setStatus(status);
+  }
+
+  return { reflectStatus };
 }
 
 export function DarkModeToggle() {
-  useStatus();
+  const { reflectStatus } = useStatus();
 
   function toggle() {
     ipcInvoke("dark-mode:cycle");
+    reflectStatus();
   }
 
   const cls = (() => {
