@@ -18,14 +18,6 @@ const ChannelHandlers = {
     return products;
   },
   /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
-  "dark-mode:toggle": () => {
-    const isDarkMode = nativeTheme.shouldUseDarkColors;
-    if (isDarkMode) {
-      nativeTheme.themeSource = "light";
-    } else {
-      nativeTheme.themeSource = "dark";
-    }
-  },
   "dark-mode:cycle": () => {
     type Theme = typeof nativeTheme.themeSource;
     const themes: Theme[] = ["system", "light", "dark"];
