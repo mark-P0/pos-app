@@ -1,4 +1,4 @@
-import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
+import { Modal, ModalProvider } from "@renderer/contexts/Modal2Context.js";
 import { C, classes } from "@renderer/utils.js";
 import { PropsWithChildren } from "react";
 import { DarkModeToggle } from "./DarkModeToggle.js";
