@@ -7,6 +7,7 @@ function useModalState() {
   const [dialogRef, accessDialogRef] = createNewRef<HTMLDialogElement>();
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<Content | null>(null);
+  const [isCancellable, setIsCancellable] = useState(true);
 
   function showOnModal(content: Content) {
     setContent(content);
@@ -14,8 +15,13 @@ function useModalState() {
     setIsOpen(true);
     accessDialogRef().showModal();
   }
+
   function closeModal() {
     setIsOpen(false);
+  }
+
+  function makeModalCancellable(status: boolean) {
+    setIsCancellable(status);
   }
 
   return {
@@ -23,8 +29,9 @@ function useModalState() {
       ...{ dialogRef, accessDialogRef },
       ...{ isOpen, setIsOpen },
       ...{ content, setContent },
+      isCancellable,
     },
-    ...{ showOnModal, closeModal },
+    ...{ showOnModal, closeModal, makeModalCancellable },
   };
 }
 
@@ -33,9 +40,11 @@ export function Modal() {
   const { dialogRef, accessDialogRef } = state;
   const { isOpen, setIsOpen } = state;
   const { content, setContent } = state;
+  const { isCancellable } = state;
 
   function initiateCancel(event: SyntheticEvent<HTMLDialogElement, Event>) {
     event.preventDefault();
+    if (!isCancellable) return;
     setIsOpen(false);
   }
   function finalizeCancel() {
