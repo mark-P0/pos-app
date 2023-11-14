@@ -5,8 +5,22 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const { ipcInvoke } = window.api;
 
+function useVersion() {
+  const [version, setVersion] = useState("");
+  useEffect(() => {
+    async function initialize() {
+      const [, version] = await ipcInvoke("app:getNameAndVersion");
+      setVersion(version);
+    }
+    initialize();
+  }, []);
+
+  return version;
+}
+
 function LoginForm() {
   const { changeScreen, changeUser } = useAppContext();
+  const version = useVersion();
 
   const [usernameRef, accessUsernameRef] = createNewRef<HTMLInputElement>();
   const [passwordRef, accessPasswordRef] = createNewRef<HTMLInputElement>();
@@ -96,7 +110,7 @@ function LoginForm() {
 
       <div className="flex justify-between items-end">
         <span className="uppercase text-xs opacity-50 dark:opacity-25">
-          Version 0.0.0
+          Version {version}
         </span>
         <div className="flex gap-2">
           <button
