@@ -20,7 +20,7 @@ export function Prompt(props: PropsWithChildren) {
     <form className={cls}>
       <header className="font-head text-3xl">{title}</header>
       {body}
-      <footer className="flex flex-row-reverse">{actions}</footer>
+      <footer className="flex flex-row-reverse gap-3">{actions}</footer>
     </form>
   );
 }
