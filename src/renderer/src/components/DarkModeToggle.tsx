@@ -8,6 +8,9 @@ export function DarkModeToggle() {
     ipcInvoke("dark-mode:toggle");
   }
 
+  const iconCls = C("absolute top-0 left-0 p-3", "h-full w-full", "transition");
+  const darkCls = C(iconCls, "text-cyan-400 dark:opacity-100 opacity-0");
+  const lightCls = C(iconCls, "text-amber-400 opacity-100 dark:opacity-0");
   const cls = C(
     "relative",
     "overflow-hidden w-12 aspect-square rounded-full",
@@ -17,8 +20,8 @@ export function DarkModeToggle() {
   );
   return (
     <button className={cls} onClick={toggle}>
-      <LuMoon className="absolute top-0 left-0 p-3 text-cyan-400 dark:opacity-100 opacity-0 h-full w-full transition" />
-      <LuSun className="absolute top-0 left-0 p-3 text-amber-400 opacity-100 dark:opacity-0 h-full w-full transition" />
+      <LuMoon className={darkCls} />
+      <LuSun className={lightCls} />
     </button>
   );
 }
