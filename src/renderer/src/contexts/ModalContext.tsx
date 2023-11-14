@@ -1,5 +1,5 @@
-import { C } from "@renderer/utils.js";
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { C, createNewRef } from "@renderer/utils.js";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { createNewContext } from "./utils.js";
 
 function useContent() {
@@ -15,10 +15,9 @@ export function Modal() {
   const { content, changeContent } = useModalContext();
   const [isOpen, setIsOpen] = useState(false);
 
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const [dialogRef, accessDialogRef] = createNewRef<HTMLDialogElement>();
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (dialog === null) return;
+    const dialog = accessDialogRef();
 
     if (content !== null) {
       dialog.showModal();

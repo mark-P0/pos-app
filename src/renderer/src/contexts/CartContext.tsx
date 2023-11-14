@@ -1,6 +1,12 @@
-import { raise, randomString, sleep, sum } from "@renderer/utils.js";
+import {
+  createNewRef,
+  raise,
+  randomString,
+  sleep,
+  sum,
+} from "@renderer/utils.js";
 import { toPng } from "html-to-image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
 
@@ -91,21 +97,13 @@ function useTransactionId() {
 function useReceiptRef(
   transactionIdValues: ReturnType<typeof useTransactionId>,
 ) {
+  const [receiptRef, accessReceiptRef] = createNewRef<HTMLElement>();
   const { transactionId } = transactionIdValues;
   const pngFilename = `data/receipts/${transactionId}.png`;
   const pngUrl = `pos-app:///${pngFilename}`;
 
-  const receiptRef = useRef<HTMLElement | null>(null);
-  function accessReceiptEl() {
-    const receipt = receiptRef.current;
-    if (receipt === null) {
-      throw new Error();
-    }
-    return receipt;
-  }
-
   async function saveReceiptAsPng() {
-    const pngUri = await toPng(accessReceiptEl());
+    const pngUri = await toPng(accessReceiptRef());
     await ipcInvoke("fs:writePngUriToFile", pngUri, pngFilename);
     await sleep(250); // Extra time for writing(?)
     return pngUrl;
