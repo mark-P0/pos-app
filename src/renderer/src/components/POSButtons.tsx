@@ -5,15 +5,15 @@ import { C, classes, formatPrice } from "@renderer/utils.js";
 import { ChangeEvent, useEffect, useState } from "react";
 
 function ResetPrompt() {
-  const { changeContent } = useModalContext();
+  const { closeModal } = useModalContext();
   const { clearCart } = useCartContext();
 
   function cancel() {
-    changeContent(null);
+    closeModal();
   }
   function confirm() {
     clearCart();
-    changeContent(null);
+    closeModal();
   }
 
   const cancelCls = C("px-4 py-1", classes.button.secondary, "transition");
@@ -48,7 +48,7 @@ function ResetPrompt() {
 
 function CheckoutPrompt() {
   const { totalCartPrice, pay } = useCartContext();
-  const { changeContent } = useModalContext();
+  const { showOnModal } = useModalContext();
 
   const [amount, setAmount] = useState(totalCartPrice);
   function updateAmount(event: ChangeEvent<HTMLInputElement>) {
@@ -63,7 +63,7 @@ function CheckoutPrompt() {
   }
   function checkout() {
     pay(amount);
-    changeContent(<PostCheckoutPrompt />);
+    showOnModal(<PostCheckoutPrompt />);
   }
 
   const currencySymbol = formatPrice(amount)[0];
@@ -122,12 +122,14 @@ function CheckoutPrompt() {
 
 function PostCheckoutPrompt() {
   const { changeScreen } = useAppContext();
-  const { changeContent } = useModalContext();
+  const { closeModal, makeModalCancellable } = useModalContext();
   const { saveReceiptAsPng, clearCart, regenerateTransactionId } =
     useCartContext();
 
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
+    makeModalCancellable(false);
+
     async function initializeImgSrc() {
       const url = await saveReceiptAsPng();
       setSrc(url);
@@ -136,12 +138,16 @@ function PostCheckoutPrompt() {
   }, []);
 
   function chooseFeature() {
+    makeModalCancellable(true);
+
     newTransaction();
     changeScreen("feature-select");
   }
   function newTransaction() {
+    makeModalCancellable(true);
+
     clearCart();
-    changeContent(null);
+    closeModal();
     regenerateTransactionId();
   }
 
@@ -202,13 +208,13 @@ function PostCheckoutPrompt() {
 
 export function POSButtons() {
   const { isCartEmpty } = useCartContext();
-  const { changeContent } = useModalContext();
+  const { showOnModal } = useModalContext();
 
   function showResetPrompt() {
-    changeContent(<ResetPrompt />);
+    showOnModal(<ResetPrompt />);
   }
   function showCheckoutPrompt() {
-    changeContent(<CheckoutPrompt />);
+    showOnModal(<CheckoutPrompt />);
   }
 
   const resetCls = C("px-2 py-3", classes.button.secondary, "transition");

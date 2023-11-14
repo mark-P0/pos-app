@@ -49,7 +49,7 @@ function QuantityCounter(props: {
   const { qty, setQty, product } = props;
   const { sku, stock } = product;
   const { cart, addToCart } = useCartContext();
-  const { changeContent } = useModalContext();
+  const { closeModal } = useModalContext();
 
   const currentQty = cart.get(sku) ?? 0;
   const min = currentQty * -1;
@@ -63,7 +63,7 @@ function QuantityCounter(props: {
   }
   function commit() {
     addToCart(sku, qty);
-    changeContent(null);
+    closeModal();
   }
 
   const buttonCounterCls = C(
@@ -149,10 +149,10 @@ function QuantityPrompt(props: { product: Product }) {
 
 function ProductButton(props: { product: Product }) {
   const { product } = props;
-  const { changeContent } = useModalContext();
+  const { showOnModal } = useModalContext();
 
   function showQuantityPrompt() {
-    changeContent(<QuantityPrompt product={product} />);
+    showOnModal(<QuantityPrompt product={product} />);
   }
 
   const cls = C(

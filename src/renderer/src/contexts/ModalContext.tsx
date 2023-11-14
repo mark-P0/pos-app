@@ -1,48 +1,56 @@
 import { C, createNewRef } from "@renderer/utils.js";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { createNewContext } from "./utils.js";
 
-function useContent() {
-  const [content, setContent] = useState<JSX.Element | null>(null);
-  function changeContent(to: typeof content) {
-    setContent(to);
+type Content = JSX.Element;
+function useModalState() {
+  const [dialogRef, accessDialogRef] = createNewRef<HTMLDialogElement>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [content, setContent] = useState<Content | null>(null);
+  const [isCancellable, setIsCancellable] = useState(true);
+
+  function showOnModal(content: Content) {
+    setContent(content);
+    if (isOpen) return;
+    setIsOpen(true);
+    accessDialogRef().showModal();
   }
 
-  return { content, changeContent };
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function makeModalCancellable(status: boolean) {
+    setIsCancellable(status);
+  }
+
+  return {
+    ...{
+      ...{ dialogRef, accessDialogRef },
+      ...{ isOpen, setIsOpen },
+      ...{ content, setContent },
+      isCancellable,
+    },
+    ...{ showOnModal, closeModal, makeModalCancellable },
+  };
 }
 
 export function Modal() {
-  const { content, changeContent } = useModalContext();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [dialogRef, accessDialogRef] = createNewRef<HTMLDialogElement>();
-  useEffect(() => {
-    const dialog = accessDialogRef();
-
-    if (content !== null) {
-      dialog.showModal();
-      setIsOpen(true);
-    } else {
-      dialog.close();
-      setIsOpen(false);
-    }
-
-    /**
-     * Should've known about this...
-     * - https://github.com/facebook/react/issues/24399#issuecomment-1104191934
-     */
-    return () => {
-      dialog.close();
-    };
-  }, [content]);
+  const state = useModalContext();
+  const { dialogRef, accessDialogRef } = state;
+  const { isOpen, setIsOpen } = state;
+  const { content, setContent } = state;
+  const { isCancellable } = state;
 
   function initiateCancel(event: SyntheticEvent<HTMLDialogElement, Event>) {
     event.preventDefault();
+    if (!isCancellable) return;
     setIsOpen(false);
   }
   function finalizeCancel() {
     if (isOpen) return;
-    changeContent(null);
+    setContent(null);
+    accessDialogRef().close();
   }
 
   const cls = C(
@@ -67,5 +75,5 @@ export function Modal() {
 }
 
 export const [useModalContext, ModalProvider] = createNewContext(() => ({
-  ...useContent(),
+  ...useModalState(),
 }));
