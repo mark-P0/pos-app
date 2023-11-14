@@ -83,7 +83,7 @@ function QuantityCounter(props: {
     "transition",
   );
   return (
-    <form className="flex">
+    <div className="flex">
       <button
         type="button"
         className={buttonCounterCls}
@@ -110,7 +110,7 @@ function QuantityCounter(props: {
       >
         <LuPlus />
       </button>
-    </form>
+    </div>
   );
 }
 
@@ -122,6 +122,7 @@ function QuantityPrompt(props: { product: Product }) {
   const counterProps = { qty, setQty, product };
 
   const divCls = C("px-3 py-2", classes.card);
+
   const cls = C(
     "select-none",
     "w-[60vw]", // 3/5 of full-width
@@ -131,7 +132,7 @@ function QuantityPrompt(props: { product: Product }) {
     "transition",
   );
   return (
-    <article className={cls}>
+    <form className={cls}>
       <header>
         <h3 className="font-head text-3xl">How many of this product to add?</h3>
       </header>
@@ -143,7 +144,7 @@ function QuantityPrompt(props: { product: Product }) {
       <footer className="flex justify-end">
         <QuantityCounter {...counterProps} />
       </footer>
-    </article>
+    </form>
   );
 }
 
