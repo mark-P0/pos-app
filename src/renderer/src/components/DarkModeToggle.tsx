@@ -20,7 +20,7 @@ export function DarkModeToggle() {
   useStatus();
 
   function toggle() {
-    ipcInvoke("dark-mode:toggle");
+    ipcInvoke("dark-mode:cycle");
   }
 
   const cls = (() => {
