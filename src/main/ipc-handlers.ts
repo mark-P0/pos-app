@@ -17,6 +17,9 @@ const ChannelHandlers = {
       nativeTheme.themeSource = "dark";
     }
   },
+  "dark-mode:status": () => {
+    return nativeTheme.themeSource;
+  },
   "db:assessUserCredentials": async (
     _: IpcMainInvokeEvent,
     user: Parameters<typeof assessUserCredentials>[0],
