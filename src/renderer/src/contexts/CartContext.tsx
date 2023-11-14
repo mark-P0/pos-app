@@ -1,10 +1,5 @@
-import {
-  createNewRef,
-  raise,
-  randomString,
-  sleep,
-  sum,
-} from "@renderer/utils.js";
+import { createNewRef, raise, sleep, sum } from "@renderer/utils.js";
+import { random$string } from "@renderer/utils/random.js";
 import { toPng } from "html-to-image";
 import { useEffect, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
@@ -88,7 +83,7 @@ function useTransactionId() {
   }, []);
 
   function regenerateTransactionId() {
-    setTransactionId(randomString(16));
+    setTransactionId(random$string(16));
   }
 
   return { transactionId, regenerateTransactionId };
