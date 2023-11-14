@@ -2,9 +2,8 @@ import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
 import { C, classes } from "@renderer/utils.js";
 import { PropsWithChildren } from "react";
-import { LuLogOut } from "react-icons/lu";
+import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
-import { FeaturesButton } from "./FeaturesButton.js";
 
 function LogoutButton() {
   const { changeScreen, changeUser } = useAppContext();
@@ -17,6 +16,20 @@ function LogoutButton() {
   return (
     <button className={classes.button.icon} onClick={logout}>
       <LuLogOut className="w-full h-full scale-[-1]" />
+    </button>
+  );
+}
+
+function FeaturesButton() {
+  const { changeScreen } = useAppContext();
+
+  function chooseFeature() {
+    changeScreen("feature-select");
+  }
+
+  return (
+    <button className={classes.button.icon} onClick={chooseFeature}>
+      <LuLayoutGrid className="w-full h-full" />
     </button>
   );
 }
