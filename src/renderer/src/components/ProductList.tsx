@@ -1,5 +1,5 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
-import { useModalContext } from "@renderer/contexts/Modal2Context.js";
+import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,
   useProductsContext,
