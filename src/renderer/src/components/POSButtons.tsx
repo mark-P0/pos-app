@@ -122,12 +122,14 @@ function CheckoutPrompt() {
 
 function PostCheckoutPrompt() {
   const { changeScreen } = useAppContext();
-  const { closeModal } = useModalContext();
+  const { closeModal, makeModalCancellable } = useModalContext();
   const { saveReceiptAsPng, clearCart, regenerateTransactionId } =
     useCartContext();
 
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
+    makeModalCancellable(false);
+
     async function initializeImgSrc() {
       const url = await saveReceiptAsPng();
       setSrc(url);
@@ -136,10 +138,14 @@ function PostCheckoutPrompt() {
   }, []);
 
   function chooseFeature() {
+    makeModalCancellable(true);
+
     newTransaction();
     changeScreen("feature-select");
   }
   function newTransaction() {
+    makeModalCancellable(true);
+
     clearCart();
     closeModal();
     regenerateTransactionId();
