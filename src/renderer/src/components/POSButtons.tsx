@@ -3,6 +3,7 @@ import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { C, classes, formatPrice } from "@renderer/utils.js";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Prompt } from "./Prompt.js";
 
 function ResetPrompt() {
   const { closeModal } = useModalContext();
@@ -18,31 +19,21 @@ function ResetPrompt() {
 
   const cancelCls = C("px-4 py-1", classes.button.secondary, "transition");
   const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">
-          Are you sure you want to reset the current transaction?
-        </h3>
-      </header>
+    <Prompt>
+      <>Are you sure you want to reset the current transaction?</>
 
-      <footer className="ml-auto grid grid-flow-col auto-cols-fr gap-3">
-        <button type="button" className={cancelCls} onClick={cancel}>
-          No
-        </button>
+      <></>
+
+      <>
         <button type="button" className={confirmCls} onClick={confirm}>
           Yes
         </button>
-      </footer>
-    </form>
+        <button type="button" className={cancelCls} onClick={cancel}>
+          No
+        </button>
+      </>
+    </Prompt>
   );
 }
 
