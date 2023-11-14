@@ -22,6 +22,31 @@ function CurtainDialog() {
   );
 }
 
+function VATTable() {
+  return (
+    <MapTable
+      mapping={{
+        "VATable Sale": formatPrice(0),
+        "VAT (12%)": formatPrice(0),
+        "VAT-Exempt Sale": formatPrice(0),
+        "Zero-Rated Sale": formatPrice(0),
+      }}
+    />
+  );
+}
+function CustomerTable() {
+  return (
+    <MapTable
+      mapping={{
+        "Customer Name": "",
+        "Customer TIN": "",
+        "Customer Address": "",
+        "Business Style": "",
+      }}
+    />
+  );
+}
+
 function Receipt() {
   const { isCartEmpty, receiptRef } = useCartContext();
 
@@ -44,24 +69,10 @@ function Receipt() {
       <CartTable />
       <br />
 
-      <MapTable
-        mapping={{
-          "VATable Sale": formatPrice(0),
-          "VAT (12%)": formatPrice(0),
-          "VAT-Exempt Sale": formatPrice(0),
-          "Zero-Rated Sale": formatPrice(0),
-        }}
-      />
+      <VATTable />
       <br />
 
-      <MapTable
-        mapping={{
-          "Customer Name": "",
-          "Customer TIN": "",
-          "Customer Address": "",
-          "Business Style": "",
-        }}
-      />
+      <CustomerTable />
       <br />
 
       <MachineInfo />
