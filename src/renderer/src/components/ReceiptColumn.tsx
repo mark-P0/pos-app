@@ -34,6 +34,18 @@ function VATTable() {
     />
   );
 }
+function CustomerTable() {
+  return (
+    <MapTable
+      mapping={{
+        "Customer Name": "",
+        "Customer TIN": "",
+        "Customer Address": "",
+        "Business Style": "",
+      }}
+    />
+  );
+}
 
 function Receipt() {
   const { isCartEmpty, receiptRef } = useCartContext();
@@ -60,14 +72,7 @@ function Receipt() {
       <VATTable />
       <br />
 
-      <MapTable
-        mapping={{
-          "Customer Name": "",
-          "Customer TIN": "",
-          "Customer Address": "",
-          "Business Style": "",
-        }}
-      />
+      <CustomerTable />
       <br />
 
       <MachineInfo />
