@@ -1,39 +1,25 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { C, classes, createNewRef } from "@renderer/utils.js";
-import { ChangeEvent, FormEvent, RefObject, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const { ipcInvoke } = window.api;
-
-function accessNullableRef<T>(namedRef: Record<string, RefObject<T>>): T {
-  const entries = Object.entries(namedRef);
-  if (entries.length > 1) {
-    throw new Error("Possible improper use of ref wrapper");
-  }
-  const [name, ref] = entries[0];
-
-  const current = ref.current;
-  if (current === null) {
-    throw new Error(`${name} ref does not exist`);
-  }
-  return current;
-}
 
 function LoginForm() {
   const { changeScreen, changeUser } = useAppContext();
 
-  const [usernameRef] = createNewRef<HTMLInputElement>();
-  const [passwordRef] = createNewRef<HTMLInputElement>();
+  const [usernameRef, accessUsernameRef] = createNewRef<HTMLInputElement>();
+  const [passwordRef, accessPasswordRef] = createNewRef<HTMLInputElement>();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   function updateUsername(event: ChangeEvent<HTMLInputElement>) {
     setUsername(event.currentTarget.value);
-    const input = accessNullableRef({ usernameRef });
+    const input = accessUsernameRef();
     input.setCustomValidity("");
   }
   function updatePassword(event: ChangeEvent<HTMLInputElement>) {
     setPassword(event.currentTarget.value);
-    const input = accessNullableRef({ passwordRef });
+    const input = accessPasswordRef();
     input.setCustomValidity("");
   }
 
@@ -44,13 +30,13 @@ function LoginForm() {
     const assessment = await ipcInvoke("db:assessUserCredentials", user);
 
     if (assessment === "invalid:username") {
-      const input = accessNullableRef({ usernameRef });
+      const input = accessUsernameRef();
       input.setCustomValidity("Username does not exist");
       input.reportValidity();
       return;
     }
     if (assessment === "invalid:password") {
-      const input = accessNullableRef({ passwordRef });
+      const input = accessPasswordRef();
       input.setCustomValidity("Password is incorrect");
       input.reportValidity();
       return;
