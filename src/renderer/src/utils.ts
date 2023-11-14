@@ -15,24 +15,6 @@ export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function randomInt(from: number, to: number) {
-  const range = to - from;
-  return from + Math.floor(Math.random() * range);
-}
-export function randomIntByLength(length: number) {
-  return randomInt(10 ** (length - 1), 10 ** length);
-}
-export function randomChoice<T>(seq: ArrayLike<T>): T {
-  const idx = randomInt(0, seq.length);
-  return seq[idx];
-}
-export function randomString(
-  length: number,
-  chars: ArrayLike<string> = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-) {
-  return Array.from({ length }, () => randomChoice(chars)).join("");
-}
-
 function isString(value: unknown): value is string {
   return typeof value === "string";
 }
