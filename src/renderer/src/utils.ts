@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 export function raise(msg: string): never {
   throw new Error(msg);
 }
@@ -47,6 +49,19 @@ const PriceFormatter = Intl.NumberFormat(undefined, {
 });
 export function formatPrice(price: number) {
   return PriceFormatter.format(price);
+}
+
+export function createNewRef<T>() {
+  const ref = useRef<T | null>(null);
+  function accessRef() {
+    const value = ref.current;
+    if (value === null) {
+      throw new Error("Ref possibly not assigned");
+    }
+    return value;
+  }
+
+  return [ref, accessRef] as const;
 }
 
 export const classes = {
