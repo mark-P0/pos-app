@@ -1,9 +1,25 @@
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
 import { C, classes } from "@renderer/utils.js";
 import { PropsWithChildren } from "react";
+import { LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
 import { FeaturesButton } from "./FeaturesButton.js";
-import { LogoutButton } from "./LogoutButton.js";
+
+function LogoutButton() {
+  const { changeScreen, changeUser } = useAppContext();
+
+  function logout() {
+    changeUser(null);
+    changeScreen("login");
+  }
+
+  return (
+    <button className={classes.button.icon} onClick={logout}>
+      <LuLogOut className="w-full h-full scale-[-1]" />
+    </button>
+  );
+}
 
 function ActualScreen(
   props: PropsWithChildren<{
