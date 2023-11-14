@@ -6,7 +6,7 @@ const { ipcInvoke } = window.api;
 
 type Status = Awaited<ReturnType<typeof ipcInvoke<"dark-mode:status">>>;
 function useStatus() {
-  const [, setStatus] = useState<Status | null>(null);
+  const [status, setStatus] = useState<Status | null>(null);
   useEffect(() => {
     reflectStatus();
   }, []);
@@ -16,11 +16,11 @@ function useStatus() {
     setStatus(status);
   }
 
-  return { reflectStatus };
+  return { status, reflectStatus };
 }
 
 export function DarkModeToggle() {
-  const { reflectStatus } = useStatus();
+  const { status, reflectStatus } = useStatus();
 
   function toggle() {
     ipcInvoke("dark-mode:cycle");
@@ -35,9 +35,18 @@ export function DarkModeToggle() {
       "active:scale-90",
       "transition",
     );
-    const icon = C("absolute top-0 left-0 p-3", "h-full w-full", "transition");
-    const dark = C(icon, "text-cyan-400 dark:opacity-100 opacity-0");
-    const light = C(icon, "text-amber-400 opacity-100 dark:opacity-0");
+    const icon = C(
+      "absolute top-0 left-0 p-3",
+      "h-full w-full",
+      "opacity-0",
+      "transition",
+    );
+    const dark = C(icon, "text-cyan-400", status === "dark" && "opacity-100");
+    const light = C(
+      icon,
+      "text-amber-400",
+      status === "light" && "opacity-100",
+    );
 
     return { button, icon: { dark, light } };
   })();
