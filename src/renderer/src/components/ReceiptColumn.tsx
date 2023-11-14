@@ -22,6 +22,19 @@ function CurtainDialog() {
   );
 }
 
+function VATTable() {
+  return (
+    <MapTable
+      mapping={{
+        "VATable Sale": formatPrice(0),
+        "VAT (12%)": formatPrice(0),
+        "VAT-Exempt Sale": formatPrice(0),
+        "Zero-Rated Sale": formatPrice(0),
+      }}
+    />
+  );
+}
+
 function Receipt() {
   const { isCartEmpty, receiptRef } = useCartContext();
 
@@ -44,14 +57,7 @@ function Receipt() {
       <CartTable />
       <br />
 
-      <MapTable
-        mapping={{
-          "VATable Sale": formatPrice(0),
-          "VAT (12%)": formatPrice(0),
-          "VAT-Exempt Sale": formatPrice(0),
-          "Zero-Rated Sale": formatPrice(0),
-        }}
-      />
+      <VATTable />
       <br />
 
       <MapTable
