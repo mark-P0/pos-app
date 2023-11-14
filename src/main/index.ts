@@ -25,10 +25,10 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width,
     height,
-    frame: false,
+    frame: is.dev,
     resizable: false,
     maximizable: false,
-    movable: false,
+    movable: is.dev,
     fullscreenable: false,
 
     show: false,
