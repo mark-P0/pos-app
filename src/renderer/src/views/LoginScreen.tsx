@@ -13,13 +13,13 @@ function LoginForm() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   function updateUsername(event: ChangeEvent<HTMLInputElement>) {
-    setUsername(event.currentTarget.value);
-    const input = accessUsernameRef();
+    const input = event.currentTarget;
+    setUsername(input.value);
     input.setCustomValidity("");
   }
   function updatePassword(event: ChangeEvent<HTMLInputElement>) {
-    setPassword(event.currentTarget.value);
-    const input = accessPasswordRef();
+    const input = event.currentTarget;
+    setPassword(input.value);
     input.setCustomValidity("");
   }
 
