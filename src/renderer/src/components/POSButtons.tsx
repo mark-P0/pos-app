@@ -27,7 +27,7 @@ function ResetPrompt() {
     "transition",
   );
   return (
-    <article className={cls}>
+    <form className={cls}>
       <header>
         <h3 className="font-head text-3xl">
           Are you sure you want to reset the current transaction?
@@ -35,14 +35,14 @@ function ResetPrompt() {
       </header>
 
       <footer className="ml-auto grid grid-flow-col auto-cols-fr gap-3">
-        <button className={cancelCls} onClick={cancel}>
+        <button type="button" className={cancelCls} onClick={cancel}>
           No
         </button>
-        <button className={confirmCls} onClick={confirm}>
+        <button type="button" className={confirmCls} onClick={confirm}>
           Yes
         </button>
       </footer>
-    </article>
+    </form>
   );
 }
 
