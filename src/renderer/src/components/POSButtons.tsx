@@ -69,19 +69,9 @@ function CheckoutPrompt() {
   const inputCls = C("px-2 py-1", "bg-transparent");
   const basePayCls = C("px-4 py-1", classes.button.secondary, "transition");
   const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">Enter payment amount:</h3>
-      </header>
+    <Prompt>
+      <>Enter payment amount:</>
 
       <label className={labelCls}>
         {currencySymbol}
@@ -93,11 +83,7 @@ function CheckoutPrompt() {
         />
       </label>
 
-      <footer className="flex justify-end gap-3">
-        <button type="button" className={basePayCls} onClick={setExactAmount}>
-          Use exact{" "}
-          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
-        </button>
+      <>
         <button
           type="button"
           className={confirmCls}
@@ -106,8 +92,12 @@ function CheckoutPrompt() {
         >
           Confirm
         </button>
-      </footer>
-    </form>
+        <button type="button" className={basePayCls} onClick={setExactAmount}>
+          Use exact{" "}
+          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
+        </button>
+      </>
+    </Prompt>
   );
 }
 
