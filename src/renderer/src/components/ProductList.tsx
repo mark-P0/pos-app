@@ -7,6 +7,7 @@ import {
 import { C, classes, formatPrice } from "@renderer/utils.js";
 import { Dispatch, SetStateAction, useState } from "react";
 import { LuMinus, LuPlus } from "react-icons/lu";
+import { Prompt } from "./Prompt.js";
 
 function ProductCard(props: { product: Product }) {
   const { product } = props;
@@ -122,29 +123,16 @@ function QuantityPrompt(props: { product: Product }) {
   const counterProps = { qty, setQty, product };
 
   const divCls = C("px-3 py-2", classes.card);
-
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">How many of this product to add?</h3>
-      </header>
-
-      <div className={divCls}>
-        <ProductCard product={product} />
-      </div>
-
-      <footer className="flex justify-end">
-        <QuantityCounter {...counterProps} />
-      </footer>
-    </form>
+    <Prompt
+      title="How many of this product to add?"
+      body={
+        <div className={divCls}>
+          <ProductCard product={product} />
+        </div>
+      }
+      actions={<QuantityCounter {...counterProps} />}
+    />
   );
 }
 
