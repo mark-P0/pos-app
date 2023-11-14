@@ -23,7 +23,7 @@ function LoginForm() {
     input.setCustomValidity("");
   }
 
-  async function login(event: FormEvent<HTMLFormElement>) {
+  async function assessUser(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const user = { username, password };
@@ -42,9 +42,9 @@ function LoginForm() {
       return;
     }
 
-    finalizeLogin();
+    login();
   }
-  function finalizeLogin() {
+  function login() {
     changeUser(username);
     changeScreen("feature-select");
   }
@@ -54,7 +54,7 @@ function LoginForm() {
      * - Setting state during render is "improper"
      */
     if (username === "guest") {
-      finalizeLogin();
+      login();
     }
   });
 
@@ -66,7 +66,7 @@ function LoginForm() {
   const buttonCls = C("px-4 py-1", classes.button.primary, "transition");
   const buttonGuestCls = C("px-4 py-1", classes.button.secondary, "transition");
   return (
-    <form className="grid gap-6 select-none" onSubmit={login}>
+    <form className="grid gap-6 select-none" onSubmit={assessUser}>
       <section className="grid gap-3">
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Username</span>
