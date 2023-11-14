@@ -1,30 +1,43 @@
-import { PropsWithChildren, createContext, useState } from "react";
-import { useNullableContext } from "./utils.js";
+import { useEffect, useState } from "react";
+import { createNewContext } from "./utils.js";
+
+const { ipcInvoke } = window.api;
 
 type Screen = "login" | "feature-select" | "pos" | "inv-mgmt";
-
-type AppValues = {
-  screen: Screen;
-  changeScreen: (to: Screen) => void;
-};
-const AppContext = createContext<AppValues | null>(null);
-
-export function useAppContext() {
-  return useNullableContext({ AppContext });
-}
-
-export function AppProvider(props: PropsWithChildren) {
-  const { children } = props;
-
+function useScreen() {
   const [screen, setScreen] = useState<Screen>("login");
   function changeScreen(to: Screen) {
     setScreen(to);
   }
 
-  /**
-   * - Get the type of this, e.g. via hover definitions
-   * - Copy type into context type near the top
-   */
-  const values = { screen, changeScreen };
-  return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
+  return { screen, changeScreen };
 }
+
+type Labels = Awaited<ReturnType<typeof ipcInvoke<"app:getNameAndVersion">>>;
+function useLabels() {
+  const [labels, setLabels] = useState<Labels>(["", ""]);
+  useEffect(() => {
+    (async () => {
+      const labels = await ipcInvoke("app:getNameAndVersion");
+      setLabels(labels);
+    })();
+  }, []);
+
+  return { labels };
+}
+
+type User = string | null;
+function useUser() {
+  const [user, setUser] = useState<User>(null);
+  function changeUser(to: User) {
+    setUser(to);
+  }
+
+  return { user, changeUser };
+}
+
+export const [useAppContext, AppProvider] = createNewContext(() => ({
+  ...useScreen(),
+  ...useLabels(),
+  ...useUser(),
+}));

@@ -1,4 +1,4 @@
-import { C } from "@renderer/utils.js";
+import { C, classes } from "@renderer/utils.js";
 import { LuMoon, LuSun } from "react-icons/lu";
 
 const { ipcInvoke } = window.api;
@@ -11,7 +11,9 @@ export function DarkModeToggle() {
   const cls = C(
     "relative",
     "overflow-hidden w-12 aspect-square rounded-full",
-    "transition hover:bg-cyan-950/10 dark:hover:bg-white/20 active:scale-90",
+    classes.interactiveHoverBg,
+    "active:scale-90",
+    "transition",
   );
   return (
     <button className={cls} onClick={toggle}>

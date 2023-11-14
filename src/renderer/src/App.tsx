@@ -1,4 +1,5 @@
 import { AppProvider, useAppContext } from "./contexts/AppContext.js";
+import { ProductsProvider } from "./contexts/ProductsContext.js";
 import { FeaturesScreen } from "./views/FeaturesScreen.js";
 import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
@@ -27,8 +28,10 @@ function AppContents() {
 
 export function App() {
   return (
-    <AppProvider>
-      <AppContents />
-    </AppProvider>
+    <ProductsProvider>
+      <AppProvider>
+        <AppContents />
+      </AppProvider>
+    </ProductsProvider>
   );
 }

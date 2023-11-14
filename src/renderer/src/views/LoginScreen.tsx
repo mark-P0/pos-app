@@ -1,6 +1,6 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C } from "@renderer/utils.js";
+import { C, classes } from "@renderer/utils.js";
 import {
   ChangeEvent,
   FormEvent,
@@ -27,7 +27,7 @@ function accessNullableRef<T>(namedRef: Record<string, RefObject<T>>): T {
 }
 
 function LoginForm() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen, changeUser } = useAppContext();
 
   const inputUsernameRef = useRef<HTMLInputElement | null>(null);
   const inputPasswordRef = useRef<HTMLInputElement | null>(null);
@@ -63,14 +63,19 @@ function LoginForm() {
       return;
     }
 
-    changeScreen("feature-select");
+    finalizeLogin();
   }
-  function loginAsGuest() {
+  function finalizeLogin() {
+    changeUser(username);
     changeScreen("feature-select");
   }
   useEffect(() => {
+    /**
+     * - Wrap in an effect so the potential state-setting will happen after render
+     * - Setting state during render is "improper"
+     */
     if (username === "guest") {
-      loginAsGuest();
+      finalizeLogin();
     }
   });
 
@@ -79,14 +84,8 @@ function LoginForm() {
     "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
     "transition",
   );
-  const buttonCls = C(
-    "px-4 py-1",
-    "transition bg-rose-700 hover:bg-rose-600 active:scale-95 text-white",
-  );
-  const buttonGuestCls = C(
-    "px-4 py-1",
-    "transition bg-cyan-800 hover:bg-cyan-700 active:scale-95 text-white",
-  );
+  const buttonCls = C("px-4 py-1", classes.button.primary, "transition");
+  const buttonGuestCls = C("px-4 py-1", classes.button.secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={login}>
       <section className="grid gap-3">
@@ -124,7 +123,7 @@ function LoginForm() {
           <button
             className={buttonGuestCls}
             type="button"
-            onClick={loginAsGuest}
+            onClick={() => setUsername("guest")}
           >
             As Guest
           </button>
@@ -137,15 +136,17 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
-    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    classes.absoluteCenter,
     "w-[28rem] grid gap-12 p-12 pb-6",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-white/10 rounded-xl",
+    classes.card,
     "transition",
   );
   return (
     <section className={cls}>
       <header className="grid place-content-center">
-        <code className="text-3xl font-bold tracking-widest">pos-app</code>
+        <h1 className="text-5xl font-head uppercase tracking-widest">
+          <span className="font-bold">pos</span> app
+        </h1>
       </header>
 
       <LoginForm />

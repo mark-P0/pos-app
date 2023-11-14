@@ -1,5 +1,7 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
+import { writeFile } from "fs/promises";
 import { assessUserCredentials, getAllProducts } from "../../data/db.js";
+import { getActualFilePath } from "../../data/utils.js";
 
 const ChannelHandlers = {
   "db:getAllProducts": async () => {
@@ -20,6 +22,25 @@ const ChannelHandlers = {
     user: Parameters<typeof assessUserCredentials>[0],
   ) => {
     return await assessUserCredentials(user);
+  },
+  "fs:writeTextFile": async (
+    _: IpcMainInvokeEvent,
+    filename: string,
+    content: string,
+  ) => {
+    await writeFile(getActualFilePath(filename), content);
+  },
+  /** https://stackoverflow.com/a/77266873 */
+  "fs:writePngUriToFile": async (
+    _: IpcMainInvokeEvent,
+    uri: string,
+    filename: string,
+  ) => {
+    const [, base64Data] = uri.split(",");
+    await writeFile(getActualFilePath(filename), base64Data, "base64");
+  },
+  "app:getNameAndVersion": () => {
+    return [app.getName(), app.getVersion()] as const;
   },
 } as const;
 

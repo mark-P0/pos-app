@@ -3,6 +3,7 @@ import { BrowserWindow, app, nativeTheme, screen, shell } from "electron";
 import { join } from "path";
 import icon from "../../resources/icon.png?asset";
 import "./ipc-handlers.js";
+import "./protocol-handlers.js";
 
 /** Initialize app to dark mode */
 nativeTheme.themeSource = "dark";
