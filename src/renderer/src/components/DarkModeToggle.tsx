@@ -28,13 +28,7 @@ export function DarkModeToggle() {
   }
 
   const cls = (() => {
-    const button = C(
-      "relative",
-      "overflow-hidden w-12 aspect-square rounded-full",
-      classes.interactiveHoverBg,
-      "active:scale-90",
-      "transition",
-    );
+    const button = C("relative", classes.button.icon);
     const icon = C(
       "absolute top-0 left-0 p-3",
       "h-full w-full",

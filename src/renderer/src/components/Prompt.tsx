@@ -3,14 +3,8 @@ import { ComponentProps, PropsWithChildren } from "react";
 import { LuX } from "react-icons/lu";
 
 function CloseButton(props: ComponentProps<"button">) {
-  const cls = C(
-    "overflow-hidden w-12 aspect-square rounded-full p-3",
-    classes.interactiveHoverBg,
-    "active:scale-90",
-    "transition",
-  );
   return (
-    <button {...props} type="button" className={cls}>
+    <button {...props} type="button" className={classes.button.icon}>
       <LuX className="w-full h-full" />
     </button>
   );
