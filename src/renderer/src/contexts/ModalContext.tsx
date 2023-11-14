@@ -19,14 +19,20 @@ function useModalState() {
   }
 
   return {
-    ...{ dialogRef, accessDialogRef, isOpen, setIsOpen, content, setContent },
+    ...{
+      ...{ dialogRef, accessDialogRef },
+      ...{ isOpen, setIsOpen },
+      ...{ content, setContent },
+    },
     ...{ showOnModal, closeModal },
   };
 }
 
 export function Modal() {
-  const { dialogRef, accessDialogRef, isOpen, setIsOpen, content, setContent } =
-    useModalContext();
+  const state = useModalContext();
+  const { dialogRef, accessDialogRef } = state;
+  const { isOpen, setIsOpen } = state;
+  const { content, setContent } = state;
 
   function initiateCancel(event: SyntheticEvent<HTMLDialogElement, Event>) {
     event.preventDefault();
