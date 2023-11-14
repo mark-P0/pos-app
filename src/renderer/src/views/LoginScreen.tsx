@@ -1,14 +1,7 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C, classes } from "@renderer/utils.js";
-import {
-  ChangeEvent,
-  FormEvent,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { C, classes, createNewRef } from "@renderer/utils.js";
+import { ChangeEvent, FormEvent, RefObject, useEffect, useState } from "react";
 
 const { ipcInvoke } = window.api;
 
@@ -29,8 +22,8 @@ function accessNullableRef<T>(namedRef: Record<string, RefObject<T>>): T {
 function LoginForm() {
   const { changeScreen, changeUser } = useAppContext();
 
-  const usernameRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [usernameRef] = createNewRef<HTMLInputElement>();
+  const [passwordRef] = createNewRef<HTMLInputElement>();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   function updateUsername(event: ChangeEvent<HTMLInputElement>) {
