@@ -2,7 +2,7 @@ import { C, classes } from "@renderer/utils.js";
 
 export function Prompt(props: {
   title: string;
-  body: JSX.Element;
+  body?: JSX.Element;
   actions: JSX.Element;
 }) {
   const { title, body, actions } = props;
