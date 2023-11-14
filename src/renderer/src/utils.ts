@@ -64,6 +64,10 @@ export function createNewRef<T>() {
   return [ref, accessRef] as const;
 }
 
+const interactiveHoverBg = C(
+  "hover:bg-cyan-950/10 dark:hover:bg-white/20",
+  "focus-visible:bg-cyan-950/10 dark:focus-visible:bg-white/20",
+);
 export const classes = {
   absoluteCenter: C(
     "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
@@ -86,10 +90,7 @@ export const classes = {
     "dark:border-transparent dark:bg-white/10",
     "rounded-lg",
   ),
-  interactiveHoverBg: C(
-    "hover:bg-cyan-950/10 dark:hover:bg-white/20",
-    "focus-visible:bg-cyan-950/10 dark:focus-visible:bg-white/20",
-  ),
+  interactiveHoverBg,
   button: {
     primary: C(
       "bg-rose-700",
@@ -110,6 +111,12 @@ export const classes = {
       ],
       "disabled:opacity-50",
       "text-white",
+    ),
+    icon: C(
+      "overflow-hidden w-12 aspect-square rounded-full p-3",
+      interactiveHoverBg,
+      "active:scale-90",
+      "transition",
     ),
   },
   outline: C(
