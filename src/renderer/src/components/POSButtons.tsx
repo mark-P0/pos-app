@@ -143,21 +143,9 @@ function PostCheckoutPrompt() {
     "transition",
   );
   const receiptCls = C("grid place-items-center", classes.scrollbar);
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "overflow-hidden",
-    "h-full",
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">Transaction success!</h3>
-      </header>
+    <Prompt>
+      <>Transaction success!</>
 
       {src === null ? (
         <p>Printing the receipt...</p>
@@ -167,14 +155,7 @@ function PostCheckoutPrompt() {
         </div>
       )}
 
-      <footer className="flex justify-end gap-3">
-        <button
-          type="button"
-          className={chooseFeatureCls}
-          onClick={chooseFeature}
-        >
-          Choose Feature
-        </button>
+      <>
         <button
           type="button"
           className={newTransactionCls}
@@ -182,8 +163,15 @@ function PostCheckoutPrompt() {
         >
           New Transaction
         </button>
-      </footer>
-    </form>
+        <button
+          type="button"
+          className={chooseFeatureCls}
+          onClick={chooseFeature}
+        >
+          Choose Feature
+        </button>
+      </>
+    </Prompt>
   );
 }
 
