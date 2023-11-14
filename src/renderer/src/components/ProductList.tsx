@@ -100,7 +100,8 @@ function QuantityCounter(props: {
         disabled={qty === 0}
       >
         <span>
-          {qty < 0 ? "Remove" : "Add"} <span className="font-bold">{qty}</span>
+          {qty < 0 ? "Remove" : "Add"}{" "}
+          <span className="font-bold">{Math.abs(qty)}</span>
         </span>
       </button>
       <button
