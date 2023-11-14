@@ -7,6 +7,7 @@ import {
 import { C, classes, formatPrice } from "@renderer/utils.js";
 import { Dispatch, SetStateAction, useState } from "react";
 import { LuMinus, LuPlus } from "react-icons/lu";
+import { Prompt } from "./Prompt.js";
 
 function ProductCard(props: { product: Product }) {
   const { product } = props;
@@ -83,7 +84,7 @@ function QuantityCounter(props: {
     "transition",
   );
   return (
-    <form className="flex">
+    <div className="flex">
       <button
         type="button"
         className={buttonCounterCls}
@@ -110,40 +111,30 @@ function QuantityCounter(props: {
       >
         <LuPlus />
       </button>
-    </form>
+    </div>
   );
 }
 
 function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
   const [qty, setQty] = useState(0);
+  const { closeModal } = useModalContext();
 
   /** Copy types of this (e.g. via hover definition) to counter prop type */
   const counterProps = { qty, setQty, product };
 
   const divCls = C("px-3 py-2", classes.card);
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <article className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">How many of this product to add?</h3>
-      </header>
+    <Prompt onClose={closeModal}>
+      {/* Wrap in fragment to make formatter not ignore spacing */}
+      <>How many of this product to add?</>
 
       <div className={divCls}>
         <ProductCard product={product} />
       </div>
 
-      <footer className="flex justify-end">
-        <QuantityCounter {...counterProps} />
-      </footer>
-    </article>
+      <QuantityCounter {...counterProps} />
+    </Prompt>
   );
 }
 

@@ -3,6 +3,7 @@ import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { C, classes, formatPrice } from "@renderer/utils.js";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Prompt } from "./Prompt.js";
 
 function ResetPrompt() {
   const { closeModal } = useModalContext();
@@ -18,37 +19,27 @@ function ResetPrompt() {
 
   const cancelCls = C("px-4 py-1", classes.button.secondary, "transition");
   const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <article className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">
-          Are you sure you want to reset the current transaction?
-        </h3>
-      </header>
+    <Prompt>
+      <>Are you sure you want to reset the current transaction?</>
 
-      <footer className="ml-auto grid grid-flow-col auto-cols-fr gap-3">
-        <button className={cancelCls} onClick={cancel}>
-          No
-        </button>
-        <button className={confirmCls} onClick={confirm}>
+      <></>
+
+      <>
+        <button type="button" className={confirmCls} onClick={confirm}>
           Yes
         </button>
-      </footer>
-    </article>
+        <button type="button" className={cancelCls} onClick={cancel}>
+          No
+        </button>
+      </>
+    </Prompt>
   );
 }
 
 function CheckoutPrompt() {
   const { totalCartPrice, pay } = useCartContext();
-  const { showOnModal } = useModalContext();
+  const { showOnModal, closeModal } = useModalContext();
 
   const [amount, setAmount] = useState(totalCartPrice);
   function updateAmount(event: ChangeEvent<HTMLInputElement>) {
@@ -78,19 +69,9 @@ function CheckoutPrompt() {
   const inputCls = C("px-2 py-1", "bg-transparent");
   const basePayCls = C("px-4 py-1", classes.button.secondary, "transition");
   const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">Enter payment amount:</h3>
-      </header>
+    <Prompt onClose={closeModal}>
+      <>Enter payment amount:</>
 
       <label className={labelCls}>
         {currencySymbol}
@@ -102,11 +83,7 @@ function CheckoutPrompt() {
         />
       </label>
 
-      <footer className="flex justify-end gap-3">
-        <button type="button" className={basePayCls} onClick={setExactAmount}>
-          Use exact{" "}
-          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
-        </button>
+      <>
         <button
           type="button"
           className={confirmCls}
@@ -115,8 +92,12 @@ function CheckoutPrompt() {
         >
           Confirm
         </button>
-      </footer>
-    </form>
+        <button type="button" className={basePayCls} onClick={setExactAmount}>
+          Use exact{" "}
+          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
+        </button>
+      </>
+    </Prompt>
   );
 }
 
@@ -162,21 +143,9 @@ function PostCheckoutPrompt() {
     "transition",
   );
   const receiptCls = C("grid place-items-center", classes.scrollbar);
-  const cls = C(
-    "select-none",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
-    "overflow-hidden",
-    "h-full",
-    "transition",
-  );
   return (
-    <form className={cls}>
-      <header>
-        <h3 className="font-head text-3xl">Transaction success!</h3>
-      </header>
+    <Prompt>
+      <>Transaction success!</>
 
       {src === null ? (
         <p>Printing the receipt...</p>
@@ -186,14 +155,7 @@ function PostCheckoutPrompt() {
         </div>
       )}
 
-      <footer className="flex justify-end gap-3">
-        <button
-          type="button"
-          className={chooseFeatureCls}
-          onClick={chooseFeature}
-        >
-          Choose Feature
-        </button>
+      <>
         <button
           type="button"
           className={newTransactionCls}
@@ -201,8 +163,15 @@ function PostCheckoutPrompt() {
         >
           New Transaction
         </button>
-      </footer>
-    </form>
+        <button
+          type="button"
+          className={chooseFeatureCls}
+          onClick={chooseFeature}
+        >
+          Choose Feature
+        </button>
+      </>
+    </Prompt>
   );
 }
 
