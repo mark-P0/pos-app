@@ -1,6 +1,7 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C, classes, createNewRef } from "@renderer/utils.js";
+import { classes, createNewRef } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const { ipcInvoke } = window.api;

@@ -1,4 +1,5 @@
-import { C, classes } from "@renderer/utils.js";
+import { classes } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { ComponentProps, PropsWithChildren } from "react";
 import { LuX } from "react-icons/lu";
 

@@ -1,6 +1,7 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
-import { C, classes } from "@renderer/utils.js";
+import { classes } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { ComponentProps, PropsWithChildren } from "react";
 import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";

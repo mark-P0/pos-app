@@ -4,7 +4,8 @@ import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
-import { C, classes, formatPrice } from "@renderer/utils.js";
+import { classes, formatPrice } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { Dispatch, SetStateAction, useState } from "react";
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { Prompt } from "./Prompt.js";

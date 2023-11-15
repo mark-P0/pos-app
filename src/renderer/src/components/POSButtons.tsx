@@ -1,7 +1,8 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
-import { C, classes, formatPrice } from "@renderer/utils.js";
+import { classes, formatPrice } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Prompt } from "./Prompt.js";
 

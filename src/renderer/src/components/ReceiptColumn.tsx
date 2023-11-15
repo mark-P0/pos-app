@@ -1,5 +1,6 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
-import { C, classes, formatPrice } from "@renderer/utils.js";
+import { classes, formatPrice } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { CartTable } from "./CartTable.js";
 import { MachineInfo } from "./MachineInfo.js";
 import { MapTable } from "./MapTable.js";

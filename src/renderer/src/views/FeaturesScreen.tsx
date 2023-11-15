@@ -1,6 +1,7 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { C, classes } from "@renderer/utils.js";
+import { classes } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { ButtonHTMLAttributes } from "react";
 import { FaCashRegister } from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
