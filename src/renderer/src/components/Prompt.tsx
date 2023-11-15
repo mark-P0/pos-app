@@ -1,11 +1,16 @@
-import { classes } from "@renderer/utils.js";
-import { C } from "@renderer/utils/classes.js";
+import {
+  C,
+  cls$bg,
+  cls$button$icon,
+  cls$selection,
+  cls$text,
+} from "@renderer/utils/classes.js";
 import { ComponentProps, PropsWithChildren } from "react";
 import { LuX } from "react-icons/lu";
 
 function CloseButton(props: ComponentProps<"button">) {
   return (
-    <button {...props} type="button" className={classes.button.icon}>
+    <button {...props} type="button" className={cls$button$icon}>
       <LuX className="w-full h-full" />
     </button>
   );
@@ -24,7 +29,7 @@ export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
     "w-[60vw]", // 3/5 of full-width
     "grid gap-3",
     "p-6 rounded-lg",
-    ...[classes.bg, classes.text, classes.selection],
+    ...[cls$bg, cls$text, cls$selection],
     "transition",
   );
   return (

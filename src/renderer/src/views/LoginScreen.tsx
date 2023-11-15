@@ -1,7 +1,13 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
-import { classes, createNewRef } from "@renderer/utils.js";
-import { C } from "@renderer/utils/classes.js";
+import { createNewRef } from "@renderer/utils.js";
+import {
+  C,
+  cls$absoluteCenter,
+  cls$button$primary,
+  cls$button$secondary,
+  cls$card,
+} from "@renderer/utils/classes.js";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const { ipcInvoke } = window.api;
@@ -78,8 +84,8 @@ function LoginForm() {
     "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
     "transition",
   );
-  const buttonCls = C("px-4 py-1", classes.button.primary, "transition");
-  const buttonGuestCls = C("px-4 py-1", classes.button.secondary, "transition");
+  const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
+  const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={assessUser}>
       <section className="grid gap-3">
@@ -130,9 +136,9 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
-    classes.absoluteCenter,
+    cls$absoluteCenter,
     "w-[28rem] grid gap-12 p-12 pb-6",
-    classes.card,
+    cls$card,
     "transition",
   );
   return (

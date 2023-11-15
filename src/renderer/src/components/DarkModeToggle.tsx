@@ -1,5 +1,4 @@
-import { classes } from "@renderer/utils.js";
-import { C } from "@renderer/utils/classes.js";
+import { C, cls$button$icon } from "@renderer/utils/classes.js";
 import { useEffect, useState } from "react";
 import { LuMoon, LuSun, LuSunMoon } from "react-icons/lu";
 
@@ -29,7 +28,7 @@ export function DarkModeToggle() {
   }
 
   const cls = (() => {
-    const button = C("relative", classes.button.icon);
+    const button = C("relative", cls$button$icon);
     const icon = C(
       "absolute top-0 left-0 p-3",
       "h-full w-full",

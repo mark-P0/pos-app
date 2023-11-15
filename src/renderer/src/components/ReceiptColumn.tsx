@@ -1,6 +1,6 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
-import { classes, formatPrice } from "@renderer/utils.js";
-import { C } from "@renderer/utils/classes.js";
+import { formatPrice } from "@renderer/utils.js";
+import { C, cls$scrollbar, cls$text } from "@renderer/utils/classes.js";
 import { CartTable } from "./CartTable.js";
 import { MachineInfo } from "./MachineInfo.js";
 import { MapTable } from "./MapTable.js";
@@ -11,7 +11,7 @@ function CurtainDialog() {
     "absolute z-10 w-full h-full",
     "grid place-content-center",
     "bg-transparent dark:bg-cyan-950/50",
-    classes.text,
+    cls$text,
     "transition",
   );
   return (
@@ -87,7 +87,7 @@ function Receipt() {
 export function ReceiptColumn() {
   const { isCartEmpty } = useCartContext();
 
-  const cls = C("relative", classes.scrollbar, "p-6 pt-0");
+  const cls = C("relative", cls$scrollbar, "p-6 pt-0");
   return (
     <figure className={cls}>
       {isCartEmpty && <CurtainDialog />}
