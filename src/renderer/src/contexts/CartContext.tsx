@@ -1,5 +1,6 @@
-import { createNewRef, raise, sleep, sum } from "@renderer/utils.js";
+import { createNewRef } from "@renderer/utils.js";
 import { random$string } from "@renderer/utils/random.js";
+import { raise, sleep, sum } from "@renderer/utils/stdlib-ext.js";
 import { toPng } from "html-to-image";
 import { useEffect, useState } from "react";
 import { Product, useProductsContext } from "./ProductsContext.js";
