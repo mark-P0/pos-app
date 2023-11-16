@@ -5,7 +5,7 @@ import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
 import { POSScreen } from "./views/POSScreen.js";
 
-function AppContents() {
+function WrappedApp() {
   const { screen } = useAppContext();
 
   /** https://www.youtube.com/post/UgkxDNktFDKfbg0vwLwNkctzsIJnEVu85Im6 */
@@ -25,12 +25,11 @@ function AppContents() {
   }
   screen satisfies never; // MUST be unreachable; something's wrong if it isn't (switch case not exhaustive)
 }
-
 export function App() {
   return (
     <ProductsProvider>
       <AppProvider>
-        <AppContents />
+        <WrappedApp />
       </AppProvider>
     </ProductsProvider>
   );
