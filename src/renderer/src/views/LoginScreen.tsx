@@ -1,9 +1,9 @@
 import { Screen } from "@renderer/components/Screen.js";
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import {
   LoginProvider,
   useLoginContext,
 } from "@renderer/contexts/LoginContext.js";
-// import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -127,7 +127,8 @@ function PasswordInput() {
 }
 
 function LoginForm() {
-  // const { changeScreen, changeUser } = useAppContext();
+  const { username } = useLoginContext();
+  const { changeScreen, changeUser } = useAppContext();
   const version = useVersion();
 
   async function assessUser(event: FormEvent<HTMLFormElement>) {
@@ -137,12 +138,12 @@ function LoginForm() {
     await runCheckers();
     const isFormValid = form.reportValidity();
     if (!isFormValid) return;
-    // login();
+    login();
   }
-  // function login() {
-  //   changeUser(username);
-  //   changeScreen("feature-select");
-  // }
+  function login() {
+    changeUser(username);
+    changeScreen("feature-select");
+  }
   // useEffect(() => {
   //   /**
   //    * - Wrap in an effect so the potential state-setting will happen after render
