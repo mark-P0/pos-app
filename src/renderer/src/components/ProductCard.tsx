@@ -1,3 +1,4 @@
+import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Product } from "@renderer/contexts/ProductsContext.js";
 import { formatPrice } from "@renderer/utils.js";
 import { C } from "@renderer/utils/classes.js";
@@ -5,11 +6,16 @@ import { C } from "@renderer/utils/classes.js";
 export function ProductCard(props: { product: Product }) {
   const { product } = props;
   const { sku, name, category, price } = product;
+  const { screen } = useAppContext();
 
   const imgUrl = `pos-app:///data/images/${sku}.png`;
   const imgAlt = `Image of product "${name}"`;
 
-  const cls = C("grid grid-cols-[1fr_4fr_1fr] gap-4");
+  const cls = C(
+    "grid gap-4",
+    screen === "pos" && "grid-cols-[1fr_4fr_1fr]",
+    screen === "inv-mgmt" && "grid-cols-[1fr_6fr_1fr]",
+  );
   return (
     <section className={cls}>
       <img src={imgUrl} alt={imgAlt} />
