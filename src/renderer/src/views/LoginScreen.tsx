@@ -41,7 +41,7 @@ async function runCheckers() {
 function UsernameInput() {
   const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
   const { username, setUsername } = useLoginContext();
-  async function reflectValue(event: ChangeEvent<HTMLInputElement>) {
+  async function reflectUsername(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setUsername(input.value);
     input.setCustomValidity("");
@@ -77,7 +77,7 @@ function UsernameInput() {
         name="username"
         required
         value={username}
-        onChange={reflectValue}
+        onChange={reflectUsername}
       />
     </label>
   );
@@ -86,7 +86,7 @@ function UsernameInput() {
 function PasswordInput() {
   const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
   const { password, setPassword, username } = useLoginContext();
-  function reflectValue(event: ChangeEvent<HTMLInputElement>) {
+  function reflectPassword(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setPassword(input.value);
     input.setCustomValidity("");
@@ -120,7 +120,7 @@ function PasswordInput() {
         name="password"
         required
         value={password}
-        onChange={reflectValue}
+        onChange={reflectPassword}
       />
     </label>
   );
