@@ -1,6 +1,13 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
-import { C, classes } from "@renderer/utils.js";
+import {
+  C,
+  cls$bg,
+  cls$button$icon,
+  cls$outline,
+  cls$selection,
+  cls$text,
+} from "@renderer/utils/classes.js";
 import { ComponentProps, PropsWithChildren } from "react";
 import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
@@ -14,7 +21,7 @@ function LogoutButton() {
   }
 
   return (
-    <button className={classes.button.icon} onClick={logout}>
+    <button className={cls$button$icon} onClick={logout}>
       <LuLogOut className="w-full h-full scale-[-1]" />
     </button>
   );
@@ -28,7 +35,7 @@ function FeaturesButton() {
   }
 
   return (
-    <button className={classes.button.icon} onClick={chooseFeature}>
+    <button className={cls$button$icon} onClick={chooseFeature}>
       <LuLayoutGrid className="w-full h-full" />
     </button>
   );
@@ -50,8 +57,8 @@ function WrappedScreen(
     "overflow-hidden relative",
     "h-screen flex flex-col",
     "font-body",
-    ...[classes.bg, classes.text, classes.selection],
-    classes.outline,
+    ...[cls$bg, cls$text, cls$selection],
+    cls$outline,
     "transition",
   );
   return (

@@ -1,4 +1,5 @@
-import { C, createNewRef } from "@renderer/utils.js";
+import { createNewRef } from "@renderer/utils.js";
+import { C } from "@renderer/utils/classes.js";
 import { SyntheticEvent, useState } from "react";
 import { createNewContext } from "./utils.js";
 

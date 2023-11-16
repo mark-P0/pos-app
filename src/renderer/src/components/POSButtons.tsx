@@ -1,7 +1,15 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
-import { C, classes, formatPrice } from "@renderer/utils.js";
+import { formatPrice } from "@renderer/utils.js";
+import {
+  C,
+  cls$button$primary,
+  cls$button$secondary,
+  cls$card,
+  cls$interactiveHoverBg,
+  cls$scrollbar,
+} from "@renderer/utils/classes.js";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Prompt } from "./Prompt.js";
 
@@ -17,8 +25,8 @@ function ResetPrompt() {
     closeModal();
   }
 
-  const cancelCls = C("px-4 py-1", classes.button.secondary, "transition");
-  const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
+  const cancelCls = C("px-4 py-1", cls$button$secondary, "transition");
+  const confirmCls = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt>
       <>Are you sure you want to reset the current transaction?</>
@@ -62,13 +70,13 @@ function CheckoutPrompt() {
   const labelCls = C(
     "grid grid-cols-[auto_1fr] items-center gap-3",
     "p-1 pl-3",
-    classes.card,
-    classes.interactiveHoverBg,
+    cls$card,
+    cls$interactiveHoverBg,
     "transition",
   );
   const inputCls = C("px-2 py-1", "bg-transparent");
-  const basePayCls = C("px-4 py-1", classes.button.secondary, "transition");
-  const confirmCls = C("px-4 py-1", classes.button.primary, "transition");
+  const basePayCls = C("px-4 py-1", cls$button$secondary, "transition");
+  const confirmCls = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt onClose={closeModal}>
       <>Enter payment amount:</>
@@ -132,17 +140,9 @@ function PostCheckoutPrompt() {
     regenerateTransactionId();
   }
 
-  const chooseFeatureCls = C(
-    "px-4 py-1",
-    classes.button.secondary,
-    "transition",
-  );
-  const newTransactionCls = C(
-    "px-4 py-1",
-    classes.button.primary,
-    "transition",
-  );
-  const receiptCls = C("grid place-items-center", classes.scrollbar);
+  const chooseFeatureCls = C("px-4 py-1", cls$button$secondary, "transition");
+  const newTransactionCls = C("px-4 py-1", cls$button$primary, "transition");
+  const receiptCls = C("grid place-items-center", cls$scrollbar);
   return (
     <Prompt>
       <>Transaction success!</>
@@ -186,8 +186,8 @@ export function POSButtons() {
     showOnModal(<CheckoutPrompt />);
   }
 
-  const resetCls = C("px-2 py-3", classes.button.secondary, "transition");
-  const checkoutCls = C("px-2 py-3", classes.button.primary, "transition");
+  const resetCls = C("px-2 py-3", cls$button$secondary, "transition");
+  const checkoutCls = C("px-2 py-3", cls$button$primary, "transition");
   return (
     <aside className="grid gap-3 auto-rows-min p-3 pt-0">
       <button

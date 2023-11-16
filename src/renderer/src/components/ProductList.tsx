@@ -4,7 +4,14 @@ import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
-import { C, classes, formatPrice } from "@renderer/utils.js";
+import { formatPrice } from "@renderer/utils.js";
+import {
+  C,
+  cls$button$secondary,
+  cls$card,
+  cls$interactiveHoverBg,
+  cls$scrollbar,
+} from "@renderer/utils/classes.js";
 import { Dispatch, SetStateAction, useState } from "react";
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { Prompt } from "./Prompt.js";
@@ -70,7 +77,7 @@ function QuantityCounter(props: {
   const buttonCounterCls = C(
     "h-8 aspect-square",
     "grid place-content-center",
-    classes.button.secondary,
+    cls$button$secondary,
     "transition",
   );
   const commitButtonCls = C(
@@ -124,7 +131,7 @@ function QuantityPrompt(props: { product: Product }) {
   /** Copy types of this (e.g. via hover definition) to counter prop type */
   const counterProps = { qty, setQty, product };
 
-  const divCls = C("px-3 py-2", classes.card);
+  const divCls = C("px-3 py-2", cls$card);
   return (
     <Prompt onClose={closeModal}>
       {/* Wrap in fragment to make formatter not ignore spacing */}
@@ -150,8 +157,8 @@ function ProductButton(props: { product: Product }) {
   const cls = C(
     "w-full text-left",
     "px-3 py-2",
-    classes.card,
-    classes.interactiveHoverBg,
+    cls$card,
+    cls$interactiveHoverBg,
     "active:scale-[.98]",
     "transition",
   );
@@ -165,11 +172,7 @@ function ProductButton(props: { product: Product }) {
 export function ProductList() {
   const { products } = useProductsContext();
 
-  const cls = C(
-    ...[classes.scrollbar, "p-3 pt-0"],
-    "grid gap-3",
-    "select-none",
-  );
+  const cls = C(...[cls$scrollbar, "p-3 pt-0"], "grid gap-3", "select-none");
   return (
     <ol className={cls}>
       {products.map((product) => (
