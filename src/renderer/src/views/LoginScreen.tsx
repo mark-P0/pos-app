@@ -5,7 +5,7 @@ import {
   C,
   cls$absoluteCenter,
   cls$button$primary,
-  cls$button$secondary,
+  // cls$button$secondary,
   cls$card,
 } from "@renderer/utils/classes.js";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -69,15 +69,15 @@ function LoginForm() {
     changeUser(username);
     changeScreen("feature-select");
   }
-  useEffect(() => {
-    /**
-     * - Wrap in an effect so the potential state-setting will happen after render
-     * - Setting state during render is "improper"
-     */
-    if (username === "guest") {
-      login();
-    }
-  });
+  // useEffect(() => {
+  //   /**
+  //    * - Wrap in an effect so the potential state-setting will happen after render
+  //    * - Setting state during render is "improper"
+  //    */
+  //   if (username === "guest") {
+  //     login();
+  //   }
+  // });
 
   const inputCls = C(
     "px-2 py-1",
@@ -85,7 +85,7 @@ function LoginForm() {
     "transition",
   );
   const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
-  const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
+  // const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={assessUser}>
       <section className="grid gap-3">
@@ -120,13 +120,13 @@ function LoginForm() {
           Version {version}
         </span>
         <div className="flex gap-2">
-          <button
+          {/* <button
             className={buttonGuestCls}
             type="button"
             onClick={() => setUsername("guest")}
           >
             As Guest
-          </button>
+          </button> */}
           <button className={buttonCls}>Log In</button>
         </div>
       </div>
