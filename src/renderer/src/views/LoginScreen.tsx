@@ -141,8 +141,8 @@ function LoginForm() {
     }
   });
 
-  const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
-  const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
+  const cls$login = C("px-4 py-1", cls$button$primary, "transition");
+  const cls$login$guest = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={tryLogin}>
       <section className="grid gap-3">
@@ -156,13 +156,13 @@ function LoginForm() {
         </span>
         <div className="flex gap-2">
           <button
-            className={buttonGuestCls}
+            className={cls$login$guest}
             type="button"
             onClick={() => setUsername("guest")}
           >
             As Guest
           </button>
-          <button className={buttonCls}>Log In</button>
+          <button className={cls$login}>Log In</button>
         </div>
       </div>
     </form>
