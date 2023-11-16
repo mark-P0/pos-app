@@ -1,6 +1,10 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { writeFile } from "fs/promises";
-import { assessUserCredentials, getAllProducts } from "../../data/db.js";
+import {
+  assessUserCredentials,
+  getAllProducts,
+  isUsernameExisting,
+} from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
@@ -33,6 +37,12 @@ const ChannelHandlers = {
     user: Parameters<typeof assessUserCredentials>[0],
   ) => {
     return await assessUserCredentials(user);
+  },
+  "db:isUsernameExisting": async (
+    _: IpcMainInvokeEvent,
+    username: Parameters<typeof isUsernameExisting>[0],
+  ) => {
+    return await isUsernameExisting(username);
   },
   "fs:writeTextFile": async (
     _: IpcMainInvokeEvent,

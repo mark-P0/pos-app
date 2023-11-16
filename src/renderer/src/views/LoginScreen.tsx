@@ -25,19 +25,59 @@ function useVersion() {
   return version;
 }
 
+const CheckerRecord: Record<string, () => Promise<void>> = {};
+async function runCheckers() {
+  const checkers = Object.values(CheckerRecord);
+  const promises = checkers.map((checker) => checker());
+  await Promise.all(promises);
+}
+
+function UsernameInput() {
+  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const [value, setValue] = useState("");
+  async function reflectValue(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    setValue(input.value);
+    input.setCustomValidity("");
+  }
+
+  CheckerRecord.UsernameInput = async () => {
+    const input = accessInputRef();
+
+    const isUsernameExisting = await ipcInvoke("db:isUsernameExisting", value);
+    if (!isUsernameExisting) {
+      input.setCustomValidity("Username does not exist");
+      input.reportValidity();
+    }
+  };
+
+  const cls = C(
+    "px-2 py-1",
+    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
+    "transition",
+  );
+  return (
+    <label className="grid grid-cols-[35%_65%] items-center">
+      <span className="text-sm tracking-widest">Username</span>
+      <input
+        ref={inputRef}
+        className={cls}
+        type="text"
+        name="username"
+        required
+        value={value}
+        onChange={reflectValue}
+      />
+    </label>
+  );
+}
+
 function LoginForm() {
   // const { changeScreen, changeUser } = useAppContext();
   const version = useVersion();
 
-  const [usernameRef, accessUsernameRef] = createNewRef<HTMLInputElement>();
-  const [passwordRef, accessPasswordRef] = createNewRef<HTMLInputElement>();
-  const [username, setUsername] = useState<string>("");
+  const [passwordRef] = createNewRef<HTMLInputElement>();
   const [password, setPassword] = useState<string>("");
-  function updateUsername(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    setUsername(input.value);
-    input.setCustomValidity("");
-  }
   function updatePassword(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setPassword(input.value);
@@ -46,23 +86,11 @@ function LoginForm() {
 
   async function assessUser(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
 
-    const user = { username, password };
-    const assessment = await ipcInvoke("db:assessUserCredentials", user);
-
-    if (assessment === "invalid:username") {
-      const input = accessUsernameRef();
-      input.setCustomValidity("Username does not exist");
-      input.reportValidity();
-      return;
-    }
-    if (assessment === "invalid:password") {
-      const input = accessPasswordRef();
-      input.setCustomValidity("Password is incorrect");
-      input.reportValidity();
-      return;
-    }
-
+    await runCheckers();
+    const isFormValid = form.reportValidity();
+    if (!isFormValid) return;
     // login();
   }
   // function login() {
@@ -89,18 +117,7 @@ function LoginForm() {
   return (
     <form className="grid gap-6 select-none" onSubmit={assessUser}>
       <section className="grid gap-3">
-        <label className="grid grid-cols-[35%_65%] items-center">
-          <span className="text-sm tracking-widest">Username</span>
-          <input
-            ref={usernameRef}
-            className={inputCls}
-            type="text"
-            name="username"
-            required
-            value={username}
-            onChange={updateUsername}
-          />
-        </label>
+        <UsernameInput />
         <label className="grid grid-cols-[35%_65%] items-center">
           <span className="text-sm tracking-widest">Password</span>
           <input

@@ -53,3 +53,11 @@ export async function assessUserCredentials(user: User) {
 
   return true;
 }
+export async function isUsernameExisting(username: User["username"]) {
+  try {
+    await getUser(username);
+    return true;
+  } catch {
+    return false;
+  }
+}
