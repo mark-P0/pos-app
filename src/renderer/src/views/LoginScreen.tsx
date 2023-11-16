@@ -1,4 +1,8 @@
 import { Screen } from "@renderer/components/Screen.js";
+import {
+  LoginProvider,
+  useLoginContext,
+} from "@renderer/contexts/LoginContext.js";
 // import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
@@ -34,17 +38,20 @@ async function runCheckers() {
 
 function UsernameInput() {
   const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
-  const [value, setValue] = useState("");
+  const { username, setUsername } = useLoginContext();
   async function reflectValue(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
-    setValue(input.value);
+    setUsername(input.value);
     input.setCustomValidity("");
   }
 
   CheckerRecord.UsernameInput = async () => {
     const input = accessInputRef();
 
-    const isUsernameExisting = await ipcInvoke("db:isUsernameExisting", value);
+    const isUsernameExisting = await ipcInvoke(
+      "db:isUsernameExisting",
+      username,
+    );
     if (!isUsernameExisting) {
       input.setCustomValidity("Username does not exist");
       input.reportValidity();
@@ -65,7 +72,7 @@ function UsernameInput() {
         type="text"
         name="username"
         required
-        value={value}
+        value={username}
         onChange={reflectValue}
       />
     </label>
@@ -173,8 +180,10 @@ function LoginCard() {
 
 export function LoginScreen() {
   return (
-    <Screen>
-      <LoginCard />
-    </Screen>
+    <LoginProvider>
+      <Screen>
+        <LoginCard />
+      </Screen>
+    </LoginProvider>
   );
 }
