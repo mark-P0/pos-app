@@ -131,7 +131,7 @@ function LoginForm() {
   const { changeScreen, changeUser } = useAppContext();
   const version = useVersion();
 
-  async function assessUser(event: FormEvent<HTMLFormElement>) {
+  async function tryLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -157,7 +157,7 @@ function LoginForm() {
   const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
   const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
   return (
-    <form className="grid gap-6 select-none" onSubmit={assessUser}>
+    <form className="grid gap-6 select-none" onSubmit={tryLogin}>
       <section className="grid gap-3">
         <UsernameInput />
         <PasswordInput />
