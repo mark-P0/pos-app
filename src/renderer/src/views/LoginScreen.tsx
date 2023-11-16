@@ -29,10 +29,13 @@ function useVersion() {
   return version;
 }
 
-const CheckerRecord: Record<string, () => Promise<void>> = {};
+const CheckerRecord: Record<string, () => Promise<boolean>> = {};
 async function runCheckers() {
   const checkers = Object.values(CheckerRecord);
-  for (const checker of checkers) await checker();
+  for (const checker of checkers) {
+    const status = await checker();
+    if (!status) return;
+  }
 }
 
 function UsernameInput() {
@@ -54,7 +57,9 @@ function UsernameInput() {
     if (!isUsernameExisting) {
       input.setCustomValidity("Username does not exist");
       input.reportValidity();
+      return false;
     }
+    return true;
   };
 
   const cls = C(
@@ -95,7 +100,9 @@ function PasswordInput() {
     if (!isPasswordCorrect) {
       input.setCustomValidity("Password is incorrect");
       input.reportValidity();
+      return false;
     }
+    return true;
   };
 
   const cls = C(
