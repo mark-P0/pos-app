@@ -16,11 +16,11 @@ import { ChangeEvent, FormEvent, useEffect } from "react";
 
 const { ipcInvoke } = window.api;
 
-const CheckerRecord: Record<string, () => Promise<boolean>> = {};
-async function runCheckers() {
-  const checkers = Object.values(CheckerRecord);
-  for (const checker of checkers) {
-    const status = await checker();
+const Validators: Record<string, () => Promise<boolean>> = {};
+async function runValidations() {
+  const validations = Object.values(Validators);
+  for (const validation of validations) {
+    const status = await validation();
     if (!status) return;
   }
 }
@@ -34,7 +34,7 @@ function UsernameInput() {
     input.setCustomValidity("");
   }
 
-  CheckerRecord.UsernameInput = async () => {
+  Validators.UsernameInput = async () => {
     const input = accessInputRef();
 
     const isUsernameExisting = await ipcInvoke(
@@ -79,7 +79,7 @@ function PasswordInput() {
     input.setCustomValidity("");
   }
 
-  CheckerRecord.PasswordInput = async () => {
+  Validators.PasswordInput = async () => {
     const input = accessInputRef();
 
     const user = { username, password };
@@ -122,7 +122,7 @@ function LoginForm() {
     event.preventDefault();
     const form = event.currentTarget;
 
-    await runCheckers();
+    await runValidations();
     const isFormValid = form.reportValidity();
     if (!isFormValid) return;
     login();
