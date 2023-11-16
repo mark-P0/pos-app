@@ -1,5 +1,5 @@
 import { Screen } from "@renderer/components/Screen.js";
-import { useAppContext } from "@renderer/contexts/AppContext.js";
+// import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -26,7 +26,7 @@ function useVersion() {
 }
 
 function LoginForm() {
-  const { changeScreen, changeUser } = useAppContext();
+  // const { changeScreen, changeUser } = useAppContext();
   const version = useVersion();
 
   const [usernameRef, accessUsernameRef] = createNewRef<HTMLInputElement>();
@@ -63,12 +63,12 @@ function LoginForm() {
       return;
     }
 
-    login();
+    // login();
   }
-  function login() {
-    changeUser(username);
-    changeScreen("feature-select");
-  }
+  // function login() {
+  //   changeUser(username);
+  //   changeScreen("feature-select");
+  // }
   // useEffect(() => {
   //   /**
   //    * - Wrap in an effect so the potential state-setting will happen after render
