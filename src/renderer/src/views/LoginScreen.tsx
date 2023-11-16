@@ -12,22 +12,9 @@ import {
   cls$button$secondary,
   cls$card,
 } from "@renderer/utils/classes.js";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect } from "react";
 
 const { ipcInvoke } = window.api;
-
-function useVersion() {
-  const [version, setVersion] = useState("");
-  useEffect(() => {
-    async function initialize() {
-      const [, version] = await ipcInvoke("app:getNameAndVersion");
-      setVersion(version);
-    }
-    initialize();
-  }, []);
-
-  return version;
-}
 
 const CheckerRecord: Record<string, () => Promise<boolean>> = {};
 async function runCheckers() {
@@ -128,8 +115,8 @@ function PasswordInput() {
 
 function LoginForm() {
   const { username, setUsername } = useLoginContext();
-  const { changeScreen, changeUser } = useAppContext();
-  const version = useVersion();
+  const { changeScreen, changeUser, labels } = useAppContext();
+  const [, version] = labels;
 
   async function tryLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
