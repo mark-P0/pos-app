@@ -1,6 +1,7 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { Product } from "@renderer/contexts/ProductsContext.js";
-import { C, formatPrice, raise, sum } from "@renderer/utils.js";
+import { C, formatPrice } from "@renderer/utils.js";
+import { raise, sum } from "@renderer/utils/stdlib-ext.js";
 
 function RowBreak() {
   return (
