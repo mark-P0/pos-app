@@ -44,13 +44,6 @@ const ChannelHandlers = {
   ) => {
     return await isPasswordCorrect(password);
   },
-  "fs:writeTextFile": async (
-    _: IpcMainInvokeEvent,
-    filename: string,
-    content: string,
-  ) => {
-    await writeFile(getActualFilePath(filename), content);
-  },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
     _: IpcMainInvokeEvent,
