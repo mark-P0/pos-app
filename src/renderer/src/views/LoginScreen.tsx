@@ -79,17 +79,50 @@ function UsernameInput() {
   );
 }
 
-function LoginForm() {
-  // const { changeScreen, changeUser } = useAppContext();
-  const version = useVersion();
-
-  const [passwordRef] = createNewRef<HTMLInputElement>();
-  const [password, setPassword] = useState<string>("");
-  function updatePassword(event: ChangeEvent<HTMLInputElement>) {
+function PasswordInput() {
+  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const { password, setPassword, username } = useLoginContext();
+  function reflectValue(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setPassword(input.value);
     input.setCustomValidity("");
   }
+
+  CheckerRecord.PasswordInput = async () => {
+    const input = accessInputRef();
+
+    const user = { username, password };
+    const isPasswordCorrect = await ipcInvoke("db:isPasswordCorrect", user);
+    if (!isPasswordCorrect) {
+      input.setCustomValidity("Password is incorrect");
+      input.reportValidity();
+    }
+  };
+
+  const cls = C(
+    "px-2 py-1",
+    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
+    "transition",
+  );
+  return (
+    <label className="grid grid-cols-[35%_65%] items-center">
+      <span className="text-sm tracking-widest">Password</span>
+      <input
+        ref={inputRef}
+        className={cls}
+        type="password"
+        name="password"
+        required
+        value={password}
+        onChange={reflectValue}
+      />
+    </label>
+  );
+}
+
+function LoginForm() {
+  // const { changeScreen, changeUser } = useAppContext();
+  const version = useVersion();
 
   async function assessUser(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -114,29 +147,13 @@ function LoginForm() {
   //   }
   // });
 
-  const inputCls = C(
-    "px-2 py-1",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
-    "transition",
-  );
   const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
   // const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={assessUser}>
       <section className="grid gap-3">
         <UsernameInput />
-        <label className="grid grid-cols-[35%_65%] items-center">
-          <span className="text-sm tracking-widest">Password</span>
-          <input
-            ref={passwordRef}
-            className={inputCls}
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={updatePassword}
-          />
-        </label>
+        <PasswordInput />
       </section>
 
       <div className="flex justify-between items-end">

@@ -3,6 +3,7 @@ import { writeFile } from "fs/promises";
 import {
   assessUserCredentials,
   getAllProducts,
+  isPasswordCorrect,
   isUsernameExisting,
 } from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
@@ -43,6 +44,12 @@ const ChannelHandlers = {
     username: Parameters<typeof isUsernameExisting>[0],
   ) => {
     return await isUsernameExisting(username);
+  },
+  "db:isPasswordCorrect": async (
+    _: IpcMainInvokeEvent,
+    password: Parameters<typeof isPasswordCorrect>[0],
+  ) => {
+    return await isPasswordCorrect(password);
   },
   "fs:writeTextFile": async (
     _: IpcMainInvokeEvent,

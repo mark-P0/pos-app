@@ -61,3 +61,11 @@ export async function isUsernameExisting(username: User["username"]) {
     return false;
   }
 }
+export async function isPasswordCorrect(user: User) {
+  try {
+    const record = await getUser(user.username);
+    return await isHashOf(record.password, user.password);
+  } catch {
+    return false;
+  }
+}
