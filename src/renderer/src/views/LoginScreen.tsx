@@ -32,8 +32,7 @@ function useVersion() {
 const CheckerRecord: Record<string, () => Promise<void>> = {};
 async function runCheckers() {
   const checkers = Object.values(CheckerRecord);
-  const promises = checkers.map((checker) => checker());
-  await Promise.all(promises);
+  for (const checker of checkers) await checker();
 }
 
 function UsernameInput() {
