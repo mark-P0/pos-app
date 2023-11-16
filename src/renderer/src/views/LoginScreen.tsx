@@ -1,5 +1,9 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
+import {
+  LoginProvider,
+  useLoginContext,
+} from "@renderer/contexts/LoginContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -8,61 +12,119 @@ import {
   cls$button$secondary,
   cls$card,
 } from "@renderer/utils/classes.js";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect } from "react";
 
 const { ipcInvoke } = window.api;
 
-function useVersion() {
-  const [version, setVersion] = useState("");
-  useEffect(() => {
-    async function initialize() {
-      const [, version] = await ipcInvoke("app:getNameAndVersion");
-      setVersion(version);
-    }
-    initialize();
-  }, []);
-
-  return version;
+const Validators: Record<string, () => Promise<boolean>> = {};
+async function runValidations() {
+  const validations = Object.values(Validators);
+  for (const validation of validations) {
+    const status = await validation();
+    if (!status) return;
+  }
 }
 
-function LoginForm() {
-  const { changeScreen, changeUser } = useAppContext();
-  const version = useVersion();
-
-  const [usernameRef, accessUsernameRef] = createNewRef<HTMLInputElement>();
-  const [passwordRef, accessPasswordRef] = createNewRef<HTMLInputElement>();
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  function updateUsername(event: ChangeEvent<HTMLInputElement>) {
+function UsernameInput() {
+  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const { username, setUsername } = useLoginContext();
+  async function reflectUsername(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setUsername(input.value);
     input.setCustomValidity("");
   }
-  function updatePassword(event: ChangeEvent<HTMLInputElement>) {
+
+  Validators.UsernameInput = async () => {
+    const input = accessInputRef();
+
+    const isUsernameExisting = await ipcInvoke(
+      "db:isUsernameExisting",
+      username,
+    );
+    if (!isUsernameExisting) {
+      input.setCustomValidity("Username does not exist");
+      input.reportValidity();
+      return false;
+    }
+    return true;
+  };
+
+  const cls = C(
+    "px-2 py-1",
+    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
+    "transition",
+  );
+  return (
+    <label className="grid grid-cols-[35%_65%] items-center">
+      <span className="text-sm tracking-widest">Username</span>
+      <input
+        ref={inputRef}
+        className={cls}
+        type="text"
+        name="username"
+        required
+        value={username}
+        onChange={reflectUsername}
+      />
+    </label>
+  );
+}
+
+function PasswordInput() {
+  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const { password, setPassword, username } = useLoginContext();
+  function reflectPassword(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     setPassword(input.value);
     input.setCustomValidity("");
   }
 
-  async function assessUser(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  Validators.PasswordInput = async () => {
+    const input = accessInputRef();
 
     const user = { username, password };
-    const assessment = await ipcInvoke("db:assessUserCredentials", user);
-
-    if (assessment === "invalid:username") {
-      const input = accessUsernameRef();
-      input.setCustomValidity("Username does not exist");
-      input.reportValidity();
-      return;
-    }
-    if (assessment === "invalid:password") {
-      const input = accessPasswordRef();
+    const isPasswordCorrect = await ipcInvoke("db:isPasswordCorrect", user);
+    if (!isPasswordCorrect) {
       input.setCustomValidity("Password is incorrect");
       input.reportValidity();
-      return;
+      return false;
     }
+    return true;
+  };
 
+  const cls = C(
+    "px-2 py-1",
+    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
+    "transition",
+  );
+  return (
+    <label className="grid grid-cols-[35%_65%] items-center">
+      <span className="text-sm tracking-widest">Password</span>
+      <input
+        ref={inputRef}
+        className={cls}
+        type="password"
+        name="password"
+        required
+        value={password}
+        onChange={reflectPassword}
+      />
+    </label>
+  );
+}
+
+function LoginForm() {
+  const { username, setUsername } = useLoginContext();
+  const { changeScreen, changeUser, labels } = useAppContext();
+  const [, version] = labels;
+
+  async function tryLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    await runValidations();
+    const isFormValid = form.reportValidity();
+    if (!isFormValid) return;
     login();
   }
   function login() {
@@ -79,40 +141,13 @@ function LoginForm() {
     }
   });
 
-  const inputCls = C(
-    "px-2 py-1",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
-    "transition",
-  );
-  const buttonCls = C("px-4 py-1", cls$button$primary, "transition");
-  const buttonGuestCls = C("px-4 py-1", cls$button$secondary, "transition");
+  const cls$login = C("px-4 py-1", cls$button$primary, "transition");
+  const cls$login$guest = C("px-4 py-1", cls$button$secondary, "transition");
   return (
-    <form className="grid gap-6 select-none" onSubmit={assessUser}>
+    <form className="grid gap-6 select-none" onSubmit={tryLogin}>
       <section className="grid gap-3">
-        <label className="grid grid-cols-[35%_65%] items-center">
-          <span className="text-sm tracking-widest">Username</span>
-          <input
-            ref={usernameRef}
-            className={inputCls}
-            type="text"
-            name="username"
-            required
-            value={username}
-            onChange={updateUsername}
-          />
-        </label>
-        <label className="grid grid-cols-[35%_65%] items-center">
-          <span className="text-sm tracking-widest">Password</span>
-          <input
-            ref={passwordRef}
-            className={inputCls}
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={updatePassword}
-          />
-        </label>
+        <UsernameInput />
+        <PasswordInput />
       </section>
 
       <div className="flex justify-between items-end">
@@ -121,13 +156,13 @@ function LoginForm() {
         </span>
         <div className="flex gap-2">
           <button
-            className={buttonGuestCls}
+            className={cls$login$guest}
             type="button"
             onClick={() => setUsername("guest")}
           >
             As Guest
           </button>
-          <button className={buttonCls}>Log In</button>
+          <button className={cls$login}>Log In</button>
         </div>
       </div>
     </form>
@@ -156,8 +191,10 @@ function LoginCard() {
 
 export function LoginScreen() {
   return (
-    <Screen>
-      <LoginCard />
-    </Screen>
+    <LoginProvider>
+      <Screen>
+        <LoginCard />
+      </Screen>
+    </LoginProvider>
   );
 }

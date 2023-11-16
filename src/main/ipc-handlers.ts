@@ -1,6 +1,10 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { writeFile } from "fs/promises";
-import { assessUserCredentials, getAllProducts } from "../../data/db.js";
+import {
+  getAllProducts,
+  isPasswordCorrect,
+  isUsernameExisting,
+} from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
@@ -28,18 +32,17 @@ const ChannelHandlers = {
   "dark-mode:status": () => {
     return nativeTheme.themeSource;
   },
-  "db:assessUserCredentials": async (
+  "db:isUsernameExisting": async (
     _: IpcMainInvokeEvent,
-    user: Parameters<typeof assessUserCredentials>[0],
+    username: Parameters<typeof isUsernameExisting>[0],
   ) => {
-    return await assessUserCredentials(user);
+    return await isUsernameExisting(username);
   },
-  "fs:writeTextFile": async (
+  "db:isPasswordCorrect": async (
     _: IpcMainInvokeEvent,
-    filename: string,
-    content: string,
+    password: Parameters<typeof isPasswordCorrect>[0],
   ) => {
-    await writeFile(getActualFilePath(filename), content);
+    return await isPasswordCorrect(password);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
