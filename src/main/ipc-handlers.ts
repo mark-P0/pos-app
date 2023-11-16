@@ -1,7 +1,6 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { writeFile } from "fs/promises";
 import {
-  assessUserCredentials,
   getAllProducts,
   isPasswordCorrect,
   isUsernameExisting,
@@ -32,12 +31,6 @@ const ChannelHandlers = {
   },
   "dark-mode:status": () => {
     return nativeTheme.themeSource;
-  },
-  "db:assessUserCredentials": async (
-    _: IpcMainInvokeEvent,
-    user: Parameters<typeof assessUserCredentials>[0],
-  ) => {
-    return await assessUserCredentials(user);
   },
   "db:isUsernameExisting": async (
     _: IpcMainInvokeEvent,

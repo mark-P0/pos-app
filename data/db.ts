@@ -38,21 +38,6 @@ export async function getUser(username: User["username"]) {
   return res[0];
 }
 
-export async function assessUserCredentials(user: User) {
-  let record: User;
-  try {
-    record = await getUser(user.username);
-  } catch (error) {
-    return "invalid:username";
-  }
-
-  const isValidPassword = await isHashOf(record.password, user.password);
-  if (!isValidPassword) {
-    return "invalid:password";
-  }
-
-  return true;
-}
 export async function isUsernameExisting(username: User["username"]) {
   try {
     await getUser(username);
