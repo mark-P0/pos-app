@@ -51,7 +51,11 @@ export function ProductList() {
       ? useDisplayProductsContext()
       : raise(`Unsupported screen \`${screen}\` for product list`);
 
-  const cls = C(...[cls$scrollbar, "p-3 pt-0"], "grid gap-3", "select-none");
+  const cls = C(
+    ...[cls$scrollbar, "p-3 pt-0"],
+    "grid auto-rows-min gap-3",
+    "select-none",
+  );
   return (
     <ol className={cls}>
       {products.map((product) => (
