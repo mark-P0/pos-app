@@ -1,12 +1,12 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Product } from "@renderer/contexts/ProductsContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { formatPrice } from "@renderer/utils.js";
 import { C } from "@renderer/utils/classes.js";
 
 export function ProductCard(props: { product: Product }) {
   const { product } = props;
   const { sku, name, category, price } = product;
-  const { screen } = useAppContext();
+  const { screen } = useScreenContext();
 
   const imgUrl = `pos-app:///data/images/${sku}.png`;
   const imgAlt = `Image of product "${name}"`;

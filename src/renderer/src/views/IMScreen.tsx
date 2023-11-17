@@ -1,6 +1,9 @@
 import { ProductList } from "@renderer/components/ProductList.js";
 import { Screen } from "@renderer/components/Screen.js";
-import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
+import {
+  DisplayProductsProvider,
+  useDisplayProductsContext,
+} from "@renderer/contexts/DisplayProducts.js";
 import { State } from "@renderer/utils.js";
 import {
   C,
@@ -100,18 +103,10 @@ function CheckboxButtonFieldset<T extends string>(props: {
 }
 
 function Actions() {
-  const { categories } = useProductsContext();
-
-  const sortOrders = ["Ascending", "Descending"] as const;
-  type SortOrder = (typeof sortOrders)[number];
-  const [sortOrder, setSortOrder] = useState<SortOrder>("Ascending");
-
-  const sortKeys = ["SKU", "Name", "Price", "Category"] as const;
-  type SortKey = (typeof sortKeys)[number];
-  const [sortKey, setSortKey] = useState<SortKey>("Category");
-
-  type Category = (typeof categories)[number];
-  const [category, setCategory] = useState<Set<Category>>(new Set());
+  const state = useDisplayProductsContext();
+  const { sortOrders, sortOrder, setSortOrder } = state;
+  const { sortKeys, sortKey, setSortKey } = state;
+  const { categories, category, setCategory } = state;
 
   const cls$button$new = C("px-6 py-3", cls$button$primary, "transition");
   return (
@@ -157,11 +152,13 @@ function ActionList() {
 
 export function IMScreen() {
   return (
-    <Screen withLogoutButton withFeaturesButton>
-      <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
-        <ProductList />
-        <ActionList />
-      </section>
-    </Screen>
+    <DisplayProductsProvider>
+      <Screen withLogoutButton withFeaturesButton>
+        <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
+          <ProductList />
+          <ActionList />
+        </section>
+      </Screen>
+    </DisplayProductsProvider>
   );
 }

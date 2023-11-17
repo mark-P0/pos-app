@@ -1,12 +1,14 @@
-import { AppProvider, useAppContext } from "./contexts/AppContext.js";
+import { LabelsProvider } from "./contexts/LabelsContext.js";
 import { ProductsProvider } from "./contexts/ProductsContext.js";
+import { ScreenProvider, useScreenContext } from "./contexts/ScreenContext.js";
+import { UserProvider } from "./contexts/UserContext.js";
 import { FeaturesScreen } from "./views/FeaturesScreen.js";
 import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
 import { POSScreen } from "./views/POSScreen.js";
 
 function WrappedApp() {
-  const { screen } = useAppContext();
+  const { screen } = useScreenContext();
 
   /** https://www.youtube.com/post/UgkxDNktFDKfbg0vwLwNkctzsIJnEVu85Im6 */
   switch (screen) {
@@ -27,10 +29,14 @@ function WrappedApp() {
 }
 export function App() {
   return (
-    <ProductsProvider>
-      <AppProvider>
-        <WrappedApp />
-      </AppProvider>
-    </ProductsProvider>
+    <LabelsProvider>
+      <ProductsProvider>
+        <UserProvider>
+          <ScreenProvider>
+            <WrappedApp />
+          </ScreenProvider>
+        </UserProvider>
+      </ProductsProvider>
+    </LabelsProvider>
   );
 }

@@ -1,5 +1,6 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { Modal, ModalProvider } from "@renderer/contexts/ModalContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
+import { useUserContext } from "@renderer/contexts/UserContext.js";
 import {
   C,
   cls$bg,
@@ -13,7 +14,8 @@ import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
 
 function LogoutButton() {
-  const { changeScreen, changeUser } = useAppContext();
+  const { changeUser } = useUserContext();
+  const { changeScreen } = useScreenContext();
 
   function logout() {
     changeUser(null);
@@ -28,7 +30,7 @@ function LogoutButton() {
 }
 
 function FeaturesButton() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen } = useScreenContext();
 
   function chooseFeature() {
     changeScreen("feature-select");

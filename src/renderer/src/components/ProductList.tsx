@@ -1,22 +1,24 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
+import { useDisplayProductsContext } from "@renderer/contexts/DisplayProducts.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import {
   C,
   cls$card,
   cls$interactiveHoverBg,
   cls$scrollbar,
 } from "@renderer/utils/classes.js";
+import { raise } from "@renderer/utils/stdlib-ext.js";
 import { ProductCard } from "./ProductCard.js";
 import { QuantityPrompt } from "./QuantityPrompt.js";
 
 function ProductButton(props: { product: Product }) {
   const { product } = props;
   const { showOnModal } = useModalContext();
-  const { screen } = useAppContext();
+  const { screen } = useScreenContext();
 
   function showQuantityPrompt() {
     showOnModal(<QuantityPrompt product={product} />);
@@ -41,9 +43,19 @@ function ProductButton(props: { product: Product }) {
 }
 
 export function ProductList() {
-  const { products } = useProductsContext();
+  const { screen } = useScreenContext();
+  const { products } =
+    screen === "pos"
+      ? useProductsContext()
+      : screen === "inv-mgmt"
+      ? useDisplayProductsContext()
+      : raise(`Unsupported screen \`${screen}\` for product list`);
 
-  const cls = C(...[cls$scrollbar, "p-3 pt-0"], "grid gap-3", "select-none");
+  const cls = C(
+    ...[cls$scrollbar, "p-3 pt-0"],
+    "grid auto-rows-min gap-3",
+    "select-none",
+  );
   return (
     <ol className={cls}>
       {products.map((product) => (

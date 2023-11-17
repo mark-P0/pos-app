@@ -75,6 +75,4 @@ export function Modal() {
   );
 }
 
-export const [useModalContext, ModalProvider] = createNewContext(() => ({
-  ...useModalState(),
-}));
+export const [useModalContext, ModalProvider] = createNewContext(useModalState);
