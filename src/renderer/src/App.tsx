@@ -1,3 +1,4 @@
+import { LabelsProvider } from "./contexts/LabelsContext.js";
 import { ProductsProvider } from "./contexts/ProductsContext.js";
 import { ScreenProvider, useScreenContext } from "./contexts/ScreenContext.js";
 import { UserProvider } from "./contexts/UserContext.js";
@@ -28,12 +29,14 @@ function WrappedApp() {
 }
 export function App() {
   return (
-    <UserProvider>
+    <LabelsProvider>
       <ProductsProvider>
-        <ScreenProvider>
-          <WrappedApp />
-        </ScreenProvider>
+        <UserProvider>
+          <ScreenProvider>
+            <WrappedApp />
+          </ScreenProvider>
+        </UserProvider>
       </ProductsProvider>
-    </UserProvider>
+    </LabelsProvider>
   );
 }
