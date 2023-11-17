@@ -4,6 +4,7 @@ import {
   DisplayProductsProvider,
   useDisplayProductsContext,
 } from "@renderer/contexts/DisplayProducts.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { State } from "@renderer/utils.js";
 import {
   C,
@@ -103,6 +104,7 @@ function CheckboxButtonFieldset<T extends string>(props: {
 }
 
 function Actions() {
+  const { changeScreen } = useScreenContext();
   const state = useDisplayProductsContext();
   const { sortOrders, sortOrder, setSortOrder } = state;
   const { sortKeys, sortKey, setSortKey } = state;
@@ -133,7 +135,11 @@ function Actions() {
         />
       </section>
       <section className="mt-auto sticky bottom-0 grid">
-        <button type="button" className={cls$button$new}>
+        <button
+          type="button"
+          className={cls$button$new}
+          onClick={() => changeScreen("product-form")}
+        >
           New Product
         </button>
       </section>
