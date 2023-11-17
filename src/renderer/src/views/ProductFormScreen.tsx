@@ -2,7 +2,7 @@ import { Screen } from "@renderer/components/Screen.js";
 
 export function ProductFormScreen() {
   return (
-    <Screen withLogoutButton withFeaturesButton>
+    <Screen withLogoutButton withFeaturesButton withInventoryManagementButton>
       <code>product-form-screen</code>
     </Screen>
   );

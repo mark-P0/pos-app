@@ -10,7 +10,7 @@ import {
   cls$text,
 } from "@renderer/utils/classes.js";
 import { ComponentProps, PropsWithChildren } from "react";
-import { LuLayoutGrid, LuLogOut } from "react-icons/lu";
+import { LuClipboardList, LuLayoutGrid, LuLogOut } from "react-icons/lu";
 import { DarkModeToggle } from "./DarkModeToggle.js";
 
 function LogoutButton() {
@@ -43,16 +43,32 @@ function FeaturesButton() {
   );
 }
 
+function InventoryManagementButton() {
+  const { changeScreen } = useScreenContext();
+
+  function manageInventory() {
+    changeScreen("inv-mgmt");
+  }
+
+  return (
+    <button className={cls$button$icon} onClick={manageInventory}>
+      <LuClipboardList className="w-full h-full" />
+    </button>
+  );
+}
+
 function WrappedScreen(
   props: PropsWithChildren<{
     withLogoutButton?: boolean;
     withFeaturesButton?: boolean;
+    withInventoryManagementButton?: boolean;
   }>,
 ) {
   const {
     children,
     withLogoutButton = false,
     withFeaturesButton = false,
+    withInventoryManagementButton = false,
   } = props;
 
   const cls = C(
@@ -71,6 +87,7 @@ function WrappedScreen(
         <DarkModeToggle />
         {withLogoutButton && <LogoutButton />}
         {withFeaturesButton && <FeaturesButton />}
+        {withInventoryManagementButton && <InventoryManagementButton />}
       </header>
       {children}
     </main>
