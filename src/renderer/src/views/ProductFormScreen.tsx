@@ -16,6 +16,7 @@ function ProductFormFieldset() {
   );
   const cls$label$textarea = C(
     "flex flex-col gap-3",
+    "[&>*:nth-child(2)]:flex-1",
     "p-2 px-3",
     cls$card,
     cls$interactiveHoverBg,
@@ -23,7 +24,7 @@ function ProductFormFieldset() {
   );
   const cls$input = C("px-2 py-1", "bg-transparent");
   return (
-    <fieldset className="h-full grid grid-cols-3 gap-3 p-6 pt-0">
+    <fieldset className="grid grid-cols-3 gap-3">
       <label className={`${cls$label} col-span-2`}>
         <span className="font-bold">SKU</span>
         <input type="text" className={cls$input} name="sku" />
@@ -49,7 +50,7 @@ function ProductFormFieldset() {
       >
         <span className="font-bold">Description</span>
         <textarea
-          className={`${cls$input} flex-1 resize-none`}
+          className={`${cls$input} resize-none`}
           name="description"
         ></textarea>
       </label>
@@ -65,7 +66,7 @@ function ProductFormFieldset() {
 function ProductForm() {
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   return (
-    <form>
+    <form className="h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0">
       <ProductFormFieldset />
       <section className="grid place-items-end">
         <button type="button" className={cls$button$save}>
