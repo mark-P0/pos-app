@@ -28,6 +28,5 @@ function useProducts() {
   return { products, productMap, categories };
 }
 
-export const [useProductsContext, ProductsProvider] = createNewContext(() => ({
-  ...useProducts(),
-}));
+export const [useProductsContext, ProductsProvider] =
+  createNewContext(useProducts);
