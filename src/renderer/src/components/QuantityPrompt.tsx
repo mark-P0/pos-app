@@ -1,18 +1,16 @@
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { Product } from "@renderer/contexts/ProductsContext.js";
+import { State } from "@renderer/utils.js";
 import { C, cls$button$secondary, cls$card } from "@renderer/utils/classes.js";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ComponentProps, useState } from "react";
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { ProductCard } from "./ProductCard.js";
 import { Prompt } from "./Prompt.js";
 
-function QuantityCounter(props: {
-  qty: number;
-  setQty: Dispatch<SetStateAction<number>>;
-  product: Product;
-}) {
-  const { qty, setQty, product } = props;
+function QuantityCounter(props: { product: Product; state?: State<number> }) {
+  const { product, state } = props;
+  const [qty, setQty] = state ?? useState(0);
   const { sku, stock } = product;
   const { cart, addToCart } = useCartContext();
   const { closeModal } = useModalContext();
@@ -86,9 +84,10 @@ export function QuantityPrompt(props: { product: Product }) {
   const [qty, setQty] = useState(0);
   const { closeModal } = useModalContext();
 
-  /** Copy types of this (e.g. via hover definition) to counter prop type */
-  const counterProps = { qty, setQty, product };
-
+  const props$counter: ComponentProps<typeof QuantityCounter> = {
+    product,
+    state: [qty, setQty],
+  };
   const divCls = C("px-3 py-2", cls$card);
   return (
     <Prompt onClose={closeModal}>
@@ -98,7 +97,7 @@ export function QuantityPrompt(props: { product: Product }) {
         <ProductCard product={product} />
       </div>
 
-      <QuantityCounter {...counterProps} />
+      <QuantityCounter {...props$counter} />
     </Prompt>
   );
 }
