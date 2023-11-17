@@ -1,3 +1,4 @@
+import { useDisplayProductsContext } from "@renderer/contexts/DisplayProducts.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,
@@ -10,6 +11,7 @@ import {
   cls$interactiveHoverBg,
   cls$scrollbar,
 } from "@renderer/utils/classes.js";
+import { raise } from "@renderer/utils/stdlib-ext.js";
 import { ProductCard } from "./ProductCard.js";
 import { QuantityPrompt } from "./QuantityPrompt.js";
 
@@ -41,7 +43,13 @@ function ProductButton(props: { product: Product }) {
 }
 
 export function ProductList() {
-  const { products } = useProductsContext();
+  const { screen } = useScreenContext();
+  const { products } =
+    screen === "pos"
+      ? useProductsContext()
+      : screen === "inv-mgmt"
+      ? useDisplayProductsContext()
+      : raise(`Unsupported screen \`${screen}\` for product list`);
 
   const cls = C(...[cls$scrollbar, "p-3 pt-0"], "grid gap-3", "select-none");
   return (

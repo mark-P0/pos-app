@@ -1,5 +1,6 @@
 import { ProductList } from "@renderer/components/ProductList.js";
 import { Screen } from "@renderer/components/Screen.js";
+import { DisplayProductsProvider } from "@renderer/contexts/DisplayProducts.js";
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
 import { State } from "@renderer/utils.js";
 import {
@@ -157,11 +158,13 @@ function ActionList() {
 
 export function IMScreen() {
   return (
-    <Screen withLogoutButton withFeaturesButton>
-      <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
-        <ProductList />
-        <ActionList />
-      </section>
-    </Screen>
+    <DisplayProductsProvider>
+      <Screen withLogoutButton withFeaturesButton>
+        <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
+          <ProductList />
+          <ActionList />
+        </section>
+      </Screen>
+    </DisplayProductsProvider>
   );
 }
