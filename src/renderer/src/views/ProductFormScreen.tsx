@@ -1,6 +1,7 @@
 import { Screen } from "@renderer/components/Screen.js";
 import {
   C,
+  cls$button$primary,
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
@@ -62,9 +63,15 @@ function ProductFormFieldset() {
 }
 
 function ProductForm() {
+  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <form>
       <ProductFormFieldset />
+      <section className="grid place-items-end">
+        <button type="button" className={cls$button$save}>
+          Save
+        </button>
+      </section>
     </form>
   );
 }
