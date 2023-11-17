@@ -43,7 +43,9 @@ function ProductForm() {
         <span className="font-bold">Stock</span>
         <input type="number" className={cls$input} name="stock" />
       </label>
-      <label className={`${cls$label$textarea} col-span-3 row-span-6`}>
+      <label
+        className={`${cls$label$textarea} col-span-3 row-[span_18_/_span_18]`}
+      >
         <span className="font-bold">Description</span>
         <textarea
           className={`${cls$input} flex-1 resize-none`}
