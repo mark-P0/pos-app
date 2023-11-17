@@ -25,12 +25,32 @@ const cls$label$textarea = C(
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
 
-function SKUInput() {
-  const [string, setString] = useState("");
-  function reflectString(event: ChangeEvent<HTMLInputElement>) {
+function useString<T extends HTMLInputElement | HTMLTextAreaElement>(
+  initial = "",
+) {
+  const [string, setString] = useState(initial);
+  function reflectString(event: ChangeEvent<T>) {
     const input = event.currentTarget;
     setString(input.value);
   }
+
+  return [string, reflectString] as const;
+}
+
+function useNumber(initial = 0) {
+  const [number, setNumber] = useState(initial);
+  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    let newNumber = Number.parseInt(input.value);
+    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
+    setNumber(newNumber);
+  }
+
+  return [number, reflectNumber] as const;
+}
+
+function SKUInput() {
+  const [sku, reflectSku] = useString();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -39,19 +59,15 @@ function SKUInput() {
         type="text"
         className={cls$input}
         name="sku"
-        value={string}
-        onChange={reflectString}
+        value={sku}
+        onChange={reflectSku}
       />
     </label>
   );
 }
 
 function NameInput() {
-  const [string, setString] = useState("");
-  function reflectString(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    setString(input.value);
-  }
+  const [name, reflectName] = useString();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -60,19 +76,15 @@ function NameInput() {
         type="text"
         className={cls$input}
         name="name"
-        value={string}
-        onChange={reflectString}
+        value={name}
+        onChange={reflectName}
       />
     </label>
   );
 }
 
 function CategoryInput() {
-  const [string, setString] = useState("");
-  function reflectString(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    setString(input.value);
-  }
+  const [category, reflectCategory] = useString();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -81,21 +93,15 @@ function CategoryInput() {
         type="text"
         className={cls$input}
         name="category"
-        value={string}
-        onChange={reflectString}
+        value={category}
+        onChange={reflectCategory}
       />
     </label>
   );
 }
 
 function PriceInput() {
-  const [number, setNumber] = useState(0);
-  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    let newNumber = Number.parseInt(input.value);
-    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
-    setNumber(newNumber);
-  }
+  const [price, reflectPrice] = useNumber();
 
   return (
     <label className={cls$label}>
@@ -104,21 +110,15 @@ function PriceInput() {
         type="number"
         className={cls$input}
         name="price"
-        value={number}
-        onChange={reflectNumber}
+        value={price}
+        onChange={reflectPrice}
       />
     </label>
   );
 }
 
 function StockInput() {
-  const [number, setNumber] = useState(0);
-  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    let newNumber = Number.parseInt(input.value);
-    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
-    setNumber(newNumber);
-  }
+  const [stock, reflectStock] = useNumber();
 
   return (
     <label className={cls$label}>
@@ -127,19 +127,15 @@ function StockInput() {
         type="number"
         className={cls$input}
         name="stock"
-        value={number}
-        onChange={reflectNumber}
+        value={stock}
+        onChange={reflectStock}
       />
     </label>
   );
 }
 
 function DescriptionTextArea() {
-  const [string, setString] = useState("");
-  function reflectString(event: ChangeEvent<HTMLTextAreaElement>) {
-    const input = event.currentTarget;
-    setString(input.value);
-  }
+  const [description, reflectDescription] = useString();
 
   return (
     <label
@@ -149,8 +145,8 @@ function DescriptionTextArea() {
       <textarea
         className={`${cls$input} resize-none`}
         name="description"
-        value={string}
-        onChange={reflectString}
+        value={description}
+        onChange={reflectDescription}
       ></textarea>
     </label>
   );
