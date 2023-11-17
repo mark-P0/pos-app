@@ -1,6 +1,6 @@
-import { AppProvider } from "./contexts/AppContext.js";
 import { ProductsProvider } from "./contexts/ProductsContext.js";
 import { ScreenProvider, useScreenContext } from "./contexts/ScreenContext.js";
+import { UserProvider } from "./contexts/UserContext.js";
 import { FeaturesScreen } from "./views/FeaturesScreen.js";
 import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
@@ -28,12 +28,12 @@ function WrappedApp() {
 }
 export function App() {
   return (
-    <AppProvider>
+    <UserProvider>
       <ProductsProvider>
         <ScreenProvider>
           <WrappedApp />
         </ScreenProvider>
       </ProductsProvider>
-    </AppProvider>
+    </UserProvider>
   );
 }

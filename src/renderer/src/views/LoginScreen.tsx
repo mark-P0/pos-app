@@ -1,11 +1,11 @@
 import { Screen } from "@renderer/components/Screen.js";
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useLabelsContext } from "@renderer/contexts/LabelsContext.js";
 import {
   LoginProvider,
   useLoginContext,
 } from "@renderer/contexts/LoginContext.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
+import { useUserContext } from "@renderer/contexts/UserContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -117,7 +117,7 @@ function PasswordInput() {
 
 function LoginForm() {
   const { username, setUsername } = useLoginContext();
-  const { changeUser } = useAppContext();
+  const { changeUser } = useUserContext();
   const { changeScreen } = useScreenContext();
   const { labels } = useLabelsContext();
   const [, version] = labels;

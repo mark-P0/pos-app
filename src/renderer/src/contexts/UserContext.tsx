@@ -11,6 +11,4 @@ function useUser() {
   return { user, changeUser };
 }
 
-export const [useAppContext, AppProvider] = createNewContext(() => ({
-  ...useUser(),
-}));
+export const [useUserContext, UserProvider] = createNewContext(useUser);

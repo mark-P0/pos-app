@@ -1,5 +1,5 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useLabelsContext } from "@renderer/contexts/LabelsContext.js";
+import { useUserContext } from "@renderer/contexts/UserContext.js";
 import { useMemo } from "react";
 
 function getCurrentDateTime() {
@@ -10,7 +10,7 @@ function getCurrentDateTime() {
 }
 
 export function MachineInfo() {
-  const { user } = useAppContext();
+  const { user } = useUserContext();
   const { labels } = useLabelsContext();
   const [appName, appVersion] = labels;
 
