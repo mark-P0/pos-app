@@ -5,6 +5,7 @@ import {
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
+import { ChangeEvent, useState } from "react";
 
 const cls$label = C(
   "grid grid-cols-[auto_1fr] items-center gap-3",
@@ -24,51 +25,121 @@ const cls$label$textarea = C(
 const cls$input = C("px-2 py-1", "bg-transparent");
 
 function SKUInput() {
+  const [string, setString] = useState("");
+  function reflectString(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    setString(input.value);
+  }
+
   return (
     <label className={`${cls$label} col-span-2`}>
       <span className="font-bold">SKU</span>
-      <input type="text" className={cls$input} name="sku" />
+      <input
+        type="text"
+        className={cls$input}
+        name="sku"
+        value={string}
+        onChange={reflectString}
+      />
     </label>
   );
 }
 
 function NameInput() {
+  const [string, setString] = useState("");
+  function reflectString(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    setString(input.value);
+  }
+
   return (
     <label className={`${cls$label} col-span-2`}>
       <span className="font-bold">Name</span>
-      <input type="text" className={cls$input} name="name" />
+      <input
+        type="text"
+        className={cls$input}
+        name="name"
+        value={string}
+        onChange={reflectString}
+      />
     </label>
   );
 }
 
 function CategoryInput() {
+  const [string, setString] = useState("");
+  function reflectString(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    setString(input.value);
+  }
+
   return (
     <label className={`${cls$label} col-span-2`}>
       <span className="font-bold">Category</span>
-      <input type="text" className={cls$input} name="category" />
+      <input
+        type="text"
+        className={cls$input}
+        name="category"
+        value={string}
+        onChange={reflectString}
+      />
     </label>
   );
 }
 
 function PriceInput() {
+  const [number, setNumber] = useState(0);
+  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    let newNumber = Number.parseInt(input.value);
+    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
+    setNumber(newNumber);
+  }
+
   return (
     <label className={cls$label}>
       <span className="font-bold">Price</span>
-      <input type="number" className={cls$input} name="price" />
+      <input
+        type="number"
+        className={cls$input}
+        name="price"
+        value={number}
+        onChange={reflectNumber}
+      />
     </label>
   );
 }
 
 function StockInput() {
+  const [number, setNumber] = useState(0);
+  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    let newNumber = Number.parseInt(input.value);
+    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
+    setNumber(newNumber);
+  }
+
   return (
     <label className={cls$label}>
       <span className="font-bold">Stock</span>
-      <input type="number" className={cls$input} name="stock" />
+      <input
+        type="number"
+        className={cls$input}
+        name="stock"
+        value={number}
+        onChange={reflectNumber}
+      />
     </label>
   );
 }
 
-function DescriptionTextarea() {
+function DescriptionTextArea() {
+  const [string, setString] = useState("");
+  function reflectString(event: ChangeEvent<HTMLTextAreaElement>) {
+    const input = event.currentTarget;
+    setString(input.value);
+  }
+
   return (
     <label
       className={`${cls$label$textarea} col-span-3 row-[span_18_/_span_18]`}
@@ -77,6 +148,8 @@ function DescriptionTextarea() {
       <textarea
         className={`${cls$input} resize-none`}
         name="description"
+        value={string}
+        onChange={reflectString}
       ></textarea>
     </label>
   );
@@ -90,7 +163,7 @@ function Fieldset() {
       <CategoryInput />
       <PriceInput />
       <StockInput />
-      <DescriptionTextarea />
+      <DescriptionTextArea />
       <section className="grid place-items-center col-start-3 row-start-1 row-span-4">
         <code className="bg-red-500 aspect-square h-full">
           product-image-picker
