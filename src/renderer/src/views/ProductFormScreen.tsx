@@ -1,4 +1,5 @@
 import { Screen } from "@renderer/components/Screen.js";
+import { ProductFormProvider } from "@renderer/contexts/ProductFormContext.js";
 import {
   C,
   cls$button$primary,
@@ -189,8 +190,10 @@ function Form() {
 
 export function ProductFormScreen() {
   return (
-    <Screen withLogoutButton withFeaturesButton withInventoryManagementButton>
-      <Form />
-    </Screen>
+    <ProductFormProvider>
+      <Screen withLogoutButton withFeaturesButton withInventoryManagementButton>
+        <Form />
+      </Screen>
+    </ProductFormProvider>
   );
 }
