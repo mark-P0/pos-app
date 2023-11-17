@@ -1,5 +1,5 @@
 import { Screen } from "@renderer/components/Screen.js";
-import { useAppContext } from "@renderer/contexts/AppContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import {
   C,
   cls$absoluteCenter,
@@ -39,7 +39,7 @@ function FigureButton(props: {
 }
 
 export function FeaturesScreen() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen } = useScreenContext();
 
   const cls = C(
     "overflow-hidden",

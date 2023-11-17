@@ -1,6 +1,6 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { formatPrice } from "@renderer/utils.js";
 import {
   C,
@@ -110,7 +110,7 @@ function CheckoutPrompt() {
 }
 
 function PostCheckoutPrompt() {
-  const { changeScreen } = useAppContext();
+  const { changeScreen } = useScreenContext();
   const { closeModal, makeModalCancellable } = useModalContext();
   const { saveReceiptAsPng, clearCart, regenerateTransactionId } =
     useCartContext();

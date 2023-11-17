@@ -1,9 +1,9 @@
-import { useAppContext } from "@renderer/contexts/AppContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,
   useProductsContext,
 } from "@renderer/contexts/ProductsContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import {
   C,
   cls$card,
@@ -16,7 +16,7 @@ import { QuantityPrompt } from "./QuantityPrompt.js";
 function ProductButton(props: { product: Product }) {
   const { product } = props;
   const { showOnModal } = useModalContext();
-  const { screen } = useAppContext();
+  const { screen } = useScreenContext();
 
   function showQuantityPrompt() {
     showOnModal(<QuantityPrompt product={product} />);

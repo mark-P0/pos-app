@@ -3,16 +3,6 @@ import { createNewContext } from "./utils.js";
 
 const { ipcInvoke } = window.api;
 
-type Screen = "login" | "feature-select" | "pos" | "inv-mgmt";
-function useScreen() {
-  const [screen, setScreen] = useState<Screen>("inv-mgmt");
-  function changeScreen(to: Screen) {
-    setScreen(to);
-  }
-
-  return { screen, changeScreen };
-}
-
 type Labels = Awaited<ReturnType<typeof ipcInvoke<"app:getNameAndVersion">>>;
 function useLabels() {
   const [labels, setLabels] = useState<Labels>(["", ""]);
@@ -37,7 +27,6 @@ function useUser() {
 }
 
 export const [useAppContext, AppProvider] = createNewContext(() => ({
-  ...useScreen(),
   ...useLabels(),
   ...useUser(),
 }));

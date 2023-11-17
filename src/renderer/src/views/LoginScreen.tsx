@@ -4,6 +4,7 @@ import {
   LoginProvider,
   useLoginContext,
 } from "@renderer/contexts/LoginContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { createNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -115,7 +116,8 @@ function PasswordInput() {
 
 function LoginForm() {
   const { username, setUsername } = useLoginContext();
-  const { changeScreen, changeUser, labels } = useAppContext();
+  const { changeUser, labels } = useAppContext();
+  const { changeScreen } = useScreenContext();
   const [, version] = labels;
 
   async function tryLogin(event: FormEvent<HTMLFormElement>) {
