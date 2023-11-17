@@ -13,6 +13,7 @@ export let cls$absoluteCenter: string,
   cls$selection: string,
   cls$card: string,
   cls$interactiveHoverBg: string,
+  cls$button: string,
   cls$button$primary: string,
   cls$button$secondary: string,
   cls$button$icon: string,
@@ -43,25 +44,17 @@ export let cls$absoluteCenter: string,
     "hover:bg-cyan-950/10 dark:hover:bg-white/20",
     "focus-visible:bg-cyan-950/10 dark:focus-visible:bg-white/20",
   );
-
+  cls$button = C("enabled:active:scale-95", "disabled:opacity-50");
   cls$button$primary = C(
+    cls$button,
     "bg-rose-700",
-    ...[
-      "enabled:hover:bg-rose-600",
-      "enabled:focus-visible:bg-rose-600",
-      "enabled:active:scale-95",
-    ],
-    "disabled:opacity-50",
+    ...["enabled:hover:bg-rose-600", "enabled:focus-visible:bg-rose-600"],
     "text-white",
   );
   cls$button$secondary = C(
+    cls$button,
     "bg-cyan-800",
-    ...[
-      "enabled:hover:bg-cyan-700",
-      "enabled:focus-visible:bg-cyan-700",
-      "enabled:active:scale-95",
-    ],
-    "disabled:opacity-50",
+    ...["enabled:hover:bg-cyan-700", "enabled:focus-visible:bg-cyan-700"],
     "text-white",
   );
   cls$button$icon = C(

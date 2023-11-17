@@ -5,7 +5,7 @@ const { ipcInvoke } = window.api;
 
 type Screen = "login" | "feature-select" | "pos" | "inv-mgmt";
 function useScreen() {
-  const [screen, setScreen] = useState<Screen>("login");
+  const [screen, setScreen] = useState<Screen>("inv-mgmt");
   function changeScreen(to: Screen) {
     setScreen(to);
   }
