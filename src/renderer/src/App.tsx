@@ -27,10 +27,10 @@ function WrappedApp() {
 }
 export function App() {
   return (
-    <ProductsProvider>
-      <AppProvider>
+    <AppProvider>
+      <ProductsProvider>
         <WrappedApp />
-      </AppProvider>
-    </ProductsProvider>
+      </ProductsProvider>
+    </AppProvider>
   );
 }
