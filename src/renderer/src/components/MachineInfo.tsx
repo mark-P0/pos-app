@@ -1,4 +1,5 @@
 import { useAppContext } from "@renderer/contexts/AppContext.js";
+import { useLabelsContext } from "@renderer/contexts/LabelsContext.js";
 import { useMemo } from "react";
 
 function getCurrentDateTime() {
@@ -9,7 +10,8 @@ function getCurrentDateTime() {
 }
 
 export function MachineInfo() {
-  const { labels, user } = useAppContext();
+  const { user } = useAppContext();
+  const { labels } = useLabelsContext();
   const [appName, appVersion] = labels;
 
   const datetime = useMemo(getCurrentDateTime, []); // Run only once, on initial render

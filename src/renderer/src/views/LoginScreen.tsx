@@ -1,5 +1,6 @@
 import { Screen } from "@renderer/components/Screen.js";
 import { useAppContext } from "@renderer/contexts/AppContext.js";
+import { useLabelsContext } from "@renderer/contexts/LabelsContext.js";
 import {
   LoginProvider,
   useLoginContext,
@@ -116,8 +117,9 @@ function PasswordInput() {
 
 function LoginForm() {
   const { username, setUsername } = useLoginContext();
-  const { changeUser, labels } = useAppContext();
+  const { changeUser } = useAppContext();
   const { changeScreen } = useScreenContext();
+  const { labels } = useLabelsContext();
   const [, version] = labels;
 
   async function tryLogin(event: FormEvent<HTMLFormElement>) {
