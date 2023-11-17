@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 
 const PriceFormatter = Intl.NumberFormat(undefined, {
   style: "currency",
@@ -21,3 +21,11 @@ export function createNewRef<T>() {
 
   return [ref, accessRef] as const;
 }
+
+/**
+ * Return type of `useState<T>(initializer)`
+ *
+ * `ReturnType<useState<T>>` only gives an uninitalized version,
+ * which attaches `undefined` to the type.
+ */
+export type State<T> = [T, Dispatch<SetStateAction<T>>];
