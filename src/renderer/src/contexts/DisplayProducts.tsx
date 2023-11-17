@@ -36,6 +36,11 @@ function useDisplayProducts() {
     products = products.reverse();
   }
 
+  /* Only filter if category selection is not empty */
+  if (category.size !== 0) {
+    products = products.filter((product) => category.has(product.category));
+  }
+
   return {
     products,
     ...{ sortOrders, sortOrder, setSortOrder },
