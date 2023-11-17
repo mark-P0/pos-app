@@ -31,6 +31,11 @@ function useDisplayProducts() {
     products = products.sort((a, b) => (a.category < b.category ? -1 : 1));
   }
 
+  /* Due to always sorting in ascending order, desending is simply reversing that */
+  if (sortOrder === "Descending") {
+    products = products.reverse();
+  }
+
   return {
     products,
     ...{ sortOrders, sortOrder, setSortOrder },
