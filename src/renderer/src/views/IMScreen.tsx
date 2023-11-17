@@ -5,7 +5,9 @@ import { State } from "@renderer/utils.js";
 import {
   C,
   cls$button,
+  cls$button$primary,
   cls$button$secondary,
+  cls$scrollbar,
 } from "@renderer/utils/classes.js";
 import { ComponentProps, useState } from "react";
 
@@ -97,7 +99,7 @@ function CheckboxButtonFieldset<T extends string>(props: {
   );
 }
 
-function SortOptions() {
+function Actions() {
   const { categories } = useProductsContext();
 
   const sortOrders = ["Ascending", "Descending"] as const;
@@ -111,8 +113,9 @@ function SortOptions() {
   type Category = (typeof categories)[number];
   const [category, setCategory] = useState<Set<Category>>(new Set());
 
+  const cls$button$new = C("px-6 py-3", cls$button$primary, "transition");
   return (
-    <form className="grid gap-6 text-sm">
+    <form className="h-full flex flex-col gap-6 text-sm">
       <section className="grid gap-3">
         <header className="font-head text-2xl">Sort by:</header>
         <RadioButtonFieldset
@@ -134,7 +137,21 @@ function SortOptions() {
           state={[category, setCategory]}
         />
       </section>
+      <section className="mt-auto sticky bottom-0 grid">
+        <button type="button" className={cls$button$new}>
+          New Product
+        </button>
+      </section>
     </form>
+  );
+}
+
+function ActionList() {
+  const cls = C(cls$scrollbar, "p-3 pt-0");
+  return (
+    <aside className={cls}>
+      <Actions />
+    </aside>
   );
 }
 
@@ -143,9 +160,7 @@ export function IMScreen() {
     <Screen withLogoutButton withFeaturesButton>
       <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
         <ProductList />
-        <aside className="p-3 pt-0">
-          <SortOptions />
-        </aside>
+        <ActionList />
       </section>
     </Screen>
   );
