@@ -1,12 +1,14 @@
 import { Screen } from "@renderer/components/Screen.js";
-import { ProductFormProvider } from "@renderer/contexts/ProductFormContext.js";
+import {
+  ProductFormProvider,
+  useProductFormContext,
+} from "@renderer/contexts/ProductFormContext.js";
 import {
   C,
   cls$button$primary,
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
-import { ChangeEvent, useState } from "react";
 
 const cls$label = C(
   "grid grid-cols-[auto_1fr] items-center gap-3",
@@ -25,32 +27,8 @@ const cls$label$textarea = C(
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
 
-function useString<T extends HTMLInputElement | HTMLTextAreaElement>(
-  initial = "",
-) {
-  const [string, setString] = useState(initial);
-  function reflectString(event: ChangeEvent<T>) {
-    const input = event.currentTarget;
-    setString(input.value);
-  }
-
-  return [string, reflectString] as const;
-}
-
-function useNumber(initial = 0) {
-  const [number, setNumber] = useState(initial);
-  function reflectNumber(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    let newNumber = Number.parseInt(input.value);
-    newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
-    setNumber(newNumber);
-  }
-
-  return [number, reflectNumber] as const;
-}
-
 function SKUInput() {
-  const [sku, reflectSku] = useString();
+  const { sku, reflectSku } = useProductFormContext();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -67,7 +45,7 @@ function SKUInput() {
 }
 
 function NameInput() {
-  const [name, reflectName] = useString();
+  const { name, reflectName } = useProductFormContext();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -84,7 +62,7 @@ function NameInput() {
 }
 
 function CategoryInput() {
-  const [category, reflectCategory] = useString();
+  const { category, reflectCategory } = useProductFormContext();
 
   return (
     <label className={`${cls$label} col-span-2`}>
@@ -101,7 +79,7 @@ function CategoryInput() {
 }
 
 function PriceInput() {
-  const [price, reflectPrice] = useNumber();
+  const { price, reflectPrice } = useProductFormContext();
 
   return (
     <label className={cls$label}>
@@ -118,7 +96,7 @@ function PriceInput() {
 }
 
 function StockInput() {
-  const [stock, reflectStock] = useNumber();
+  const { stock, reflectStock } = useProductFormContext();
 
   return (
     <label className={cls$label}>
@@ -135,7 +113,7 @@ function StockInput() {
 }
 
 function DescriptionTextArea() {
-  const [description, reflectDescription] = useString();
+  const { description, reflectDescription } = useProductFormContext();
 
   return (
     <label
