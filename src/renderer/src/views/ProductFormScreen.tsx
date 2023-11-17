@@ -5,7 +5,7 @@ import {
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
 
-function ProductForm() {
+function ProductFormFieldset() {
   const cls$label = C(
     "grid grid-cols-[auto_1fr] items-center gap-3",
     "p-1 pl-3",
@@ -22,7 +22,7 @@ function ProductForm() {
   );
   const cls$input = C("px-2 py-1", "bg-transparent");
   return (
-    <form className="h-full grid grid-cols-3 gap-3 p-6 pt-0">
+    <fieldset className="h-full grid grid-cols-3 gap-3 p-6 pt-0">
       <label className={`${cls$label} col-span-2`}>
         <span className="font-bold">SKU</span>
         <input type="text" className={cls$input} name="sku" />
@@ -57,6 +57,14 @@ function ProductForm() {
           product-image-picker
         </code>
       </section>
+    </fieldset>
+  );
+}
+
+function ProductForm() {
+  return (
+    <form>
+      <ProductFormFieldset />
     </form>
   );
 }
