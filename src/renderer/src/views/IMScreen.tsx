@@ -1,6 +1,7 @@
 import { ProductList } from "@renderer/components/ProductList.js";
 import { Screen } from "@renderer/components/Screen.js";
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
+import { State } from "@renderer/utils.js";
 import {
   C,
   cls$button,
@@ -10,10 +11,11 @@ import { ComponentProps, useState } from "react";
 
 function RadioButtonFieldset<T extends string>(props: {
   className: ComponentProps<"fieldset">["className"];
-  values: T[];
+  values: readonly T[];
+  state?: State<T>;
 }) {
-  const { values } = props;
-  const [selected, setSelected] = useState<T>(values[0]);
+  const { values, state } = props;
+  const [selected, setSelected] = state ?? useState<T>(values[0]);
 
   const { className } = props;
   const attrs$fieldset: ComponentProps<"fieldset"> = { className };
@@ -48,10 +50,11 @@ function RadioButtonFieldset<T extends string>(props: {
 
 function CheckboxButtonFieldset<T extends string>(props: {
   className: ComponentProps<"fieldset">["className"];
-  values: T[];
+  values: readonly T[];
+  state?: State<Set<T>>;
 }) {
-  const { values } = props;
-  const [selection, setSelection] = useState<Set<T>>(new Set());
+  const { values, state } = props;
+  const [selection, setSelection] = state ?? useState<Set<T>>(new Set());
   function toggle(value: T) {
     if (selection.has(value)) {
       selection.delete(value);
@@ -97,17 +100,30 @@ function CheckboxButtonFieldset<T extends string>(props: {
 function SortOptions() {
   const { categories } = useProductsContext();
 
+  const sortOrders = ["Ascending", "Descending"] as const;
+  type SortOrder = (typeof sortOrders)[number];
+  const [sortOrder, setSortOrder] = useState<SortOrder>("Ascending");
+
+  const sortKeys = ["SKU", "Name", "Price", "Category"] as const;
+  type SortKey = (typeof sortKeys)[number];
+  const [sortKey, setSortKey] = useState<SortKey>("Category");
+
+  type Category = (typeof categories)[number];
+  const [category, setCategory] = useState<Set<Category>>(new Set());
+
   return (
     <form className="grid gap-6 text-sm">
       <section className="grid gap-3">
         <header className="font-head text-2xl">Sort by:</header>
         <RadioButtonFieldset
           className="grid grid-cols-2 gap-3"
-          values={["Ascending", "Descending"]}
+          values={sortOrders}
+          state={[sortOrder, setSortOrder]}
         />
         <RadioButtonFieldset
           className="flex flex-wrap gap-3"
-          values={["SKU", "Name", "Price", "Category"]}
+          values={sortKeys}
+          state={[sortKey, setSortKey]}
         />
       </section>
       <section className="grid gap-3">
@@ -115,6 +131,7 @@ function SortOptions() {
         <CheckboxButtonFieldset
           className="flex flex-wrap gap-3"
           values={categories}
+          state={[category, setCategory]}
         />
       </section>
     </form>
