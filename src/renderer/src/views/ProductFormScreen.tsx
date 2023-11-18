@@ -9,6 +9,7 @@ import {
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
+import { FormEvent } from "react";
 
 const cls$label = C(
   "grid grid-cols-[auto_1fr] items-center gap-3",
@@ -149,14 +150,22 @@ function Fieldset() {
 }
 
 function Form() {
+  function trySave(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    form.reportValidity();
+  }
+
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
+  const cls$form = C(
+    "h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0",
+  );
   return (
-    <form className="h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0">
+    <form className={cls$form} onSubmit={trySave}>
       <Fieldset />
       <section className="grid place-items-end">
-        <button type="button" className={cls$button$save}>
-          Save
-        </button>
+        <button className={cls$button$save}>Save</button>
       </section>
     </form>
   );
