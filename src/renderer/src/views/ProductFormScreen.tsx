@@ -13,7 +13,7 @@ import {
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 const { ipcInvoke } = window.api;
 
@@ -173,12 +173,34 @@ function DescriptionTextArea() {
 }
 
 function ImageInput() {
+  const [, setFile] = useState<File | null>(null);
+  function reflectFile(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const { files } = input;
+    if (files === null || files.length === 0) {
+      setFile(null);
+      return;
+    }
+    if (files.length > 1) {
+      console.warn("Impossible; multiple selected files detected");
+      setFile(null);
+      return;
+    }
+    const file = files[0];
+    setFile(file);
+  }
+
   return (
     <label
       className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
     >
       <span className="font-bold">Select an image</span>
-      <input type="file" name="image" className="hidden" />
+      <input
+        type="file"
+        name="image"
+        className="hidden"
+        onChange={reflectFile}
+      />
     </label>
   );
 }
