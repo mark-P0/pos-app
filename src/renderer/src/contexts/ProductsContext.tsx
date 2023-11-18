@@ -9,11 +9,12 @@ export type Product = Products[number];
 function useProducts() {
   const [products, setProducts] = useState<Products>([]);
   useEffect(() => {
-    (async () => {
-      const products = await ipcInvoke("db:getAllProducts");
-      setProducts(products);
-    })();
+    reflectProducts();
   }, []);
+  async function reflectProducts() {
+    const products = await ipcInvoke("db:getAllProducts");
+    setProducts(products);
+  }
 
   const productMap = new Map<Product["sku"], Product>();
   for (const product of products) {
@@ -25,7 +26,7 @@ function useProducts() {
     new Set(products.map(({ category }) => category)),
   );
 
-  return { products, productMap, categories };
+  return { ...{ products, productMap, reflectProducts }, categories };
 }
 
 export const [useProductsContext, ProductsProvider] =
