@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { hash, isHashOf } from "./auth.js";
-import { NewUser, User, products, users } from "./schema.js";
+import { NewProduct, NewUser, User, products, users } from "./schema.js";
 import { getActualFilePath } from "./utils.js";
 
 const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
@@ -12,6 +12,10 @@ const db = drizzle(sqlite);
 
 export async function getAllProducts() {
   return await db.select().from(products);
+}
+
+export async function addProduct(product: NewProduct) {
+  return await db.insert(products).values(product);
 }
 
 export async function addUser(user: NewUser) {
