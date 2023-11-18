@@ -181,11 +181,12 @@ function Fieldset() {
       <PriceInput />
       <StockInput />
       <DescriptionTextArea />
-      <section className="grid place-items-center col-start-3 row-start-1 row-span-4">
-        <code className="bg-red-500 aspect-square h-full">
-          product-image-picker
-        </code>
-      </section>
+      <label
+        className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
+      >
+        <span className="font-bold">Select an image</span>
+        <input type="file" name="image" className="hidden" />
+      </label>
     </fieldset>
   );
 }
