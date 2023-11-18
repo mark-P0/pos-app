@@ -1,11 +1,11 @@
-import { createNewRef } from "@renderer/utils.js";
+import { useNewRef } from "@renderer/utils.js";
 import { C } from "@renderer/utils/classes.js";
 import { SyntheticEvent, useState } from "react";
 import { createNewContext } from "./utils.js";
 
 type Content = JSX.Element;
 function useModalState() {
-  const [dialogRef, accessDialogRef] = createNewRef<HTMLDialogElement>();
+  const [dialogRef, accessDialogRef] = useNewRef<HTMLDialogElement>();
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<Content | null>(null);
   const [isCancellable, setIsCancellable] = useState(true);

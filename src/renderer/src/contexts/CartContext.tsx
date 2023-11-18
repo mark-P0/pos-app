@@ -1,4 +1,4 @@
-import { createNewRef } from "@renderer/utils.js";
+import { useNewRef } from "@renderer/utils.js";
 import { random$string } from "@renderer/utils/random.js";
 import { raise, sleep, sum } from "@renderer/utils/stdlib-ext.js";
 import { toPng } from "html-to-image";
@@ -93,7 +93,7 @@ function useTransactionId() {
 function useReceiptRef(
   transactionIdValues: ReturnType<typeof useTransactionId>,
 ) {
-  const [receiptRef, accessReceiptRef] = createNewRef<HTMLElement>();
+  const [receiptRef, accessReceiptRef] = useNewRef<HTMLElement>();
   const { transactionId } = transactionIdValues;
   const pngFilename = `data/receipts/${transactionId}.png`;
   const pngUrl = `pos-app:///${pngFilename}`;

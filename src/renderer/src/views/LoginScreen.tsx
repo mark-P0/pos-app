@@ -6,7 +6,7 @@ import {
 } from "@renderer/contexts/LoginContext.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { useUserContext } from "@renderer/contexts/UserContext.js";
-import { createNewRef } from "@renderer/utils.js";
+import { useNewRef } from "@renderer/utils.js";
 import {
   C,
   cls$absoluteCenter,
@@ -28,7 +28,7 @@ async function runValidations() {
 }
 
 function UsernameInput() {
-  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
   const { username, setUsername } = useLoginContext();
   async function reflectUsername(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
@@ -73,7 +73,7 @@ function UsernameInput() {
 }
 
 function PasswordInput() {
-  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
   const { password, setPassword, username } = useLoginContext();
   function reflectPassword(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;

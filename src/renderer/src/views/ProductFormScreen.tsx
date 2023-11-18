@@ -3,7 +3,7 @@ import {
   ProductFormProvider,
   useProductFormContext,
 } from "@renderer/contexts/ProductFormContext.js";
-import { createNewRef } from "@renderer/utils.js";
+import { useNewRef } from "@renderer/utils.js";
 import {
   C,
   cls$button$primary,
@@ -42,7 +42,7 @@ const cls$input = C("px-2 py-1", "bg-transparent");
 
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
-  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+  const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
 
   Validators.SKU = async () => {
     const input = accessInputRef();
