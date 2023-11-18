@@ -27,20 +27,16 @@ async function runValidations() {
   }
 }
 
-const cls$label = C(
+const cls$label = C(cls$card, cls$interactiveHoverBg, "transition");
+const cls$label$inline = C(
+  cls$label,
   "grid grid-cols-[auto_1fr] items-center gap-3",
   "p-1 pl-3",
-  cls$card,
-  cls$interactiveHoverBg,
-  "transition",
 );
-const cls$label$textarea = C(
-  "flex flex-col gap-3",
-  "[&>*:nth-child(2)]:flex-1",
+const cls$label$block = C(
+  cls$label,
+  "grid grid-rows-[auto_1fr] gap-3",
   "p-2 px-3",
-  cls$card,
-  cls$interactiveHoverBg,
-  "transition",
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
 const cls$option = C(cls$bg, cls$text);
@@ -63,7 +59,7 @@ function SKUInput() {
   };
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">SKU</span>
       <input
         ref={inputRef}
@@ -82,7 +78,7 @@ function NameInput() {
   const { name, reflectName } = useProductFormContext();
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">Name</span>
       <input
         type="text"
@@ -101,7 +97,7 @@ function CategoryInput() {
   const { categories } = useProductsContext();
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">Category</span>
       <select
         className={cls$input}
@@ -127,7 +123,7 @@ function PriceInput() {
   const { price, reflectPrice } = useProductFormContext();
 
   return (
-    <label className={cls$label}>
+    <label className={cls$label$inline}>
       <span className="font-bold">Price</span>
       <input
         type="number"
@@ -145,7 +141,7 @@ function StockInput() {
   const { stock, reflectStock } = useProductFormContext();
 
   return (
-    <label className={cls$label}>
+    <label className={cls$label$inline}>
       <span className="font-bold">Stock</span>
       <input
         type="number"
@@ -163,9 +159,7 @@ function DescriptionTextArea() {
   const { description, reflectDescription } = useProductFormContext();
 
   return (
-    <label
-      className={`${cls$label$textarea} col-span-3 row-[span_18_/_span_18]`}
-    >
+    <label className={`${cls$label$block} col-span-3 row-[span_18_/_span_18]`}>
       <span className="font-bold">Description</span>
       <textarea
         className={`${cls$input} resize-none`}
