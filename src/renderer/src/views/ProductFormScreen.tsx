@@ -3,6 +3,7 @@ import {
   ProductFormProvider,
   useProductFormContext,
 } from "@renderer/contexts/ProductFormContext.js";
+import { createNewRef } from "@renderer/utils.js";
 import {
   C,
   cls$button$primary,
@@ -10,6 +11,8 @@ import {
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
 import { FormEvent } from "react";
+
+const { ipcInvoke } = window.api;
 
 const Validators: Record<string, () => Promise<boolean>> = {};
 async function runValidations() {
@@ -39,11 +42,26 @@ const cls$input = C("px-2 py-1", "bg-transparent");
 
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
+  const [inputRef, accessInputRef] = createNewRef<HTMLInputElement>();
+
+  Validators.SKU = async () => {
+    const input = accessInputRef();
+
+    const isSKUExisting = await ipcInvoke("db:isSKUExisting", sku);
+    if (isSKUExisting) {
+      input.setCustomValidity("SKU already exists");
+      input.reportValidity();
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <label className={`${cls$label} col-span-2`}>
       <span className="font-bold">SKU</span>
       <input
+        ref={inputRef}
         type="text"
         className={cls$input}
         name="sku"

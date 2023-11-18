@@ -3,6 +3,7 @@ import { writeFile } from "fs/promises";
 import {
   getAllProducts,
   isPasswordCorrect,
+  isSKUExisting,
   isUsernameExisting,
 } from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
@@ -43,6 +44,12 @@ const ChannelHandlers = {
     password: Parameters<typeof isPasswordCorrect>[0],
   ) => {
     return await isPasswordCorrect(password);
+  },
+  "db:isSKUExisting": async (
+    _: IpcMainInvokeEvent,
+    sku: Parameters<typeof isSKUExisting>[0],
+  ) => {
+    return await isSKUExisting(sku);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
