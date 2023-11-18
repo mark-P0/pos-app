@@ -8,6 +8,7 @@ function useString<T extends HTMLInputElement | HTMLTextAreaElement>(
   function reflectString(event: ChangeEvent<T>) {
     const input = event.currentTarget;
     setString(input.value);
+    input.setCustomValidity("");
   }
 
   return [string, reflectString] as const;
@@ -20,6 +21,7 @@ function useNumber(initial = 0) {
     let newNumber = Number.parseInt(input.value);
     newNumber = Number.isNaN(newNumber) ? 0 : newNumber;
     setNumber(newNumber);
+    input.setCustomValidity("");
   }
 
   return [number, reflectNumber] as const;
