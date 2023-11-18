@@ -3,12 +3,15 @@ import {
   ProductFormProvider,
   useProductFormContext,
 } from "@renderer/contexts/ProductFormContext.js";
+import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
 import { useNewRef } from "@renderer/utils.js";
 import {
   C,
+  cls$bg,
   cls$button$primary,
   cls$card,
   cls$interactiveHoverBg,
+  cls$text,
 } from "@renderer/utils/classes.js";
 import { FormEvent } from "react";
 
@@ -39,6 +42,7 @@ const cls$label$textarea = C(
   "transition",
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
+const cls$option = C(cls$bg, cls$text);
 
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
@@ -93,18 +97,27 @@ function NameInput() {
 
 function CategoryInput() {
   const { category, reflectCategory } = useProductFormContext();
+  const { categories } = useProductsContext();
 
   return (
     <label className={`${cls$label} col-span-2`}>
       <span className="font-bold">Category</span>
-      <input
-        type="text"
+      <select
         className={cls$input}
         name="category"
         value={category}
         onChange={reflectCategory}
         required
-      />
+      >
+        <option disabled value="" className={cls$option}>
+          Select a category:
+        </option>
+        {categories.map((category) => (
+          <option key={category} value={category} className={cls$option}>
+            {category}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }

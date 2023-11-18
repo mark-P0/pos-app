@@ -1,9 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { createNewContext } from "./utils.js";
 
-function useString<T extends HTMLInputElement | HTMLTextAreaElement>(
-  initial = "",
-) {
+type StringInputElement =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement;
+function useString<T extends StringInputElement>(initial = "") {
   const [string, setString] = useState(initial);
   function reflectString(event: ChangeEvent<T>) {
     const input = event.currentTarget;
@@ -34,6 +36,7 @@ function useProductForm() {
   const [price, reflectPrice] = useNumber();
   const [stock, reflectStock] = useNumber();
   const [description, reflectDescription] = useString();
+
 
   return {
     ...{ sku, reflectSku },
