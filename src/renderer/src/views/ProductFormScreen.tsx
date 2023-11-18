@@ -173,7 +173,7 @@ function DescriptionTextArea() {
 }
 
 function ImageInput() {
-  const [, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   function reflectFile(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     const { files } = input;
@@ -194,7 +194,18 @@ function ImageInput() {
     <label
       className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
     >
-      <span className="font-bold">Select an image</span>
+      {file === null && <span className="font-bold">Select an image</span>}
+      {file !== null && (
+        <figure>
+          <figcaption>
+            <div className="font-bold">Selected image:</div>
+            <div className="text-sm opacity-75">
+              (Clear by opening picker and cancelling)
+            </div>
+          </figcaption>
+          <code>{file.name}</code>
+        </figure>
+      )}
       <input
         type="file"
         name="image"
