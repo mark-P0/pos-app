@@ -11,6 +11,15 @@ import {
 } from "@renderer/utils/classes.js";
 import { FormEvent } from "react";
 
+const Validators: Record<string, () => Promise<boolean>> = {};
+async function runValidations() {
+  const validations = Object.values(Validators);
+  for (const validation of validations) {
+    const status = await validation();
+    if (!status) return;
+  }
+}
+
 const cls$label = C(
   "grid grid-cols-[auto_1fr] items-center gap-3",
   "p-1 pl-3",
@@ -156,10 +165,11 @@ function Fieldset() {
 }
 
 function Form() {
-  function trySave(event: FormEvent<HTMLFormElement>) {
+  async function trySave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
 
+    await runValidations();
     form.reportValidity();
   }
 
