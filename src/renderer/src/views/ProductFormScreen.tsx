@@ -172,6 +172,17 @@ function DescriptionTextArea() {
   );
 }
 
+function ImageInput() {
+  return (
+    <label
+      className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
+    >
+      <span className="font-bold">Select an image</span>
+      <input type="file" name="image" className="hidden" />
+    </label>
+  );
+}
+
 function Fieldset() {
   return (
     <fieldset className="grid grid-cols-3 gap-3">
@@ -181,12 +192,7 @@ function Fieldset() {
       <PriceInput />
       <StockInput />
       <DescriptionTextArea />
-      <label
-        className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
-      >
-        <span className="font-bold">Select an image</span>
-        <input type="file" name="image" className="hidden" />
-      </label>
+      <ImageInput />
     </fieldset>
   );
 }
