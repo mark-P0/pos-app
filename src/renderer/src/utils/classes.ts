@@ -43,6 +43,7 @@ export let cls$absoluteCenter: string,
   cls$interactiveHoverBg = C(
     "hover:bg-cyan-950/10 dark:hover:bg-white/20",
     "focus-visible:bg-cyan-950/10 dark:focus-visible:bg-white/20",
+    "focus-within:bg-cyan-950/10 dark:focus-within:bg-white/20",
   );
   cls$button = C("enabled:active:scale-95", "disabled:opacity-50");
   cls$button$primary = C(

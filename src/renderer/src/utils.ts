@@ -9,7 +9,7 @@ export function formatPrice(price: number) {
   return PriceFormatter.format(price);
 }
 
-export function createNewRef<T>() {
+export function useNewRef<T>() {
   const ref = useRef<T | null>(null);
   function accessRef() {
     const value = ref.current;

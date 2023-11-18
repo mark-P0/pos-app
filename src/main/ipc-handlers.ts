@@ -1,8 +1,10 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { writeFile } from "fs/promises";
 import {
+  addProduct,
   getAllProducts,
   isPasswordCorrect,
+  isSKUExisting,
   isUsernameExisting,
 } from "../../data/db.js";
 import { getActualFilePath } from "../../data/utils.js";
@@ -43,6 +45,18 @@ const ChannelHandlers = {
     password: Parameters<typeof isPasswordCorrect>[0],
   ) => {
     return await isPasswordCorrect(password);
+  },
+  "db:isSKUExisting": async (
+    _: IpcMainInvokeEvent,
+    sku: Parameters<typeof isSKUExisting>[0],
+  ) => {
+    return await isSKUExisting(sku);
+  },
+  "db:addProduct": async (
+    _: IpcMainInvokeEvent,
+    product: Parameters<typeof addProduct>[0],
+  ) => {
+    return await addProduct(product);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
