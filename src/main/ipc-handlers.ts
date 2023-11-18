@@ -1,6 +1,7 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { writeFile } from "fs/promises";
 import {
+  addProduct,
   getAllProducts,
   isPasswordCorrect,
   isSKUExisting,
@@ -50,6 +51,12 @@ const ChannelHandlers = {
     sku: Parameters<typeof isSKUExisting>[0],
   ) => {
     return await isSKUExisting(sku);
+  },
+  "db:addProduct": async (
+    _: IpcMainInvokeEvent,
+    product: Parameters<typeof addProduct>[0],
+  ) => {
+    return await addProduct(product);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (

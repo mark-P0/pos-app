@@ -4,6 +4,7 @@ import {
   useProductFormContext,
 } from "@renderer/contexts/ProductFormContext.js";
 import { useProductsContext } from "@renderer/contexts/ProductsContext.js";
+import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { useNewRef } from "@renderer/utils.js";
 import {
   C,
@@ -196,12 +197,25 @@ function Fieldset() {
 }
 
 function Form() {
+  const { sku, name, category, price, stock, description } =
+    useProductFormContext();
+  const { changeScreen } = useScreenContext();
+  const { reflectProducts } = useProductsContext();
+
   async function trySave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
 
     await runValidations();
-    form.reportValidity();
+    const isFormValid = form.reportValidity();
+    if (!isFormValid) return;
+    save();
+  }
+  async function save() {
+    const product = { name, description, sku, category, price, stock };
+    ipcInvoke("db:addProduct", product);
+    changeScreen("inv-mgmt");
+    reflectProducts();
   }
 
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
