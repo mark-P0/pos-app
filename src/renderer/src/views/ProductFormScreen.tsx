@@ -12,7 +12,6 @@ import {
   cls$button$primary,
   cls$card,
   cls$interactiveHoverBg,
-  cls$text,
 } from "@renderer/utils/classes.js";
 import { FormEvent } from "react";
 
@@ -39,7 +38,8 @@ const cls$label$block = C(
   "p-2 px-3",
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
-const cls$option = C(cls$bg, cls$text);
+const cls$option = C(cls$bg);
+const cls$option$disabled = C(cls$option, "text-amber-400 font-bold");
 
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
@@ -106,7 +106,7 @@ function CategoryInput() {
         onChange={reflectCategory}
         required
       >
-        <option disabled value="" className={cls$option}>
+        <option disabled value="" className={cls$option$disabled}>
           Select a category:
         </option>
         {categories.map((category) => (
