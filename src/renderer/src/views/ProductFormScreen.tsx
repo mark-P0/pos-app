@@ -40,6 +40,7 @@ function SKUInput() {
         name="sku"
         value={sku}
         onChange={reflectSku}
+        required
       />
     </label>
   );
@@ -57,6 +58,7 @@ function NameInput() {
         name="name"
         value={name}
         onChange={reflectName}
+        required
       />
     </label>
   );
@@ -74,6 +76,7 @@ function CategoryInput() {
         name="category"
         value={category}
         onChange={reflectCategory}
+        required
       />
     </label>
   );
@@ -91,6 +94,7 @@ function PriceInput() {
         name="price"
         value={price}
         onChange={reflectPrice}
+        required
       />
     </label>
   );
@@ -108,6 +112,7 @@ function StockInput() {
         name="stock"
         value={stock}
         onChange={reflectStock}
+        required
       />
     </label>
   );
@@ -126,6 +131,7 @@ function DescriptionTextArea() {
         name="description"
         value={description}
         onChange={reflectDescription}
+        required
       ></textarea>
     </label>
   );
