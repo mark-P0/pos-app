@@ -177,6 +177,7 @@ function ImageInput() {
   function reflectFile(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     const { files } = input;
+
     if (files === null || files.length === 0) {
       setFile(null);
       return;
@@ -186,7 +187,18 @@ function ImageInput() {
       setFile(null);
       return;
     }
+
     const file = files[0];
+    /**
+     * Minor safeguard against "All Files" selection
+     * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#examples
+     * - https://github.com/mdn/content/blob/382893481d2bfc70264be43da7ea9da51aaeb244/files/en-us/web/html/element/input/file/index.md?plain=1#L345
+     */
+    if (file.type !== "image/png") {
+      setFile(null);
+      return;
+    }
+
     setFile(file);
   }
 
@@ -209,6 +221,7 @@ function ImageInput() {
       <input
         type="file"
         name="image"
+        accept=".png"
         /**
          * Input triggered on label clicks
          * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#examples
