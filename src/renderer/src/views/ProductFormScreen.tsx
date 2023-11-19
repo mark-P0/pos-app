@@ -240,8 +240,10 @@ function Fieldset() {
 }
 
 function Form() {
-  const { sku, name, category, price, stock, description } =
-    useProductFormContext();
+  const values = useProductFormContext();
+  const { sku, name, category, price, stock, description } = values;
+  const { moveFileToImagesAsSku } = values;
+
   const { changeScreen } = useScreenContext();
   const { reflectProducts } = useProductsContext();
 
@@ -259,6 +261,7 @@ function Form() {
     ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
     reflectProducts();
+    moveFileToImagesAsSku();
   }
 
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");

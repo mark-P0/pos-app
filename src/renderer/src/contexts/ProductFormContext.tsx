@@ -82,6 +82,16 @@ function useProductForm() {
   const [description, reflectDescription] = useString();
   const { file, reflectFile } = useFile();
 
+  async function moveFileToImagesAsSku() {
+    if (file === null) {
+      throw new Error("File is null");
+    }
+
+    const src = file.name;
+    const dest = `${sku}.png`;
+    await ipcInvoke("fs:moveTempFileToImages", src, dest);
+  }
+
   return {
     ...{ sku, reflectSku },
     ...{ name, reflectName },
@@ -90,6 +100,7 @@ function useProductForm() {
     ...{ stock, reflectStock },
     ...{ description, reflectDescription },
     ...{ file, reflectFile },
+    moveFileToImagesAsSku,
   };
 }
 
