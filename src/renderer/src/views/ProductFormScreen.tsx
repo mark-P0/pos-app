@@ -199,6 +199,13 @@ function ImageInput() {
       return;
     }
 
+    /**
+     * `.path` is added specifically by Electron;
+     * it is not normally available on `File` objects
+     *
+     * https://www.electronjs.org/docs/latest/api/file-object
+     */
+    ipcInvoke("fs:copyFileToTemp", file.path);
     setFile(file);
   }
 
