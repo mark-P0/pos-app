@@ -209,6 +209,11 @@ function ImageInput() {
       <input
         type="file"
         name="image"
+        /**
+         * Input triggered on label clicks
+         * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#examples
+         * - https://github.com/mdn/content/blob/382893481d2bfc70264be43da7ea9da51aaeb244/files/en-us/web/html/element/input/file/index.md?plain=1#L276
+         */
         className="hidden"
         onChange={reflectFile}
       />
