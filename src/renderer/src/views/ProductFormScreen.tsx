@@ -13,6 +13,7 @@ import {
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
+import { sleep } from "@renderer/utils/stdlib-ext.js";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const { ipcInvoke } = window.api;
@@ -174,7 +175,7 @@ function DescriptionTextArea() {
 
 function ImageInput() {
   const [file, setFile] = useState<File | null>(null);
-  function reflectFile(event: ChangeEvent<HTMLInputElement>) {
+  async function reflectFile(event: ChangeEvent<HTMLInputElement>) {
     const input = event.currentTarget;
     const { files } = input;
 
@@ -206,25 +207,44 @@ function ImageInput() {
      * https://www.electronjs.org/docs/latest/api/file-object
      */
     ipcInvoke("fs:copyFileToTemp", file.path);
+    await sleep(250); // Extra time for writing(?)
     setFile(file);
   }
 
+  const src = file === null ? null : `pos-app:///data/temp/${file.name}`;
   return (
     <label
       className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
     >
       {file === null && <span className="font-bold">Select an image</span>}
-      {file !== null && (
-        <figure>
-          <figcaption>
-            <div className="font-bold">Selected image:</div>
-            <div className="text-sm opacity-75">
-              (Clear by opening picker and cancelling)
-            </div>
-          </figcaption>
-          <code>{file.name}</code>
-        </figure>
+      {src !== null && (
+        <span className="grid [&>*:nth-child(1)]:place-self-end [&>*:nth-child(2)]:col-start-2 [&>*:nth-child(3)]:col-span-2 gap-3 gap-y-1">
+          <span className="font-bold">Selected image:</span>
+          <img
+            src={src}
+            alt="Chosen product image"
+            className="h-24 overflow-hidden object-contain"
+          />
+          <span className="text-center text-sm opacity-75">
+            (Clear by opening picker and cancelling)
+          </span>
+        </span>
       )}
+      {/* {src !== null && (
+        <span className="grid">
+          <span className="flex items-end gap-3">
+            <span className="font-bold">Selected image:</span>
+            <img
+              src={src}
+              alt="Chosen product image"
+              className="h-24 overflow-hidden object-contain"
+            />
+          </span>
+          <span className="text-center text-sm opacity-75">
+            (Clear by opening picker and cancelling)
+          </span>
+        </span>
+      )} */}
       <input
         type="file"
         name="image"
