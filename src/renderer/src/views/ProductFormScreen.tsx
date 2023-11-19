@@ -13,8 +13,7 @@ import {
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
-import { sleep } from "@renderer/utils/stdlib-ext.js";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 
 const { ipcInvoke } = window.api;
 
@@ -174,42 +173,7 @@ function DescriptionTextArea() {
 }
 
 function ImageInput() {
-  const [file, setFile] = useState<File | null>(null);
-  async function reflectFile(event: ChangeEvent<HTMLInputElement>) {
-    const input = event.currentTarget;
-    const { files } = input;
-
-    if (files === null || files.length === 0) {
-      setFile(null);
-      return;
-    }
-    if (files.length > 1) {
-      console.warn("Impossible; multiple selected files detected");
-      setFile(null);
-      return;
-    }
-
-    const file = files[0];
-    /**
-     * Minor safeguard against "All Files" selection
-     * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#examples
-     * - https://github.com/mdn/content/blob/382893481d2bfc70264be43da7ea9da51aaeb244/files/en-us/web/html/element/input/file/index.md?plain=1#L345
-     */
-    if (file.type !== "image/png") {
-      setFile(null);
-      return;
-    }
-
-    /**
-     * `.path` is added specifically by Electron;
-     * it is not normally available on `File` objects
-     *
-     * https://www.electronjs.org/docs/latest/api/file-object
-     */
-    ipcInvoke("fs:copyFileToTemp", file.path);
-    await sleep(250); // Extra time for writing(?)
-    setFile(file);
-  }
+  const { file, reflectFile } = useProductFormContext();
 
   const src = file === null ? null : `pos-app:///data/temp/${file.name}`;
   return (
