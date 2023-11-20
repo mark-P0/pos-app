@@ -240,6 +240,15 @@ function Fieldset() {
   );
 }
 
+function Buttons() {
+  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
+  return (
+    <section className="grid place-items-end">
+      <button className={cls$button$save}>Save</button>
+    </section>
+  );
+}
+
 function Form() {
   const values = useProductFormContext();
   const { sku, name, category, price, stock, description } = values;
@@ -266,16 +275,13 @@ function Form() {
     moveFileToImagesAsSku();
   }
 
-  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   const cls$form = C(
     "h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0",
   );
   return (
     <form className={cls$form} onSubmit={trySave}>
       <Fieldset />
-      <section className="grid place-items-end">
-        <button className={cls$button$save}>Save</button>
-      </section>
+      <Buttons />
     </form>
   );
 }
