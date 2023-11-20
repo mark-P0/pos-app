@@ -1,4 +1,6 @@
+import { Prompt } from "@renderer/components/Prompt.js";
 import { Screen } from "@renderer/components/Screen.js";
+import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { useProductFormBasisContext } from "@renderer/contexts/ProductFormBasisContext.js";
 import {
   ProductFormProvider,
@@ -241,23 +243,48 @@ function Fieldset() {
   );
 }
 
+function DeletePrompt() {
+  const { closeModal } = useModalContext();
+
+  const cls$button$confirm = C("px-4 py-1", cls$button$primary, "transition");
+  return (
+    <Prompt onClose={closeModal}>
+      <>Are you sure you want to delete the following product?</>
+
+      <></>
+
+      <>
+        <button type="button" className={cls$button$confirm}>
+          Yes
+        </button>
+      </>
+    </Prompt>
+  );
+}
+
 function Buttons() {
   const { product } = useProductFormBasisContext();
-  const { changeScreen } = useScreenContext();
-  const { reflectProducts } = useProductsContext();
+  //   const { changeScreen } = useScreenContext();
+  //   const { reflectProducts } = useProductsContext();
+  //
+  //   /** `delete` is a keyword */
+  //   async function delete_() {
+  //     if (product === null) {
+  //       throw new Error(
+  //         "Impossible; trigger for this should not be available if there is no product",
+  //       );
+  //     }
+  //
+  //     const { sku } = product;
+  //     await ipcInvoke("db:deleteProduct", sku);
+  //     changeScreen("inv-mgmt");
+  //     reflectProducts();
+  //   }
 
-  /** `delete` is a keyword */
-  async function delete_() {
-    if (product === null) {
-      throw new Error(
-        "Impossible; trigger for this should not be available if there is no product",
-      );
-    }
+  const { showOnModal } = useModalContext();
 
-    const { sku } = product;
-    await ipcInvoke("db:deleteProduct", sku);
-    changeScreen("inv-mgmt");
-    reflectProducts();
+  function showDeletePrompt() {
+    showOnModal(<DeletePrompt />);
   }
 
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
@@ -266,7 +293,11 @@ function Buttons() {
     <footer className="flex flex-row-reverse gap-3">
       <button className={cls$button$save}>Save</button>
       {product !== null && (
-        <button className={cls$button$delete} type="button" onClick={delete_}>
+        <button
+          className={cls$button$delete}
+          type="button"
+          onClick={showDeletePrompt}
+        >
           Delete
         </button>
       )}
