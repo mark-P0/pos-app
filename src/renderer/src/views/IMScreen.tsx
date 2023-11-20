@@ -4,6 +4,7 @@ import {
   DisplayProductsProvider,
   useDisplayProductsContext,
 } from "@renderer/contexts/DisplayProductsContext.js";
+import { Product } from "@renderer/contexts/ProductsContext.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { State } from "@renderer/utils.js";
 import {
@@ -155,13 +156,22 @@ function ActionList() {
     </aside>
   );
 }
+function IMProductList() {
+  const { products } = useDisplayProductsContext();
+
+  function editProduct(product: Product) {
+    product;
+  }
+
+  return <ProductList products={products} onItemClick={editProduct} />;
+}
 
 export function IMScreen() {
   return (
     <DisplayProductsProvider>
       <Screen withLogoutButton withFeaturesButton>
         <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
-          <ProductList />
+          <IMProductList />
           <ActionList />
         </section>
       </Screen>

@@ -1,28 +1,18 @@
-import { useDisplayProductsContext } from "@renderer/contexts/DisplayProductsContext.js";
-import { useModalContext } from "@renderer/contexts/ModalContext.js";
-import {
-  Product,
-  useProductsContext,
-} from "@renderer/contexts/ProductsContext.js";
-import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
+import { Product } from "@renderer/contexts/ProductsContext.js";
 import {
   C,
   cls$card,
   cls$interactiveHoverBg,
   cls$scrollbar,
 } from "@renderer/utils/classes.js";
-import { raise } from "@renderer/utils/stdlib-ext.js";
+import { ComponentProps } from "react";
 import { ProductCard } from "./ProductCard.js";
-import { QuantityPrompt } from "./QuantityPrompt.js";
 
-function ProductButton(props: { product: Product }) {
-  const { product } = props;
-  const { showOnModal } = useModalContext();
-  const { screen } = useScreenContext();
-
-  function showQuantityPrompt() {
-    showOnModal(<QuantityPrompt product={product} />);
-  }
+function ProductButton(props: {
+  product: Product;
+  onClick: ComponentProps<"button">["onClick"];
+}) {
+  const { product, onClick } = props;
 
   const cls = C(
     "w-full text-left",
@@ -33,23 +23,17 @@ function ProductButton(props: { product: Product }) {
     "transition",
   );
   return (
-    <button
-      className={cls}
-      onClick={screen === "pos" ? showQuantityPrompt : undefined}
-    >
+    <button className={cls} onClick={onClick}>
       <ProductCard product={product} />
     </button>
   );
 }
 
-export function ProductList() {
-  const { screen } = useScreenContext();
-  const { products } =
-    screen === "pos"
-      ? useProductsContext()
-      : screen === "inv-mgmt"
-      ? useDisplayProductsContext()
-      : raise(`Unsupported screen \`${screen}\` for product list`);
+export function ProductList(props: {
+  products: Product[];
+  onItemClick: (product: Product) => void;
+}) {
+  const { products, onItemClick } = props;
 
   const cls = C(
     ...[cls$scrollbar, "p-3 pt-0"],
@@ -60,7 +44,10 @@ export function ProductList() {
     <ol className={cls}>
       {products.map((product) => (
         <li key={product.sku}>
-          <ProductButton product={product} />
+          <ProductButton
+            product={product}
+            onClick={() => onItemClick(product)}
+          />
         </li>
       ))}
     </ol>
