@@ -1,4 +1,5 @@
 import { Screen } from "@renderer/components/Screen.js";
+import { useProductFormBasisContext } from "@renderer/contexts/ProductFormBasisContext.js";
 import {
   ProductFormProvider,
   useProductFormContext,
@@ -243,9 +244,9 @@ function Form() {
   const values = useProductFormContext();
   const { sku, name, category, price, stock, description } = values;
   const { moveFileToImagesAsSku } = values;
-
   const { changeScreen } = useScreenContext();
   const { reflectProducts } = useProductsContext();
+  const { product } = useProductFormBasisContext();
 
   async function trySave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -254,9 +255,10 @@ function Form() {
     await runValidations();
     const isFormValid = form.reportValidity();
     if (!isFormValid) return;
-    save();
+
+    if (product === null) saveNew();
   }
-  async function save() {
+  async function saveNew() {
     const product = { name, description, sku, category, price, stock };
     ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
