@@ -1,3 +1,4 @@
+import { ProductCard } from "@renderer/components/ProductCard.js";
 import { Prompt } from "@renderer/components/Prompt.js";
 import { Screen } from "@renderer/components/Screen.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
@@ -244,14 +245,21 @@ function Fieldset() {
 }
 
 function DeletePrompt() {
+  const { product } = useProductFormBasisContext();
   const { closeModal } = useModalContext();
+  if (product === null) {
+    throw new Error("Impossible; logic cannot be here if there is no product");
+  }
 
+  const cls$div = C("px-3 py-2", cls$card);
   const cls$button$confirm = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt onClose={closeModal}>
       <>Are you sure you want to delete the following product?</>
 
-      <></>
+      <div className={cls$div}>
+        <ProductCard product={product} />
+      </div>
 
       <>
         <button type="button" className={cls$button$confirm}>
