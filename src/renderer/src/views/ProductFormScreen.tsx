@@ -49,15 +49,17 @@ const cls$option$disabled = C(cls$option, "text-amber-400 font-bold");
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
   const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
+  const { product } = useProductFormBasisContext();
 
   Validators.SKU = async () => {
-    const input = accessInputRef();
-
-    const isSKUExisting = await ipcInvoke("db:isSKUExisting", sku);
-    if (isSKUExisting) {
-      input.setCustomValidity("SKU already exists");
-      input.reportValidity();
-      return false;
+    if (product === null) {
+      const isSKUExisting = await ipcInvoke("db:isSKUExisting", sku);
+      if (isSKUExisting) {
+        const input = accessInputRef();
+        input.setCustomValidity("SKU already exists");
+        input.reportValidity();
+        return false;
+      }
     }
 
     return true;
@@ -323,12 +325,21 @@ function Form() {
     if (!isFormValid) return;
 
     if (product === null) saveNew();
+    if (product !== null) saveEdit();
   }
   async function saveNew() {
     const product = { name, description, sku, category, price, stock };
-    ipcInvoke("db:addProduct", product);
+    await ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
-    reflectProducts();
+    await reflectProducts();
+    moveFileToImagesAsSku();
+  }
+  async function saveEdit() {
+    const url = product?.url ?? null;
+    const edited = { name, description, sku, category, price, stock, url };
+    await ipcInvoke("db:editProduct", edited);
+    changeScreen("inv-mgmt");
+    await reflectProducts();
     moveFileToImagesAsSku();
   }
 

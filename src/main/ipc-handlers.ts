@@ -4,6 +4,7 @@ import path from "path";
 import {
   addProduct,
   deleteProduct,
+  editProduct,
   getAllProducts,
   isPasswordCorrect,
   isSKUExisting,
@@ -65,6 +66,12 @@ const ChannelHandlers = {
     sku: Parameters<typeof deleteProduct>[0],
   ) => {
     await deleteProduct(sku);
+  },
+  "db:editProduct": async (
+    _: IpcMainInvokeEvent,
+    product: Parameters<typeof editProduct>[0],
+  ) => {
+    await editProduct(product);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
