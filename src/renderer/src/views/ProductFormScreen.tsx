@@ -11,6 +11,7 @@ import {
   C,
   cls$bg,
   cls$button$primary,
+  cls$button$secondary,
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
@@ -242,9 +243,13 @@ function Fieldset() {
 
 function Buttons() {
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
+  const cls$button$delete = C("px-4 py-1", cls$button$secondary, "transition");
   return (
-    <footer className="grid place-items-end">
+    <footer className="flex flex-row-reverse gap-3">
       <button className={cls$button$save}>Save</button>
+      <button className={cls$button$delete} type="button">
+        Delete
+      </button>
     </footer>
   );
 }
