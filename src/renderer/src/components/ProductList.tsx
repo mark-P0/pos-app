@@ -1,4 +1,4 @@
-import { useDisplayProductsContext } from "@renderer/contexts/DisplayProducts.js";
+import { useDisplayProductsContext } from "@renderer/contexts/DisplayProductsContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import {
   Product,

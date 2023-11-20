@@ -20,7 +20,6 @@ function useDisplayProducts() {
 
   /* Always sort ascending first */
   /* TODO Skip sorting if key is not changed? */
-  /* TODO Use switch-case instead? */
   if (sortKey === "SKU") {
     products = products.sort((a, b) => (a.sku < b.sku ? -1 : 1));
   } else if (sortKey === "Name") {

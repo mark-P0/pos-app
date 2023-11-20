@@ -12,7 +12,6 @@ import {
   cls$button$primary,
   cls$card,
   cls$interactiveHoverBg,
-  cls$text,
 } from "@renderer/utils/classes.js";
 import { FormEvent } from "react";
 
@@ -27,23 +26,20 @@ async function runValidations() {
   }
 }
 
-const cls$label = C(
+const cls$label = C(cls$card, cls$interactiveHoverBg, "transition");
+const cls$label$inline = C(
+  cls$label,
   "grid grid-cols-[auto_1fr] items-center gap-3",
   "p-1 pl-3",
-  cls$card,
-  cls$interactiveHoverBg,
-  "transition",
 );
-const cls$label$textarea = C(
-  "flex flex-col gap-3",
-  "[&>*:nth-child(2)]:flex-1",
+const cls$label$block = C(
+  cls$label,
+  "grid grid-rows-[auto_1fr] gap-3",
   "p-2 px-3",
-  cls$card,
-  cls$interactiveHoverBg,
-  "transition",
 );
 const cls$input = C("px-2 py-1", "bg-transparent");
-const cls$option = C(cls$bg, cls$text);
+const cls$option = C(cls$bg);
+const cls$option$disabled = C(cls$option, "text-amber-400 font-bold");
 
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
@@ -63,7 +59,7 @@ function SKUInput() {
   };
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">SKU</span>
       <input
         ref={inputRef}
@@ -82,7 +78,7 @@ function NameInput() {
   const { name, reflectName } = useProductFormContext();
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">Name</span>
       <input
         type="text"
@@ -101,7 +97,7 @@ function CategoryInput() {
   const { categories } = useProductsContext();
 
   return (
-    <label className={`${cls$label} col-span-2`}>
+    <label className={`${cls$label$inline} col-span-2`}>
       <span className="font-bold">Category</span>
       <select
         className={cls$input}
@@ -110,7 +106,7 @@ function CategoryInput() {
         onChange={reflectCategory}
         required
       >
-        <option disabled value="" className={cls$option}>
+        <option disabled value="" className={cls$option$disabled}>
           Select a category:
         </option>
         {categories.map((category) => (
@@ -127,7 +123,7 @@ function PriceInput() {
   const { price, reflectPrice } = useProductFormContext();
 
   return (
-    <label className={cls$label}>
+    <label className={cls$label$inline}>
       <span className="font-bold">Price</span>
       <input
         type="number"
@@ -145,7 +141,7 @@ function StockInput() {
   const { stock, reflectStock } = useProductFormContext();
 
   return (
-    <label className={cls$label}>
+    <label className={cls$label$inline}>
       <span className="font-bold">Stock</span>
       <input
         type="number"
@@ -163,9 +159,7 @@ function DescriptionTextArea() {
   const { description, reflectDescription } = useProductFormContext();
 
   return (
-    <label
-      className={`${cls$label$textarea} col-span-3 row-[span_18_/_span_18]`}
-    >
+    <label className={`${cls$label$block} col-span-3 row-[span_18_/_span_18]`}>
       <span className="font-bold">Description</span>
       <textarea
         className={`${cls$input} resize-none`}
@@ -174,6 +168,59 @@ function DescriptionTextArea() {
         onChange={reflectDescription}
         required
       ></textarea>
+    </label>
+  );
+}
+
+function ImageInput() {
+  const { file, reflectFile } = useProductFormContext();
+
+  const src = file === null ? null : `pos-app:///data/temp/${file.name}`;
+  return (
+    <label
+      className={`${cls$label} grid place-items-center cursor-pointer col-start-3 row-start-1 row-span-4`}
+    >
+      {file === null && <span className="font-bold">Select an image</span>}
+      {src !== null && (
+        <span className="grid [&>*:nth-child(1)]:place-self-end [&>*:nth-child(2)]:col-start-2 [&>*:nth-child(3)]:col-span-2 gap-3 gap-y-1">
+          <span className="font-bold">Selected image:</span>
+          <img
+            src={src}
+            alt="Chosen product image"
+            className="h-24 overflow-hidden object-contain"
+          />
+          <span className="text-center text-sm opacity-75">
+            (Clear by opening picker and cancelling)
+          </span>
+        </span>
+      )}
+      {/* {src !== null && (
+        <span className="grid">
+          <span className="flex items-end gap-3">
+            <span className="font-bold">Selected image:</span>
+            <img
+              src={src}
+              alt="Chosen product image"
+              className="h-24 overflow-hidden object-contain"
+            />
+          </span>
+          <span className="text-center text-sm opacity-75">
+            (Clear by opening picker and cancelling)
+          </span>
+        </span>
+      )} */}
+      <input
+        type="file"
+        name="image"
+        accept=".png"
+        /**
+         * Input triggered on label clicks
+         * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#examples
+         * - https://github.com/mdn/content/blob/382893481d2bfc70264be43da7ea9da51aaeb244/files/en-us/web/html/element/input/file/index.md?plain=1#L276
+         */
+        className="hidden"
+        onChange={reflectFile}
+      />
     </label>
   );
 }
@@ -187,18 +234,16 @@ function Fieldset() {
       <PriceInput />
       <StockInput />
       <DescriptionTextArea />
-      <section className="grid place-items-center col-start-3 row-start-1 row-span-4">
-        <code className="bg-red-500 aspect-square h-full">
-          product-image-picker
-        </code>
-      </section>
+      <ImageInput />
     </fieldset>
   );
 }
 
 function Form() {
-  const { sku, name, category, price, stock, description } =
-    useProductFormContext();
+  const values = useProductFormContext();
+  const { sku, name, category, price, stock, description } = values;
+  const { moveFileToImagesAsSku } = values;
+
   const { changeScreen } = useScreenContext();
   const { reflectProducts } = useProductsContext();
 
@@ -216,6 +261,7 @@ function Form() {
     ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
     reflectProducts();
+    moveFileToImagesAsSku();
   }
 
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");

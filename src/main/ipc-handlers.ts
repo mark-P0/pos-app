@@ -1,5 +1,6 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
-import { writeFile } from "fs/promises";
+import { copyFile, rename, writeFile } from "fs/promises";
+import path from "path";
 import {
   addProduct,
   getAllProducts,
@@ -66,6 +67,21 @@ const ChannelHandlers = {
   ) => {
     const [, base64Data] = uri.split(",");
     await writeFile(getActualFilePath(filename), base64Data, "base64");
+  },
+  "fs:copyFileToTemp": async (_: IpcMainInvokeEvent, src: string) => {
+    const filename = path.basename(src);
+    const dest = getActualFilePath(`data/temp/${filename}`);
+    await copyFile(src, dest);
+  },
+  "fs:moveTempFileToImages": async (
+    _: IpcMainInvokeEvent,
+    src: string,
+    dest: string,
+  ) => {
+    await rename(
+      getActualFilePath(`data/temp/${src}`),
+      getActualFilePath(`data/images/${dest}`),
+    );
   },
   "app:getNameAndVersion": () => {
     return [app.getName(), app.getVersion()] as const;

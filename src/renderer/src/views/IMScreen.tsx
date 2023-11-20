@@ -3,7 +3,7 @@ import { Screen } from "@renderer/components/Screen.js";
 import {
   DisplayProductsProvider,
   useDisplayProductsContext,
-} from "@renderer/contexts/DisplayProducts.js";
+} from "@renderer/contexts/DisplayProductsContext.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { State } from "@renderer/utils.js";
 import {
