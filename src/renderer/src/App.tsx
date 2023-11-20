@@ -1,4 +1,5 @@
 import { LabelsProvider } from "./contexts/LabelsContext.js";
+import { ProductFormBasisProvider } from "./contexts/ProductFormBasisContext.js";
 import { ProductsProvider } from "./contexts/ProductsContext.js";
 import { ScreenProvider, useScreenContext } from "./contexts/ScreenContext.js";
 import { UserProvider } from "./contexts/UserContext.js";
@@ -32,13 +33,17 @@ function WrappedApp() {
   screen satisfies never; // MUST be unreachable; something's wrong if it isn't (switch case not exhaustive)
 }
 export function App() {
+  /* Order providers from least changing to most changing */
   return (
     <LabelsProvider>
       <ProductsProvider>
+        {/* ↑ Touches file system | ↓ App only */}
         <UserProvider>
-          <ScreenProvider>
-            <WrappedApp />
-          </ScreenProvider>
+          <ProductFormBasisProvider>
+            <ScreenProvider>
+              <WrappedApp />
+            </ScreenProvider>
+          </ProductFormBasisProvider>
         </UserProvider>
       </ProductsProvider>
     </LabelsProvider>

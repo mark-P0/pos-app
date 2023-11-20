@@ -1,4 +1,8 @@
+import { ProductCard } from "@renderer/components/ProductCard.js";
+import { Prompt } from "@renderer/components/Prompt.js";
 import { Screen } from "@renderer/components/Screen.js";
+import { useModalContext } from "@renderer/contexts/ModalContext.js";
+import { useProductFormBasisContext } from "@renderer/contexts/ProductFormBasisContext.js";
 import {
   ProductFormProvider,
   useProductFormContext,
@@ -10,6 +14,7 @@ import {
   C,
   cls$bg,
   cls$button$primary,
+  cls$button$secondary,
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
@@ -44,15 +49,17 @@ const cls$option$disabled = C(cls$option, "text-amber-400 font-bold");
 function SKUInput() {
   const { sku, reflectSku } = useProductFormContext();
   const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
+  const { product } = useProductFormBasisContext();
 
   Validators.SKU = async () => {
-    const input = accessInputRef();
-
-    const isSKUExisting = await ipcInvoke("db:isSKUExisting", sku);
-    if (isSKUExisting) {
-      input.setCustomValidity("SKU already exists");
-      input.reportValidity();
-      return false;
+    if (product === null) {
+      const isSKUExisting = await ipcInvoke("db:isSKUExisting", sku);
+      if (isSKUExisting) {
+        const input = accessInputRef();
+        input.setCustomValidity("SKU already exists");
+        input.reportValidity();
+        return false;
+      }
     }
 
     return true;
@@ -239,13 +246,75 @@ function Fieldset() {
   );
 }
 
+function DeletePrompt() {
+  const { product } = useProductFormBasisContext();
+  const { closeModal } = useModalContext();
+  const { changeScreen } = useScreenContext();
+  const { reflectProducts } = useProductsContext();
+
+  async function confirm() {
+    if (product === null) {
+      throw new Error("Impossible; nothing to delete if no product");
+    }
+
+    const { sku } = product;
+    await ipcInvoke("db:deleteProduct", sku);
+    changeScreen("inv-mgmt");
+    reflectProducts();
+  }
+
+  const cls$div = C("px-3 py-2", cls$card);
+  const cls$button$confirm = C("px-4 py-1", cls$button$primary, "transition");
+  return (
+    <Prompt onClose={closeModal}>
+      <>Are you sure you want to delete the following product?</>
+
+      <div className={cls$div}>
+        {product !== null && <ProductCard product={product} />}
+      </div>
+
+      <>
+        <button type="button" className={cls$button$confirm} onClick={confirm}>
+          Yes
+        </button>
+      </>
+    </Prompt>
+  );
+}
+
+function Buttons() {
+  const { product } = useProductFormBasisContext();
+  const { showOnModal } = useModalContext();
+
+  function showDeletePrompt() {
+    showOnModal(<DeletePrompt />);
+  }
+
+  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
+  const cls$button$delete = C("px-4 py-1", cls$button$secondary, "transition");
+  return (
+    <footer className="flex flex-row-reverse gap-3">
+      <button className={cls$button$save}>Save</button>
+      {product !== null && (
+        <button
+          className={cls$button$delete}
+          type="button"
+          onClick={showDeletePrompt}
+        >
+          Delete
+        </button>
+      )}
+    </footer>
+  );
+}
+
 function Form() {
   const values = useProductFormContext();
   const { sku, name, category, price, stock, description } = values;
   const { moveFileToImagesAsSku } = values;
-
   const { changeScreen } = useScreenContext();
   const { reflectProducts } = useProductsContext();
+  const { product } = useProductFormBasisContext();
 
   async function trySave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -254,26 +323,33 @@ function Form() {
     await runValidations();
     const isFormValid = form.reportValidity();
     if (!isFormValid) return;
-    save();
+
+    if (product === null) saveNew();
+    if (product !== null) saveEdit();
   }
-  async function save() {
+  async function saveNew() {
     const product = { name, description, sku, category, price, stock };
-    ipcInvoke("db:addProduct", product);
+    await ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
-    reflectProducts();
+    await reflectProducts();
+    moveFileToImagesAsSku();
+  }
+  async function saveEdit() {
+    const url = product?.url ?? null;
+    const edited = { name, description, sku, category, price, stock, url };
+    await ipcInvoke("db:editProduct", edited);
+    changeScreen("inv-mgmt");
+    await reflectProducts();
     moveFileToImagesAsSku();
   }
 
-  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   const cls$form = C(
     "h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0",
   );
   return (
     <form className={cls$form} onSubmit={trySave}>
       <Fieldset />
-      <section className="grid place-items-end">
-        <button className={cls$button$save}>Save</button>
-      </section>
+      <Buttons />
     </form>
   );
 }

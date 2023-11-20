@@ -15,6 +15,7 @@ export function ProductCard(props: { product: Product }) {
     "grid gap-4",
     screen === "pos" && "grid-cols-[1fr_4fr_1fr]",
     screen === "inv-mgmt" && "grid-cols-[1fr_6fr_1fr]",
+    screen === "product-form" && "grid-cols-[1fr_4fr_1fr]",
   );
   return (
     <section className={cls}>

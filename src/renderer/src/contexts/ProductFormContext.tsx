@@ -1,5 +1,6 @@
 import { sleep } from "@renderer/utils/stdlib-ext.js";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useProductFormBasisContext } from "./ProductFormBasisContext.js";
 import { createNewContext } from "./utils.js";
 
 const { ipcInvoke } = window.api;
@@ -16,7 +17,7 @@ function useString<T extends StringInputElement>(initial = "") {
     input.setCustomValidity("");
   }
 
-  return [string, reflectString] as const;
+  return [string, setString, reflectString] as const;
 }
 
 function useNumber(initial = 0) {
@@ -29,7 +30,7 @@ function useNumber(initial = 0) {
     input.setCustomValidity("");
   }
 
-  return [number, reflectNumber] as const;
+  return [number, setNumber, reflectNumber] as const;
 }
 
 function useFile() {
@@ -70,17 +71,17 @@ function useFile() {
     setFile(file);
   }
 
-  return { file, reflectFile };
+  return { file, setFile, reflectFile };
 }
 
 function useProductForm() {
-  const [sku, reflectSku] = useString();
-  const [name, reflectName] = useString();
-  const [category, reflectCategory] = useString();
-  const [price, reflectPrice] = useNumber();
-  const [stock, reflectStock] = useNumber();
-  const [description, reflectDescription] = useString();
-  const { file, reflectFile } = useFile();
+  const [sku, setSku, reflectSku] = useString();
+  const [name, setName, reflectName] = useString();
+  const [category, setCategory, reflectCategory] = useString();
+  const [price, setPrice, reflectPrice] = useNumber();
+  const [stock, setStock, reflectStock] = useNumber();
+  const [description, setDescription, reflectDescription] = useString();
+  const { file, setFile, reflectFile } = useFile();
 
   async function moveFileToImagesAsSku() {
     if (file === null) {
@@ -91,6 +92,26 @@ function useProductForm() {
     const dest = `${sku}.png`;
     await ipcInvoke("fs:moveTempFileToImages", src, dest);
   }
+
+  const { product } = useProductFormBasisContext();
+  useEffect(() => {
+    if (product === null) return;
+    const { sku, name, category, price, stock, description } = product;
+    setSku(sku);
+    setName(name);
+    setCategory(category);
+    setPrice(price);
+    setStock(stock);
+    setDescription(description);
+
+    async function setupFile() {
+      const filename = `${sku}.png`;
+      const file = new File([], filename); // Only name attribute is important; content not accessed anywhere...
+      await ipcInvoke("fs:copyImageFileToTemp", filename);
+      setFile(file);
+    }
+    setupFile();
+  }, [product]);
 
   return {
     ...{ sku, reflectSku },

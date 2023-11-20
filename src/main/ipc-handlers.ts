@@ -3,6 +3,8 @@ import { copyFile, rename, writeFile } from "fs/promises";
 import path from "path";
 import {
   addProduct,
+  deleteProduct,
+  editProduct,
   getAllProducts,
   isPasswordCorrect,
   isSKUExisting,
@@ -59,6 +61,18 @@ const ChannelHandlers = {
   ) => {
     return await addProduct(product);
   },
+  "db:deleteProduct": async (
+    _: IpcMainInvokeEvent,
+    sku: Parameters<typeof deleteProduct>[0],
+  ) => {
+    await deleteProduct(sku);
+  },
+  "db:editProduct": async (
+    _: IpcMainInvokeEvent,
+    product: Parameters<typeof editProduct>[0],
+  ) => {
+    await editProduct(product);
+  },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
     _: IpcMainInvokeEvent,
@@ -70,6 +84,11 @@ const ChannelHandlers = {
   },
   "fs:copyFileToTemp": async (_: IpcMainInvokeEvent, src: string) => {
     const filename = path.basename(src);
+    const dest = getActualFilePath(`data/temp/${filename}`);
+    await copyFile(src, dest);
+  },
+  "fs:copyImageFileToTemp": async (_: IpcMainInvokeEvent, filename: string) => {
+    const src = getActualFilePath(`data/images/${filename}`);
     const dest = getActualFilePath(`data/temp/${filename}`);
     await copyFile(src, dest);
   },

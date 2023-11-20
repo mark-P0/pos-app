@@ -4,6 +4,8 @@ import {
   DisplayProductsProvider,
   useDisplayProductsContext,
 } from "@renderer/contexts/DisplayProductsContext.js";
+import { useProductFormBasisContext } from "@renderer/contexts/ProductFormBasisContext.js";
+import { Product } from "@renderer/contexts/ProductsContext.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import { State } from "@renderer/utils.js";
 import {
@@ -104,11 +106,17 @@ function CheckboxButtonFieldset<T extends string>(props: {
 }
 
 function Actions() {
+  const { changeProduct } = useProductFormBasisContext();
   const { changeScreen } = useScreenContext();
   const state = useDisplayProductsContext();
   const { sortOrders, sortOrder, setSortOrder } = state;
   const { sortKeys, sortKey, setSortKey } = state;
   const { categories, category, setCategory } = state;
+
+  function newProduct() {
+    changeProduct(null);
+    changeScreen("product-form");
+  }
 
   const cls$button$new = C("px-6 py-3", cls$button$primary, "transition");
   return (
@@ -135,11 +143,7 @@ function Actions() {
         />
       </section>
       <section className="mt-auto sticky bottom-0 grid">
-        <button
-          type="button"
-          className={cls$button$new}
-          onClick={() => changeScreen("product-form")}
-        >
+        <button type="button" className={cls$button$new} onClick={newProduct}>
           New Product
         </button>
       </section>
@@ -155,13 +159,25 @@ function ActionList() {
     </aside>
   );
 }
+function IMProductList() {
+  const { products } = useDisplayProductsContext();
+  const { changeProduct } = useProductFormBasisContext();
+  const { changeScreen } = useScreenContext();
+
+  function editProduct(product: Product) {
+    changeProduct(product);
+    changeScreen("product-form");
+  }
+
+  return <ProductList products={products} onItemClick={editProduct} />;
+}
 
 export function IMScreen() {
   return (
     <DisplayProductsProvider>
       <Screen withLogoutButton withFeaturesButton>
         <section className="overflow-hidden h-full grid grid-cols-[3fr_1fr]">
-          <ProductList />
+          <IMProductList />
           <ActionList />
         </section>
       </Screen>
