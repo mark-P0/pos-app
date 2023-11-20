@@ -243,9 +243,9 @@ function Fieldset() {
 function Buttons() {
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   return (
-    <section className="grid place-items-end">
+    <footer className="grid place-items-end">
       <button className={cls$button$save}>Save</button>
-    </section>
+    </footer>
   );
 }
 
