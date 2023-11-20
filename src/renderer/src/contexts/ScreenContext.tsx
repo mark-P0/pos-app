@@ -3,7 +3,7 @@ import { createNewContext } from "./utils.js";
 
 type Screen = "login" | "feature-select" | "pos" | "inv-mgmt" | "product-form";
 function useScreen() {
-  const [screen, setScreen] = useState<Screen>("product-form");
+  const [screen, setScreen] = useState<Screen>("inv-mgmt");
   function changeScreen(to: Screen) {
     setScreen(to);
   }
