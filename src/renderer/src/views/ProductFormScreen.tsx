@@ -247,8 +247,18 @@ function Fieldset() {
 function DeletePrompt() {
   const { product } = useProductFormBasisContext();
   const { closeModal } = useModalContext();
-  if (product === null) {
-    throw new Error("Impossible; logic cannot be here if there is no product");
+  const { changeScreen } = useScreenContext();
+  const { reflectProducts } = useProductsContext();
+
+  async function confirm() {
+    if (product === null) {
+      throw new Error("Impossible; nothing to delete if no product");
+    }
+
+    const { sku } = product;
+    await ipcInvoke("db:deleteProduct", sku);
+    changeScreen("inv-mgmt");
+    reflectProducts();
   }
 
   const cls$div = C("px-3 py-2", cls$card);
@@ -258,11 +268,11 @@ function DeletePrompt() {
       <>Are you sure you want to delete the following product?</>
 
       <div className={cls$div}>
-        <ProductCard product={product} />
+        {product !== null && <ProductCard product={product} />}
       </div>
 
       <>
-        <button type="button" className={cls$button$confirm}>
+        <button type="button" className={cls$button$confirm} onClick={confirm}>
           Yes
         </button>
       </>
@@ -272,23 +282,6 @@ function DeletePrompt() {
 
 function Buttons() {
   const { product } = useProductFormBasisContext();
-  //   const { changeScreen } = useScreenContext();
-  //   const { reflectProducts } = useProductsContext();
-  //
-  //   /** `delete` is a keyword */
-  //   async function delete_() {
-  //     if (product === null) {
-  //       throw new Error(
-  //         "Impossible; trigger for this should not be available if there is no product",
-  //       );
-  //     }
-  //
-  //     const { sku } = product;
-  //     await ipcInvoke("db:deleteProduct", sku);
-  //     changeScreen("inv-mgmt");
-  //     reflectProducts();
-  //   }
-
   const { showOnModal } = useModalContext();
 
   function showDeletePrompt() {
