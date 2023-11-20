@@ -25,6 +25,10 @@ export async function addProduct(product: NewProduct) {
   return await db.insert(products).values(product);
 }
 
+export async function deleteProduct(sku: Product["sku"]) {
+  await db.delete(products).where(eq(products.sku, sku));
+}
+
 export async function getProduct(sku: Product["sku"]) {
   const res = await db.select().from(products).where(eq(products.sku, sku));
   if (res.length === 0) {

@@ -3,6 +3,7 @@ import { copyFile, rename, writeFile } from "fs/promises";
 import path from "path";
 import {
   addProduct,
+  deleteProduct,
   getAllProducts,
   isPasswordCorrect,
   isSKUExisting,
@@ -58,6 +59,12 @@ const ChannelHandlers = {
     product: Parameters<typeof addProduct>[0],
   ) => {
     return await addProduct(product);
+  },
+  "db:deleteProduct": async (
+    _: IpcMainInvokeEvent,
+    sku: Parameters<typeof deleteProduct>[0],
+  ) => {
+    await deleteProduct(sku);
   },
   /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (

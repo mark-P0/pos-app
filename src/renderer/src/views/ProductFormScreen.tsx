@@ -243,6 +243,22 @@ function Fieldset() {
 
 function Buttons() {
   const { product } = useProductFormBasisContext();
+  const { changeScreen } = useScreenContext();
+  const { reflectProducts } = useProductsContext();
+
+  /** `delete` is a keyword */
+  async function delete_() {
+    if (product === null) {
+      throw new Error(
+        "Impossible; trigger for this should not be available if there is no product",
+      );
+    }
+
+    const { sku } = product;
+    await ipcInvoke("db:deleteProduct", sku);
+    changeScreen("inv-mgmt");
+    reflectProducts();
+  }
 
   const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
   const cls$button$delete = C("px-4 py-1", cls$button$secondary, "transition");
@@ -250,7 +266,7 @@ function Buttons() {
     <footer className="flex flex-row-reverse gap-3">
       <button className={cls$button$save}>Save</button>
       {product !== null && (
-        <button className={cls$button$delete} type="button">
+        <button className={cls$button$delete} type="button" onClick={delete_}>
           Delete
         </button>
       )}
