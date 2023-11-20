@@ -73,6 +73,11 @@ const ChannelHandlers = {
     const dest = getActualFilePath(`data/temp/${filename}`);
     await copyFile(src, dest);
   },
+  "fs:copyImageFileToTemp": async (_: IpcMainInvokeEvent, filename: string) => {
+    const src = getActualFilePath(`data/images/${filename}`);
+    const dest = getActualFilePath(`data/temp/${filename}`);
+    await copyFile(src, dest);
+  },
   "fs:moveTempFileToImages": async (
     _: IpcMainInvokeEvent,
     src: string,

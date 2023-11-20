@@ -71,7 +71,7 @@ function useFile() {
     setFile(file);
   }
 
-  return { file, reflectFile };
+  return { file, setFile, reflectFile };
 }
 
 function useProductForm() {
@@ -81,7 +81,7 @@ function useProductForm() {
   const [price, setPrice, reflectPrice] = useNumber();
   const [stock, setStock, reflectStock] = useNumber();
   const [description, setDescription, reflectDescription] = useString();
-  const { file, reflectFile } = useFile();
+  const { file, setFile, reflectFile } = useFile();
 
   async function moveFileToImagesAsSku() {
     if (file === null) {
@@ -103,6 +103,14 @@ function useProductForm() {
     setPrice(price);
     setStock(stock);
     setDescription(description);
+
+    async function setupFile() {
+      const filename = `${sku}.png`;
+      const file = new File([], filename); // Only name attribute is important; content not accessed anywhere...
+      await ipcInvoke("fs:copyImageFileToTemp", filename);
+      setFile(file);
+    }
+    setupFile();
   }, [product]);
 
   return {
