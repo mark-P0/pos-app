@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: pos-app
+appId: com.mark-p0.pos-app
+productName: POSApp
 directories:
   buildResources: build
 files:
