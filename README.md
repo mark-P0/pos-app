@@ -29,6 +29,11 @@ A point-of-sales and inventory management application
 - [Montserrat](https://fonts.google.com/specimen/Montserrat)
 - [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed)
 
+### Icons
+
+- React Icons
+- Tabler, for PNG [app icon](https://tabler-icons.io/icon/currency-peso)
+
 ## Project Setup
 
 ### Install
