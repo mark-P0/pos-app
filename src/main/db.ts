@@ -10,7 +10,7 @@ import {
   createDb,
   products,
   users,
-} from "./schema.js";
+} from "./db/schema.js";
 import { getActualFilePath, isPathExisting } from "./utils.js";
 
 const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
