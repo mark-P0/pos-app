@@ -1,3 +1,4 @@
+import { DarkModeProvider } from "./contexts/DarkModeContext.js";
 import { LabelsProvider } from "./contexts/LabelsContext.js";
 import { ProductFormBasisProvider } from "./contexts/ProductFormBasisContext.js";
 import { ProductsProvider } from "./contexts/ProductsContext.js";
@@ -37,14 +38,16 @@ export function App() {
   return (
     <LabelsProvider>
       <ProductsProvider>
-        {/* ↑ Touches file system | ↓ App only */}
-        <UserProvider>
-          <ProductFormBasisProvider>
-            <ScreenProvider>
-              <WrappedApp />
-            </ScreenProvider>
-          </ProductFormBasisProvider>
-        </UserProvider>
+        <DarkModeProvider>
+          {/* ↑ Touches file system | ↓ App only */}
+          <UserProvider>
+            <ProductFormBasisProvider>
+              <ScreenProvider>
+                <WrappedApp />
+              </ScreenProvider>
+            </ProductFormBasisProvider>
+          </UserProvider>
+        </DarkModeProvider>
       </ProductsProvider>
     </LabelsProvider>
   );
