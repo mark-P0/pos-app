@@ -24,6 +24,9 @@ function wrappedAccess<T>(seq: ArrayLike<T>, idx: number): T {
 }
 
 const ChannelHandlers = {
+  "app:getNameAndVersion": () => {
+    return [app.getName(), app.getVersion()] as const;
+  },
   ...{
     /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
     "dark-mode:cycle": () => {
@@ -82,34 +85,33 @@ const ChannelHandlers = {
       },
     },
   },
-  "fs:writePngUriToFile": async (
-    _: IpcMainInvokeEvent,
-    uri: Parameters<typeof writePngUriToFile>[0],
-    filename: Parameters<typeof writePngUriToFile>[1],
-  ) => {
-    return await writePngUriToFile(uri, filename);
-  },
-  "fs:copyFileToTemp": async (
-    _: IpcMainInvokeEvent,
-    src: Parameters<typeof copyFileToTemp>[0],
-  ) => {
-    return await copyFileToTemp(src);
-  },
-  "fs:copyImageFileToTemp": async (
-    _: IpcMainInvokeEvent,
-    filename: Parameters<typeof copyImageFileToTemp>[0],
-  ) => {
-    return await copyImageFileToTemp(filename);
-  },
-  "fs:moveTempFileToImages": async (
-    _: IpcMainInvokeEvent,
-    src: Parameters<typeof moveTempFileToImages>[0],
-    dest: Parameters<typeof moveTempFileToImages>[1],
-  ) => {
-    return await moveTempFileToImages(src, dest);
-  },
-  "app:getNameAndVersion": () => {
-    return [app.getName(), app.getVersion()] as const;
+  ...{
+    "fs:writePngUriToFile": async (
+      _: IpcMainInvokeEvent,
+      uri: Parameters<typeof writePngUriToFile>[0],
+      filename: Parameters<typeof writePngUriToFile>[1],
+    ) => {
+      return await writePngUriToFile(uri, filename);
+    },
+    "fs:copyFileToTemp": async (
+      _: IpcMainInvokeEvent,
+      src: Parameters<typeof copyFileToTemp>[0],
+    ) => {
+      return await copyFileToTemp(src);
+    },
+    "fs:copyImageFileToTemp": async (
+      _: IpcMainInvokeEvent,
+      filename: Parameters<typeof copyImageFileToTemp>[0],
+    ) => {
+      return await copyImageFileToTemp(filename);
+    },
+    "fs:moveTempFileToImages": async (
+      _: IpcMainInvokeEvent,
+      src: Parameters<typeof moveTempFileToImages>[0],
+      dest: Parameters<typeof moveTempFileToImages>[1],
+    ) => {
+      return await moveTempFileToImages(src, dest);
+    },
   },
 } as const;
 
