@@ -30,13 +30,13 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
     closeModal();
   }
 
-  const buttonCounterCls = C(
+  const cls$button$counter = C(
     "h-8 aspect-square",
     "grid place-content-center",
     cls$button$secondary,
     "transition",
   );
-  const commitButtonCls = C(
+  const cls$button$commit = C(
     "h-8 w-32",
     "grid place-content-center",
     "border-y-2 border-cyan-800",
@@ -50,7 +50,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
     <div className="flex">
       <button
         type="button"
-        className={buttonCounterCls}
+        className={cls$button$counter}
         onClick={decrement}
         disabled={qty === min}
       >
@@ -58,7 +58,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
       </button>
       <button
         type="button"
-        className={commitButtonCls}
+        className={cls$button$commit}
         onClick={commit}
         disabled={qty === 0}
       >
@@ -69,7 +69,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
       </button>
       <button
         type="button"
-        className={buttonCounterCls}
+        className={cls$button$counter}
         onClick={increment}
         disabled={qty === max}
       >
@@ -88,12 +88,12 @@ export function QuantityPrompt(props: { product: Product }) {
     product,
     state: [qty, setQty],
   };
-  const divCls = C("px-3 py-2", cls$card);
+  const cls$div = C("px-3 py-2", cls$card);
   return (
     <Prompt onClose={closeModal}>
       <>How many of this product to add?</>
 
-      <div className={divCls}>
+      <div className={cls$div}>
         <ProductCard product={product} />
       </div>
 
