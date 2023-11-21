@@ -5,7 +5,7 @@
 
 import { CustomScheme, app, net, protocol } from "electron";
 import { pathToFileURL } from "url";
-import { getActualFilePath } from "../../data/utils.js";
+import { getActualFilePath } from "./utils.js";
 
 type SchemeHandler = Parameters<typeof protocol.handle>[1];
 

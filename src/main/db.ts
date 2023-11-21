@@ -10,8 +10,8 @@ import {
   products,
   users,
 } from "../../data/schema.js";
-import { getActualFilePath, isPathExisting } from "../../data/utils.js";
 import { hash, isHashOf } from "./auth.js";
+import { getActualFilePath, isPathExisting } from "./utils.js";
 
 const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
 if (!isPathExisting(DB_FILE_PATH)) {

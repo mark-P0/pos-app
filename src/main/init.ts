@@ -1,5 +1,5 @@
 import { mkdirSync } from "fs";
-import { getActualFilePath, isPathExisting } from "../../data/utils.js";
+import { getActualFilePath, isPathExisting } from "./utils.js";
 
 function initializeDirectories() {
   const dirs = ["data", "data/images", "data/receipts", "data/temp"];
