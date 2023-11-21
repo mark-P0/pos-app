@@ -13,6 +13,8 @@ import {
 import { ChangeEvent, useEffect, useState } from "react";
 import { Prompt } from "./Prompt.js";
 
+const cls$button$no = C("px-4 py-1", cls$button$secondary, "transition");
+const cls$button$yes = C("px-4 py-1", cls$button$primary, "transition");
 function ResetPrompt() {
   const { closeModal } = useModalContext();
   const { clearCart } = useCartContext();
@@ -25,8 +27,6 @@ function ResetPrompt() {
     closeModal();
   }
 
-  const cancelCls = C("px-4 py-1", cls$button$secondary, "transition");
-  const confirmCls = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt>
       <>Are you sure you want to reset the current transaction?</>
@@ -34,10 +34,10 @@ function ResetPrompt() {
       <></>
 
       <>
-        <button type="button" className={confirmCls} onClick={confirm}>
+        <button type="button" className={cls$button$yes} onClick={confirm}>
           Yes
         </button>
-        <button type="button" className={cancelCls} onClick={cancel}>
+        <button type="button" className={cls$button$no} onClick={cancel}>
           No
         </button>
       </>
@@ -45,6 +45,16 @@ function ResetPrompt() {
   );
 }
 
+const cls$label = C(
+  "grid grid-cols-[auto_1fr] items-center gap-3",
+  "p-1 pl-3",
+  cls$card,
+  cls$interactiveHoverBg,
+  "transition",
+);
+const cls$input = C("px-2 py-1", "bg-transparent");
+const cls$confirm = C("px-4 py-1", cls$button$primary, "transition");
+const cls$basePay = C("px-4 py-1", cls$button$secondary, "transition");
 function CheckoutPrompt() {
   const { totalCartPrice, pay } = useCartContext();
   const { showOnModal, closeModal } = useModalContext();
@@ -67,25 +77,15 @@ function CheckoutPrompt() {
 
   const currencySymbol = formatPrice(amount)[0];
 
-  const labelCls = C(
-    "grid grid-cols-[auto_1fr] items-center gap-3",
-    "p-1 pl-3",
-    cls$card,
-    cls$interactiveHoverBg,
-    "transition",
-  );
-  const inputCls = C("px-2 py-1", "bg-transparent");
-  const basePayCls = C("px-4 py-1", cls$button$secondary, "transition");
-  const confirmCls = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt onClose={closeModal}>
       <>Enter payment amount:</>
 
-      <label className={labelCls}>
+      <label className={cls$label}>
         {currencySymbol}
         <input
           type="number"
-          className={inputCls}
+          className={cls$input}
           value={amount}
           onChange={updateAmount}
         />
@@ -94,13 +94,13 @@ function CheckoutPrompt() {
       <>
         <button
           type="button"
-          className={confirmCls}
+          className={cls$confirm}
           disabled={amount < totalCartPrice}
           onClick={checkout}
         >
           Confirm
         </button>
-        <button type="button" className={basePayCls} onClick={setExactAmount}>
+        <button type="button" className={cls$basePay} onClick={setExactAmount}>
           Use exact{" "}
           <span className="font-bold">{formatPrice(totalCartPrice)}</span>
         </button>
@@ -109,6 +109,9 @@ function CheckoutPrompt() {
   );
 }
 
+const cls$button$feature = C("px-4 py-1", cls$button$secondary, "transition");
+const cls$button$new = C("px-4 py-1", cls$button$primary, "transition");
+const cls$receipt = C("grid place-items-center", cls$scrollbar);
 function PostCheckoutPrompt() {
   const { changeScreen } = useScreenContext();
   const { closeModal, makeModalCancellable } = useModalContext();
@@ -140,9 +143,6 @@ function PostCheckoutPrompt() {
     regenerateTransactionId();
   }
 
-  const chooseFeatureCls = C("px-4 py-1", cls$button$secondary, "transition");
-  const newTransactionCls = C("px-4 py-1", cls$button$primary, "transition");
-  const receiptCls = C("grid place-items-center", cls$scrollbar);
   return (
     <Prompt>
       <>Transaction success!</>
@@ -150,7 +150,7 @@ function PostCheckoutPrompt() {
       {src === null ? (
         <p>Printing the receipt...</p>
       ) : (
-        <div className={receiptCls}>
+        <div className={cls$receipt}>
           <img src={src} alt="An image of the receipt" />
         </div>
       )}
@@ -158,14 +158,14 @@ function PostCheckoutPrompt() {
       <>
         <button
           type="button"
-          className={newTransactionCls}
+          className={cls$button$new}
           onClick={newTransaction}
         >
           New Transaction
         </button>
         <button
           type="button"
-          className={chooseFeatureCls}
+          className={cls$button$feature}
           onClick={chooseFeature}
         >
           Choose Feature
@@ -175,6 +175,8 @@ function PostCheckoutPrompt() {
   );
 }
 
+const cls$reset = C("px-2 py-3", cls$button$secondary, "transition");
+const cls$checkout = C("px-2 py-3", cls$button$primary, "transition");
 export function POSButtons() {
   const { isCartEmpty } = useCartContext();
   const { showOnModal } = useModalContext();
@@ -186,19 +188,17 @@ export function POSButtons() {
     showOnModal(<CheckoutPrompt />);
   }
 
-  const resetCls = C("px-2 py-3", cls$button$secondary, "transition");
-  const checkoutCls = C("px-2 py-3", cls$button$primary, "transition");
   return (
     <aside className="grid gap-3 auto-rows-min p-3 pt-0">
       <button
-        className={resetCls}
+        className={cls$reset}
         disabled={isCartEmpty}
         onClick={showResetPrompt}
       >
         Reset
       </button>
       <button
-        className={checkoutCls}
+        className={cls$checkout}
         disabled={isCartEmpty}
         onClick={showCheckoutPrompt}
       >

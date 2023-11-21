@@ -57,6 +57,14 @@ function InventoryManagementButton() {
   );
 }
 
+const cls$main = C(
+  "overflow-hidden relative",
+  "h-screen flex flex-col",
+  "font-body",
+  ...[cls$bg, cls$text, cls$selection],
+  cls$outline,
+  "transition",
+);
 function WrappedScreen(
   props: PropsWithChildren<{
     withLogoutButton?: boolean;
@@ -71,16 +79,8 @@ function WrappedScreen(
     withInventoryManagementButton = false,
   } = props;
 
-  const cls = C(
-    "overflow-hidden relative",
-    "h-screen flex flex-col",
-    "font-body",
-    ...[cls$bg, cls$text, cls$selection],
-    cls$outline,
-    "transition",
-  );
   return (
-    <main className={cls}>
+    <main className={cls$main}>
       <Modal />
 
       <header className="flex flex-row-reverse px-4 py-3">

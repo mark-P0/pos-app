@@ -59,13 +59,13 @@ export function CartTable() {
   const cash = payment ?? totalCartPrice;
   const change = cash - totalCartPrice;
 
-  const clsColumnAlignment = C(
+  const cls$column$alignment = C(
     "[&_td:nth-child(1)]:text-left",
     "[&_td:nth-child(2)]:text-center",
     "[&_td:nth-child(3)]:text-left",
     "[&_td:nth-child(4)]:text-right",
   );
-  const cls = C("w-full", clsColumnAlignment);
+  const cls = C("w-full", cls$column$alignment);
   return (
     <table className={cls}>
       <colgroup>

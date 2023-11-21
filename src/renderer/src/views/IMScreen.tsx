@@ -17,6 +17,12 @@ import {
 } from "@renderer/utils/classes.js";
 import { ComponentProps, useState } from "react";
 
+const cls$button$secondary$selected = C(
+  cls$button,
+  "bg-cyan-600",
+  ...["enabled:hover:bg-cyan-600", "enabled:focus-visible:bg-cyan-600"],
+  "text-white",
+);
 function RadioButtonFieldset<T extends string>(props: {
   className: ComponentProps<"fieldset">["className"];
   values: readonly T[];
@@ -28,12 +34,6 @@ function RadioButtonFieldset<T extends string>(props: {
   const { className } = props;
   const attrs$fieldset: ComponentProps<"fieldset"> = { className };
 
-  const cls$button$secondary$selected = C(
-    cls$button,
-    "bg-cyan-600",
-    ...["enabled:hover:bg-cyan-600", "enabled:focus-visible:bg-cyan-600"],
-    "text-white",
-  );
   const cls$button$radio = (value: T) =>
     C(
       "px-6 py-3",
@@ -105,6 +105,7 @@ function CheckboxButtonFieldset<T extends string>(props: {
   );
 }
 
+const cls$button$new = C("px-6 py-3", cls$button$primary, "transition");
 function Actions() {
   const { changeProduct } = useProductFormBasisContext();
   const { changeScreen } = useScreenContext();
@@ -118,7 +119,6 @@ function Actions() {
     changeScreen("product-form");
   }
 
-  const cls$button$new = C("px-6 py-3", cls$button$primary, "transition");
   return (
     <form className="h-full flex flex-col gap-6 text-sm">
       <section className="grid gap-3">
@@ -151,14 +151,15 @@ function Actions() {
   );
 }
 
+const cls$aside = C(cls$scrollbar, "p-3 pt-0");
 function ActionList() {
-  const cls = C(cls$scrollbar, "p-3 pt-0");
   return (
-    <aside className={cls}>
+    <aside className={cls$aside}>
       <Actions />
     </aside>
   );
 }
+
 function IMProductList() {
   const { products } = useDisplayProductsContext();
   const { changeProduct } = useProductFormBasisContext();

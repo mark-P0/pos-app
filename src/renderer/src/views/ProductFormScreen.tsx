@@ -179,6 +179,12 @@ function DescriptionTextArea() {
   );
 }
 
+const cls$span$grid = C(
+  "grid gap-3 gap-y-1",
+  "[&>*:nth-child(1)]:place-self-end",
+  "[&>*:nth-child(2)]:col-start-2",
+  "[&>*:nth-child(3)]:col-span-2 ",
+);
 function ImageInput() {
   const { file, reflectFile } = useProductFormContext();
 
@@ -189,7 +195,7 @@ function ImageInput() {
     >
       {file === null && <span className="font-bold">Select an image</span>}
       {src !== null && (
-        <span className="grid [&>*:nth-child(1)]:place-self-end [&>*:nth-child(2)]:col-start-2 [&>*:nth-child(3)]:col-span-2 gap-3 gap-y-1">
+        <span className={cls$span$grid}>
           <span className="font-bold">Selected image:</span>
           <img
             src={src}
@@ -246,6 +252,8 @@ function Fieldset() {
   );
 }
 
+const cls$div = C("px-3 py-2", cls$card);
+const cls$button$confirm = C("px-4 py-1", cls$button$primary, "transition");
 function DeletePrompt() {
   const { product } = useProductFormBasisContext();
   const { closeModal } = useModalContext();
@@ -263,8 +271,6 @@ function DeletePrompt() {
     reflectProducts();
   }
 
-  const cls$div = C("px-3 py-2", cls$card);
-  const cls$button$confirm = C("px-4 py-1", cls$button$primary, "transition");
   return (
     <Prompt onClose={closeModal}>
       <>Are you sure you want to delete the following product?</>
@@ -282,6 +288,8 @@ function DeletePrompt() {
   );
 }
 
+const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
+const cls$button$delete = C("px-4 py-1", cls$button$secondary, "transition");
 function Buttons() {
   const { product } = useProductFormBasisContext();
   const { showOnModal } = useModalContext();
@@ -290,8 +298,6 @@ function Buttons() {
     showOnModal(<DeletePrompt />);
   }
 
-  const cls$button$save = C("px-4 py-1", cls$button$primary, "transition");
-  const cls$button$delete = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <footer className="flex flex-row-reverse gap-3">
       <button className={cls$button$save}>Save</button>
@@ -308,6 +314,11 @@ function Buttons() {
   );
 }
 
+const cls$form = C(
+  "h-full",
+  "flex flex-col [&>*:nth-child(1)]:flex-1 gap-6",
+  "p-6 pt-0",
+);
 function Form() {
   const values = useProductFormContext();
   const { sku, name, category, price, stock, description } = values;
@@ -343,9 +354,6 @@ function Form() {
     moveFileToImagesAsSku();
   }
 
-  const cls$form = C(
-    "h-full flex flex-col [&>*:nth-child(1)]:flex-1 gap-6 p-6 pt-0",
-  );
   return (
     <form className={cls$form} onSubmit={trySave}>
       <Fieldset />

@@ -8,6 +8,22 @@ import { LuMinus, LuPlus } from "react-icons/lu";
 import { ProductCard } from "./ProductCard.js";
 import { Prompt } from "./Prompt.js";
 
+const cls$button$counter = C(
+  "h-8 aspect-square",
+  "grid place-content-center",
+  cls$button$secondary,
+  "transition",
+);
+const cls$button$commit = C(
+  "h-8 w-32",
+  "grid place-content-center",
+  "border-y-2 border-cyan-800",
+  "enabled:hover:bg-rose-700/25 dark:enabled:hover:bg-rose-700/50",
+  "enabled:focus-visible:bg-rose-700/25 dark:enabled:focus-visible:bg-rose-700/50",
+  "enabled:active:scale-95",
+  "disabled:opacity-50",
+  "transition",
+);
 function QuantityCounter(props: { product: Product; state?: State<number> }) {
   const { product, state } = props;
   const [qty, setQty] = state ?? useState(0);
@@ -30,27 +46,11 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
     closeModal();
   }
 
-  const buttonCounterCls = C(
-    "h-8 aspect-square",
-    "grid place-content-center",
-    cls$button$secondary,
-    "transition",
-  );
-  const commitButtonCls = C(
-    "h-8 w-32",
-    "grid place-content-center",
-    "border-y-2 border-cyan-800",
-    "enabled:hover:bg-rose-700/25 dark:enabled:hover:bg-rose-700/50",
-    "enabled:focus-visible:bg-rose-700/25 dark:enabled:focus-visible:bg-rose-700/50",
-    "enabled:active:scale-95",
-    "disabled:opacity-50",
-    "transition",
-  );
   return (
     <div className="flex">
       <button
         type="button"
-        className={buttonCounterCls}
+        className={cls$button$counter}
         onClick={decrement}
         disabled={qty === min}
       >
@@ -58,7 +58,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
       </button>
       <button
         type="button"
-        className={commitButtonCls}
+        className={cls$button$commit}
         onClick={commit}
         disabled={qty === 0}
       >
@@ -69,7 +69,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
       </button>
       <button
         type="button"
-        className={buttonCounterCls}
+        className={cls$button$counter}
         onClick={increment}
         disabled={qty === max}
       >
@@ -79,6 +79,7 @@ function QuantityCounter(props: { product: Product; state?: State<number> }) {
   );
 }
 
+const cls$card$container = C("px-3 py-2", cls$card);
 export function QuantityPrompt(props: { product: Product }) {
   const { product } = props;
   const [qty, setQty] = useState(0);
@@ -88,12 +89,11 @@ export function QuantityPrompt(props: { product: Product }) {
     product,
     state: [qty, setQty],
   };
-  const divCls = C("px-3 py-2", cls$card);
   return (
     <Prompt onClose={closeModal}>
       <>How many of this product to add?</>
 
-      <div className={divCls}>
+      <div className={cls$card$container}>
         <ProductCard product={product} />
       </div>
 
