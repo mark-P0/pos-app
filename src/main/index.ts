@@ -1,3 +1,5 @@
+import "./init.ts";
+
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { BrowserWindow, app, nativeTheme, screen, shell } from "electron";
 import { join } from "path";
