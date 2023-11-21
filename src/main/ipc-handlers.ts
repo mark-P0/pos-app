@@ -6,11 +6,10 @@ import {
   deleteProduct,
   editProduct,
   getAllProducts,
-  isPasswordCorrect,
   isSKUExisting,
-  isUsernameExisting,
-} from "../../data/db.js";
-import { getActualFilePath } from "../../data/utils.js";
+} from "./db/products.js";
+import { isPasswordCorrect, isUsernameExisting } from "./db/users.js";
+import { getActualFilePath } from "./fs.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
 function modulo(n: number, d: number) {
