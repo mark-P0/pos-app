@@ -6,16 +6,16 @@ import { MachineInfo } from "./MachineInfo.js";
 import { MapTable } from "./MapTable.js";
 import { StoreDetails } from "./StoreDetails.js";
 
+const cls$curtain = C(
+  "absolute z-10 w-full h-full",
+  "grid place-content-center",
+  "bg-transparent dark:bg-cyan-950/50",
+  cls$text,
+  "transition",
+);
 function CurtainDialog() {
-  const cls = C(
-    "absolute z-10 w-full h-full",
-    "grid place-content-center",
-    "bg-transparent dark:bg-cyan-950/50",
-    cls$text,
-    "transition",
-  );
   return (
-    <dialog className={cls}>
+    <dialog className={cls$curtain}>
       <p className="bg-cyan-950/10 px-3 py-2 font-bold">
         Add items to begin transaction
       </p>
@@ -84,12 +84,12 @@ function Receipt() {
   );
 }
 
+const cls$receipt$column = C("relative", cls$scrollbar, "p-6 pt-0");
 export function ReceiptColumn() {
   const { isCartEmpty } = useCartContext();
 
-  const cls = C("relative", cls$scrollbar, "p-6 pt-0");
   return (
-    <figure className={cls}>
+    <figure className={cls$receipt$column}>
       {isCartEmpty && <CurtainDialog />}
       <Receipt />
       <figcaption className="hidden">

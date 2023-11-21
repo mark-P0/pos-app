@@ -16,6 +16,15 @@ function CloseButton(props: ComponentProps<"button">) {
   );
 }
 
+const cls$form = C(
+  "select-none",
+  "overflow-hidden h-full",
+  "w-[60vw]", // 3/5 of full-width
+  "grid gap-3",
+  "p-6 rounded-lg",
+  ...[cls$bg, cls$text, cls$selection],
+  "transition",
+);
 /** Uses first three (3) children to set content; the others are not used */
 export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
   const { children, onClose } = props;
@@ -27,17 +36,8 @@ export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
     event.preventDefault();
   }
 
-  const cls = C(
-    "select-none",
-    "overflow-hidden h-full",
-    "w-[60vw]", // 3/5 of full-width
-    "grid gap-3",
-    "p-6 rounded-lg",
-    ...[cls$bg, cls$text, cls$selection],
-    "transition",
-  );
   return (
-    <form className={cls} onSubmit={blockSubmit}>
+    <form className={cls$form} onSubmit={blockSubmit}>
       <header className="flex justify-between items-center">
         <span className="font-head text-3xl">{title}</span>
         {onClose !== undefined && <CloseButton onClick={onClose} />}

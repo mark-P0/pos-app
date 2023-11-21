@@ -27,6 +27,12 @@ async function runValidations() {
   }
 }
 
+const cls$input = C(
+  "px-2 py-1",
+  "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
+  "transition",
+);
+
 function UsernameInput() {
   const [inputRef, accessInputRef] = useNewRef<HTMLInputElement>();
   const { username, setUsername } = useLoginContext();
@@ -51,17 +57,12 @@ function UsernameInput() {
     return true;
   };
 
-  const cls = C(
-    "px-2 py-1",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
-    "transition",
-  );
   return (
     <label className="grid grid-cols-[35%_65%] items-center">
       <span className="text-sm tracking-widest">Username</span>
       <input
         ref={inputRef}
-        className={cls}
+        className={cls$input}
         type="text"
         name="username"
         required
@@ -94,17 +95,12 @@ function PasswordInput() {
     return true;
   };
 
-  const cls = C(
-    "px-2 py-1",
-    "border-2 border-cyan-950 dark:border-transparent dark:bg-cyan-950",
-    "transition",
-  );
   return (
     <label className="grid grid-cols-[35%_65%] items-center">
       <span className="text-sm tracking-widest">Password</span>
       <input
         ref={inputRef}
-        className={cls}
+        className={cls$input}
         type="password"
         name="password"
         required
@@ -115,6 +111,8 @@ function PasswordInput() {
   );
 }
 
+const cls$login = C("px-4 py-1", cls$button$primary, "transition");
+const cls$login$guest = C("px-4 py-1", cls$button$secondary, "transition");
 function LoginForm() {
   const { username, setUsername } = useLoginContext();
   const { changeUser } = useUserContext();
@@ -145,8 +143,6 @@ function LoginForm() {
     }
   });
 
-  const cls$login = C("px-4 py-1", cls$button$primary, "transition");
-  const cls$login$guest = C("px-4 py-1", cls$button$secondary, "transition");
   return (
     <form className="grid gap-6 select-none" onSubmit={tryLogin}>
       <section className="grid gap-3">
