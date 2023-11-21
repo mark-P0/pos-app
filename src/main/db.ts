@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
+import { hash, isHashOf } from "./auth.js";
 import {
   NewProduct,
   NewUser,
@@ -9,8 +10,7 @@ import {
   createDb,
   products,
   users,
-} from "../../data/schema.js";
-import { hash, isHashOf } from "./auth.js";
+} from "./schema.js";
 import { getActualFilePath, isPathExisting } from "./utils.js";
 
 const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
