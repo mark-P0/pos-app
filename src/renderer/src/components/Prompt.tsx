@@ -5,7 +5,7 @@ import {
   cls$selection,
   cls$text,
 } from "@renderer/utils/classes.js";
-import { ComponentProps, PropsWithChildren } from "react";
+import { ComponentProps, FormEvent, PropsWithChildren } from "react";
 import { LuX } from "react-icons/lu";
 
 function CloseButton(props: ComponentProps<"button">) {
@@ -23,6 +23,10 @@ export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
   const body = children?.[1];
   const actions = children?.[2];
 
+  function blockSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
   const cls = C(
     "select-none",
     "overflow-hidden h-full",
@@ -33,7 +37,7 @@ export function Prompt(props: PropsWithChildren<{ onClose?: () => void }>) {
     "transition",
   );
   return (
-    <form className={cls}>
+    <form className={cls} onSubmit={blockSubmit}>
       <header className="flex justify-between items-center">
         <span className="font-head text-3xl">{title}</span>
         {onClose !== undefined && <CloseButton onClick={onClose} />}
