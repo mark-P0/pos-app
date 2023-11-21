@@ -34,6 +34,19 @@ A point-of-sales and inventory management application
 - React Icons
 - Tabler, for PNG [app icon](https://tabler-icons.io/icon/currency-peso)
 
+## Screenshots
+
+|           Light Mode           |           Dark Mode           |
+| :----------------------------: | :---------------------------: |
+| ![](./screenshots/1-light.png) | ![](./screenshots/1-dark.png) |
+| ![](./screenshots/2-light.png) | ![](./screenshots/2-dark.png) |
+| ![](./screenshots/3-light.png) | ![](./screenshots/3-dark.png) |
+| ![](./screenshots/4-light.png) | ![](./screenshots/4-dark.png) |
+| ![](./screenshots/5-light.png) | ![](./screenshots/5-dark.png) |
+| ![](./screenshots/6-light.png) | ![](./screenshots/6-dark.png) |
+| ![](./screenshots/7-light.png) | ![](./screenshots/7-dark.png) |
+| ![](./screenshots/8-light.png) | ![](./screenshots/8-dark.png) |
+
 ## Project Setup
 
 ### Install
