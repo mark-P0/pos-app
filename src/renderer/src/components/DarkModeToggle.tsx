@@ -1,26 +1,11 @@
+import { useDarkModeContext } from "@renderer/contexts/DarkModeContext.js";
 import { C, cls$button$icon } from "@renderer/utils/classes.js";
-import { useEffect, useState } from "react";
 import { LuMoon, LuSun, LuSunMoon } from "react-icons/lu";
 
 const { ipcInvoke } = window.api;
 
-type Status = Awaited<ReturnType<typeof ipcInvoke<"dark-mode:status">>>;
-function useStatus() {
-  const [status, setStatus] = useState<Status | null>(null);
-  useEffect(() => {
-    reflectStatus();
-  }, []);
-
-  async function reflectStatus() {
-    const status = await ipcInvoke("dark-mode:status");
-    setStatus(status);
-  }
-
-  return { status, reflectStatus };
-}
-
 export function DarkModeToggle() {
-  const { status, reflectStatus } = useStatus();
+  const { status, reflectStatus } = useDarkModeContext();
 
   function toggle() {
     ipcInvoke("dark-mode:cycle");
