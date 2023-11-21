@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: pos-app
+appId: com.mark-p0.pos-app
+productName: POSApp
 directories:
   buildResources: build
 files:
@@ -14,6 +14,7 @@ asarUnpack:
 win:
   executableName: pos-app
   target: portable
+  artifactName: ${productName}-v${version}-portable.${ext}
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

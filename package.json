@@ -1,6 +1,6 @@
 {
   "name": "pos-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A point-of-sales and inventory management application",
   "main": "./out/main/index.js",
   "author": "Mark",

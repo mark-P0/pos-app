@@ -180,7 +180,7 @@ function LoginCard() {
     <section className={cls}>
       <header className="grid place-content-center">
         <h1 className="text-5xl font-head uppercase tracking-widest">
-          <span className="font-bold">pos</span> app
+          <span className="font-bold">POS</span> App
         </h1>
       </header>
 

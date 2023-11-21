@@ -2,7 +2,7 @@
 
 A point-of-sales and inventory management application
 
-## Libraries | Frameworks
+## Dependencies
 
 - `electron-vite`
   - Electron
@@ -10,8 +10,11 @@ A point-of-sales and inventory management application
   - React
   - Typescript
 - Tailwind
+  - `tailwind-scrollbar`
 - Drizzle ORM
   - `better-sqlite3`
+- `argon2`, for password hashing
+- `html-to-image`, for exporting elements as images
 
 ### Dev Tools
 
@@ -25,6 +28,24 @@ A point-of-sales and inventory management application
 
 - [Montserrat](https://fonts.google.com/specimen/Montserrat)
 - [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed)
+
+### Icons
+
+- React Icons
+- Tabler, for PNG [app icon](https://tabler-icons.io/icon/currency-peso)
+
+## Screenshots
+
+|           Light Mode           |           Dark Mode           |
+| :----------------------------: | :---------------------------: |
+| ![](./screenshots/1-light.png) | ![](./screenshots/1-dark.png) |
+| ![](./screenshots/2-light.png) | ![](./screenshots/2-dark.png) |
+| ![](./screenshots/3-light.png) | ![](./screenshots/3-dark.png) |
+| ![](./screenshots/4-light.png) | ![](./screenshots/4-dark.png) |
+| ![](./screenshots/5-light.png) | ![](./screenshots/5-dark.png) |
+| ![](./screenshots/6-light.png) | ![](./screenshots/6-dark.png) |
+| ![](./screenshots/7-light.png) | ![](./screenshots/7-dark.png) |
+| ![](./screenshots/8-light.png) | ![](./screenshots/8-dark.png) |
 
 ## Project Setup
 
