@@ -1,6 +1,4 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
-import { copyFile, rename, writeFile } from "fs/promises";
-import path from "path";
 import {
   addProduct,
   deleteProduct,
@@ -9,7 +7,12 @@ import {
   isSKUExisting,
 } from "./db/products.js";
 import { isPasswordCorrect, isUsernameExisting } from "./db/users.js";
-import { getActualFilePath } from "./fs.js";
+import {
+  copyFileToTemp,
+  copyImageFileToTemp,
+  moveTempFileToImages,
+  writePngUriToFile,
+} from "./fs.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
 function modulo(n: number, d: number) {
@@ -72,34 +75,31 @@ const ChannelHandlers = {
   ) => {
     await editProduct(product);
   },
-  /** https://stackoverflow.com/a/77266873 */
   "fs:writePngUriToFile": async (
     _: IpcMainInvokeEvent,
-    uri: string,
-    filename: string,
+    uri: Parameters<typeof writePngUriToFile>[0],
+    filename: Parameters<typeof writePngUriToFile>[1],
   ) => {
-    const [, base64Data] = uri.split(",");
-    await writeFile(getActualFilePath(filename), base64Data, "base64");
+    return await writePngUriToFile(uri, filename);
   },
-  "fs:copyFileToTemp": async (_: IpcMainInvokeEvent, src: string) => {
-    const filename = path.basename(src);
-    const dest = getActualFilePath(`data/temp/${filename}`);
-    await copyFile(src, dest);
+  "fs:copyFileToTemp": async (
+    _: IpcMainInvokeEvent,
+    src: Parameters<typeof copyFileToTemp>[0],
+  ) => {
+    return await copyFileToTemp(src);
   },
-  "fs:copyImageFileToTemp": async (_: IpcMainInvokeEvent, filename: string) => {
-    const src = getActualFilePath(`data/images/${filename}`);
-    const dest = getActualFilePath(`data/temp/${filename}`);
-    await copyFile(src, dest);
+  "fs:copyImageFileToTemp": async (
+    _: IpcMainInvokeEvent,
+    filename: Parameters<typeof copyImageFileToTemp>[0],
+  ) => {
+    return await copyImageFileToTemp(filename);
   },
   "fs:moveTempFileToImages": async (
     _: IpcMainInvokeEvent,
-    src: string,
-    dest: string,
+    src: Parameters<typeof moveTempFileToImages>[0],
+    dest: Parameters<typeof moveTempFileToImages>[1],
   ) => {
-    await rename(
-      getActualFilePath(`data/temp/${src}`),
-      getActualFilePath(`data/images/${dest}`),
-    );
+    return await moveTempFileToImages(src, dest);
   },
   "app:getNameAndVersion": () => {
     return [app.getName(), app.getVersion()] as const;

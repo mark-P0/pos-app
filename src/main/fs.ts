@@ -1,4 +1,5 @@
 import { accessSync } from "fs";
+import { copyFile, rename, writeFile } from "fs/promises";
 import path from "path";
 
 /**
@@ -24,4 +25,29 @@ export function isPathExisting(path: string) {
   } catch {
     return false;
   }
+}
+
+/** https://stackoverflow.com/a/77266873 */
+export async function writePngUriToFile(uri: string, filename: string) {
+  const [, base64Data] = uri.split(",");
+  await writeFile(getActualFilePath(filename), base64Data, "base64");
+}
+
+export async function copyFileToTemp(src: string) {
+  const filename = path.basename(src);
+  const dest = getActualFilePath(`data/temp/${filename}`);
+  await copyFile(src, dest);
+}
+
+export async function copyImageFileToTemp(filename: string) {
+  const src = getActualFilePath(`data/images/${filename}`);
+  const dest = getActualFilePath(`data/temp/${filename}`);
+  await copyFile(src, dest);
+}
+
+export async function moveTempFileToImages(src: string, dest: string) {
+  await rename(
+    getActualFilePath(`data/temp/${src}`),
+    getActualFilePath(`data/images/${dest}`),
+  );
 }
