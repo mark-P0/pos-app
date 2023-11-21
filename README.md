@@ -2,7 +2,7 @@
 
 A point-of-sales and inventory management application
 
-## Libraries | Frameworks
+## Dependencies
 
 - `electron-vite`
   - Electron
@@ -10,8 +10,11 @@ A point-of-sales and inventory management application
   - React
   - Typescript
 - Tailwind
+  - `tailwind-scrollbar`
 - Drizzle ORM
   - `better-sqlite3`
+- `argon2`, for password hashing
+- `html-to-image`, for exporting elements as images
 
 ### Dev Tools
 
