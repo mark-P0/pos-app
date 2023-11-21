@@ -14,8 +14,8 @@ function useStatus() {
     setStatus(status);
   }
 
-  function toggle() {
-    ipcInvoke("dark-mode:cycle");
+  async function toggle() {
+    await ipcInvoke("dark-mode:cycle");
     reflectStatus();
   }
 
