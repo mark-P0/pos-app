@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { hash, isHashOf } from "../auth.js";
 import { db } from "../db.js";
+import { hash, isHashOf } from "./auth.js";
 import { NewUser, User, users } from "./schema.js";
 
 export async function addUser(user: NewUser) {
