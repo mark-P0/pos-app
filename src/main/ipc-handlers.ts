@@ -1,7 +1,6 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { copyFile, rename, writeFile } from "fs/promises";
 import path from "path";
-import { isPasswordCorrect, isUsernameExisting } from "./db.js";
 import {
   addProduct,
   deleteProduct,
@@ -9,6 +8,7 @@ import {
   getAllProducts,
   isSKUExisting,
 } from "./db/products.js";
+import { isPasswordCorrect, isUsernameExisting } from "./db/users.js";
 import { getActualFilePath } from "./utils.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
