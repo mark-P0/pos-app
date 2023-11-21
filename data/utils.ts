@@ -1,3 +1,4 @@
+import { accessSync } from "fs";
 import path from "path";
 
 /**
@@ -14,4 +15,13 @@ export function getActualFilePath(...filepath: string[]) {
    */
   const appDir = PORTABLE_EXECUTABLE_DIR ?? ".";
   return path.join(appDir, ...filepath);
+}
+
+export function isPathExisting(path: string) {
+  try {
+    accessSync(path);
+    return true;
+  } catch {
+    return false;
+  }
 }

@@ -7,14 +7,18 @@ import {
   NewUser,
   Product,
   User,
+  createDb,
   products,
   users,
 } from "./schema.js";
-import { getActualFilePath } from "./utils.js";
+import { getActualFilePath, isPathExisting } from "./utils.js";
 
 const DB_FILE_PATH = getActualFilePath("data/data.sqlite");
+if (!isPathExisting(DB_FILE_PATH)) {
+  createDb(DB_FILE_PATH);
+}
 
-const sqlite = new Database(DB_FILE_PATH);
+const sqlite = new Database(DB_FILE_PATH, { fileMustExist: true });
 const db = drizzle(sqlite);
 
 export async function getAllProducts() {
