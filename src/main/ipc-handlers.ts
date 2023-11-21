@@ -24,16 +24,18 @@ function wrappedAccess<T>(seq: ArrayLike<T>, idx: number): T {
 }
 
 const ChannelHandlers = {
-  /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
-  "dark-mode:cycle": () => {
-    type Theme = typeof nativeTheme.themeSource;
-    const themes: Theme[] = ["system", "light", "dark"];
-    const idx = themes.indexOf(nativeTheme.themeSource);
-    nativeTheme.themeSource = wrappedAccess(themes, idx + 1); // Move theme forward
-    return nativeTheme.themeSource;
-  },
-  "dark-mode:status": () => {
-    return nativeTheme.themeSource;
+  ...{
+    /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
+    "dark-mode:cycle": () => {
+      type Theme = typeof nativeTheme.themeSource;
+      const themes: Theme[] = ["system", "light", "dark"];
+      const idx = themes.indexOf(nativeTheme.themeSource);
+      nativeTheme.themeSource = wrappedAccess(themes, idx + 1); // Move theme forward
+      return nativeTheme.themeSource;
+    },
+    "dark-mode:status": () => {
+      return nativeTheme.themeSource;
+    },
   },
   ...{
     ...{
