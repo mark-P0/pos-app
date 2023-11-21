@@ -6,7 +6,7 @@ export function C(...classes: Array<string | boolean | null | undefined>) {
   return strings.join(" ");
 }
 
-export const cls$absoluteCenter = C(
+export const cls$absolute$center = C(
   "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
 );
 export const cls$scrollbar = C(

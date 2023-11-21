@@ -9,7 +9,7 @@ import { useUserContext } from "@renderer/contexts/UserContext.js";
 import { useNewRef } from "@renderer/utils.js";
 import {
   C,
-  cls$absoluteCenter,
+  cls$absolute$center,
   cls$button$primary,
   cls$button$secondary,
   cls$card,
@@ -175,7 +175,7 @@ function LoginForm() {
 
 function LoginCard() {
   const cls = C(
-    cls$absoluteCenter,
+    cls$absolute$center,
     "w-[28rem] grid gap-12 p-12 pb-6",
     cls$card,
     "transition",

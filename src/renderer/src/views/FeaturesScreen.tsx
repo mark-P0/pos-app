@@ -2,7 +2,7 @@ import { Screen } from "@renderer/components/Screen.js";
 import { useScreenContext } from "@renderer/contexts/ScreenContext.js";
 import {
   C,
-  cls$absoluteCenter,
+  cls$absolute$center,
   cls$card,
   cls$interactiveHoverBg,
 } from "@renderer/utils/classes.js";
@@ -44,7 +44,7 @@ export function FeaturesScreen() {
   const cls = C(
     "overflow-hidden",
     "w-max", // Without this, the absolute position properties below will resize the element...
-    cls$absoluteCenter,
+    cls$absolute$center,
     "grid grid-cols-2 gap-12 p-3",
   );
   return (
