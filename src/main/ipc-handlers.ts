@@ -9,7 +9,7 @@ import {
   isSKUExisting,
 } from "./db/products.js";
 import { isPasswordCorrect, isUsernameExisting } from "./db/users.js";
-import { getActualFilePath } from "./utils.js";
+import { getActualFilePath } from "./fs.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
 function modulo(n: number, d: number) {
