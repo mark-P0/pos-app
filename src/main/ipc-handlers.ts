@@ -24,85 +24,92 @@ function wrappedAccess<T>(seq: ArrayLike<T>, idx: number): T {
 }
 
 const ChannelHandlers = {
-  "db:getAllProducts": async () => {
-    const products = await getAllProducts();
-    return products;
-  },
-  /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
-  "dark-mode:cycle": () => {
-    type Theme = typeof nativeTheme.themeSource;
-    const themes: Theme[] = ["system", "light", "dark"];
-    const idx = themes.indexOf(nativeTheme.themeSource);
-    nativeTheme.themeSource = wrappedAccess(themes, idx + 1); // Move theme forward
-    return nativeTheme.themeSource;
-  },
-  "dark-mode:status": () => {
-    return nativeTheme.themeSource;
-  },
-  "db:isUsernameExisting": async (
-    _: IpcMainInvokeEvent,
-    username: Parameters<typeof isUsernameExisting>[0],
-  ) => {
-    return await isUsernameExisting(username);
-  },
-  "db:isPasswordCorrect": async (
-    _: IpcMainInvokeEvent,
-    password: Parameters<typeof isPasswordCorrect>[0],
-  ) => {
-    return await isPasswordCorrect(password);
-  },
-  "db:isSKUExisting": async (
-    _: IpcMainInvokeEvent,
-    sku: Parameters<typeof isSKUExisting>[0],
-  ) => {
-    return await isSKUExisting(sku);
-  },
-  "db:addProduct": async (
-    _: IpcMainInvokeEvent,
-    product: Parameters<typeof addProduct>[0],
-  ) => {
-    return await addProduct(product);
-  },
-  "db:deleteProduct": async (
-    _: IpcMainInvokeEvent,
-    sku: Parameters<typeof deleteProduct>[0],
-  ) => {
-    await deleteProduct(sku);
-  },
-  "db:editProduct": async (
-    _: IpcMainInvokeEvent,
-    product: Parameters<typeof editProduct>[0],
-  ) => {
-    await editProduct(product);
-  },
-  "fs:writePngUriToFile": async (
-    _: IpcMainInvokeEvent,
-    uri: Parameters<typeof writePngUriToFile>[0],
-    filename: Parameters<typeof writePngUriToFile>[1],
-  ) => {
-    return await writePngUriToFile(uri, filename);
-  },
-  "fs:copyFileToTemp": async (
-    _: IpcMainInvokeEvent,
-    src: Parameters<typeof copyFileToTemp>[0],
-  ) => {
-    return await copyFileToTemp(src);
-  },
-  "fs:copyImageFileToTemp": async (
-    _: IpcMainInvokeEvent,
-    filename: Parameters<typeof copyImageFileToTemp>[0],
-  ) => {
-    return await copyImageFileToTemp(filename);
-  },
-  "fs:moveTempFileToImages": async (
-    _: IpcMainInvokeEvent,
-    src: Parameters<typeof moveTempFileToImages>[0],
-    dest: Parameters<typeof moveTempFileToImages>[1],
-  ) => {
-    return await moveTempFileToImages(src, dest);
-  },
   "app:getNameAndVersion": () => {
     return [app.getName(), app.getVersion()] as const;
+  },
+  ...{
+    /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
+    "dark-mode:cycle": () => {
+      type Theme = typeof nativeTheme.themeSource;
+      const themes: Theme[] = ["system", "light", "dark"];
+      const idx = themes.indexOf(nativeTheme.themeSource);
+      nativeTheme.themeSource = wrappedAccess(themes, idx + 1); // Move theme forward
+      return nativeTheme.themeSource;
+    },
+    "dark-mode:status": () => {
+      return nativeTheme.themeSource;
+    },
+  },
+  ...{
+    ...{
+      "db:isUsernameExisting": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof isUsernameExisting>
+      ) => {
+        return await isUsernameExisting(...args);
+      },
+      "db:isPasswordCorrect": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof isPasswordCorrect>
+      ) => {
+        return await isPasswordCorrect(...args);
+      },
+    },
+    ...{
+      "db:getAllProducts": async () => {
+        return await getAllProducts();
+      },
+      "db:addProduct": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof addProduct>
+      ) => {
+        return await addProduct(...args);
+      },
+      "db:deleteProduct": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof deleteProduct>
+      ) => {
+        await deleteProduct(...args);
+      },
+      "db:editProduct": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof editProduct>
+      ) => {
+        await editProduct(...args);
+      },
+      "db:isSKUExisting": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof isSKUExisting>
+      ) => {
+        return await isSKUExisting(...args);
+      },
+    },
+  },
+  ...{
+    "fs:writePngUriToFile": async (
+      _: IpcMainInvokeEvent,
+      ...args: Parameters<typeof writePngUriToFile>
+    ) => {
+      return await writePngUriToFile(...args);
+    },
+    "fs:copyFileToTemp": async (
+      _: IpcMainInvokeEvent,
+      ...args: Parameters<typeof copyFileToTemp>
+    ) => {
+      return await copyFileToTemp(...args);
+    },
+    "fs:copyImageFileToTemp": async (
+      _: IpcMainInvokeEvent,
+      ...args: Parameters<typeof copyImageFileToTemp>
+    ) => {
+      return await copyImageFileToTemp(...args);
+    },
+    "fs:moveTempFileToImages": async (
+      _: IpcMainInvokeEvent,
+      ...args: Parameters<typeof moveTempFileToImages>
+    ) => {
+      return await moveTempFileToImages(...args);
+    },
   },
 } as const;
 
