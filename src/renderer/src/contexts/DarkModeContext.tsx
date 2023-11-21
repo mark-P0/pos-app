@@ -14,7 +14,12 @@ function useStatus() {
     setStatus(status);
   }
 
-  return { status, reflectStatus };
+  function toggle() {
+    ipcInvoke("dark-mode:cycle");
+    reflectStatus();
+  }
+
+  return { status, toggle };
 }
 
 export const [useDarkModeContext, DarkModeProvider] =

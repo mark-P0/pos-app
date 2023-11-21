@@ -2,15 +2,8 @@ import { useDarkModeContext } from "@renderer/contexts/DarkModeContext.js";
 import { C, cls$button$icon } from "@renderer/utils/classes.js";
 import { LuMoon, LuSun, LuSunMoon } from "react-icons/lu";
 
-const { ipcInvoke } = window.api;
-
 export function DarkModeToggle() {
-  const { status, reflectStatus } = useDarkModeContext();
-
-  function toggle() {
-    ipcInvoke("dark-mode:cycle");
-    reflectStatus();
-  }
+  const { status, toggle } = useDarkModeContext();
 
   const cls = (() => {
     const button = C("relative", cls$button$icon);
