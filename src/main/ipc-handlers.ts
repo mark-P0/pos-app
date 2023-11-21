@@ -24,10 +24,6 @@ function wrappedAccess<T>(seq: ArrayLike<T>, idx: number): T {
 }
 
 const ChannelHandlers = {
-  "db:getAllProducts": async () => {
-    const products = await getAllProducts();
-    return products;
-  },
   /** https://www.electronjs.org/docs/latest/tutorial/dark-mode#example */
   "dark-mode:cycle": () => {
     type Theme = typeof nativeTheme.themeSource;
@@ -39,41 +35,50 @@ const ChannelHandlers = {
   "dark-mode:status": () => {
     return nativeTheme.themeSource;
   },
-  "db:isUsernameExisting": async (
-    _: IpcMainInvokeEvent,
-    username: Parameters<typeof isUsernameExisting>[0],
-  ) => {
-    return await isUsernameExisting(username);
-  },
-  "db:isPasswordCorrect": async (
-    _: IpcMainInvokeEvent,
-    password: Parameters<typeof isPasswordCorrect>[0],
-  ) => {
-    return await isPasswordCorrect(password);
-  },
-  "db:isSKUExisting": async (
-    _: IpcMainInvokeEvent,
-    sku: Parameters<typeof isSKUExisting>[0],
-  ) => {
-    return await isSKUExisting(sku);
-  },
-  "db:addProduct": async (
-    _: IpcMainInvokeEvent,
-    product: Parameters<typeof addProduct>[0],
-  ) => {
-    return await addProduct(product);
-  },
-  "db:deleteProduct": async (
-    _: IpcMainInvokeEvent,
-    sku: Parameters<typeof deleteProduct>[0],
-  ) => {
-    await deleteProduct(sku);
-  },
-  "db:editProduct": async (
-    _: IpcMainInvokeEvent,
-    product: Parameters<typeof editProduct>[0],
-  ) => {
-    await editProduct(product);
+  ...{
+    ...{
+      "db:isUsernameExisting": async (
+        _: IpcMainInvokeEvent,
+        username: Parameters<typeof isUsernameExisting>[0],
+      ) => {
+        return await isUsernameExisting(username);
+      },
+      "db:isPasswordCorrect": async (
+        _: IpcMainInvokeEvent,
+        password: Parameters<typeof isPasswordCorrect>[0],
+      ) => {
+        return await isPasswordCorrect(password);
+      },
+    },
+    ...{
+      "db:getAllProducts": async () => {
+        return await getAllProducts();
+      },
+      "db:addProduct": async (
+        _: IpcMainInvokeEvent,
+        product: Parameters<typeof addProduct>[0],
+      ) => {
+        return await addProduct(product);
+      },
+      "db:deleteProduct": async (
+        _: IpcMainInvokeEvent,
+        sku: Parameters<typeof deleteProduct>[0],
+      ) => {
+        await deleteProduct(sku);
+      },
+      "db:editProduct": async (
+        _: IpcMainInvokeEvent,
+        product: Parameters<typeof editProduct>[0],
+      ) => {
+        await editProduct(product);
+      },
+      "db:isSKUExisting": async (
+        _: IpcMainInvokeEvent,
+        sku: Parameters<typeof isSKUExisting>[0],
+      ) => {
+        return await isSKUExisting(sku);
+      },
+    },
   },
   "fs:writePngUriToFile": async (
     _: IpcMainInvokeEvent,
