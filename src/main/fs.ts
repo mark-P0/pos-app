@@ -1,6 +1,6 @@
 import { accessSync } from "fs";
 import { copyFile, rename, writeFile } from "fs/promises";
-import path from "path";
+import { basename, join } from "path";
 
 /**
  * Automatically negotiate between e.g. `<SRC_CODE_DIR>/data/db.sqlite` in development
@@ -15,7 +15,7 @@ export function getActualFilePath(...filepath: string[]) {
    * In development, source code directory is treated as "current", hence the `"."`.
    */
   const appDir = PORTABLE_EXECUTABLE_DIR ?? ".";
-  return path.join(appDir, ...filepath);
+  return join(appDir, ...filepath);
 }
 
 export function isPathExisting(path: string) {
@@ -34,7 +34,7 @@ export async function writePngUriToFile(uri: string, filename: string) {
 }
 
 export async function copyFileToTemp(src: string) {
-  const filename = path.basename(src);
+  const filename = basename(src);
   const dest = getActualFilePath(`data/temp/${filename}`);
   await copyFile(src, dest);
 }
