@@ -1,7 +1,6 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
-    "data/*",
     "electron.vite.config.*",
     "src/main/*",
     "src/preload/*"
