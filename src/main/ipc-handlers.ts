@@ -1,6 +1,7 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import { copyFile, rename, writeFile } from "fs/promises";
 import path from "path";
+import { getActualFilePath } from "../../data/utils.js";
 import {
   addProduct,
   deleteProduct,
@@ -9,8 +10,7 @@ import {
   isPasswordCorrect,
   isSKUExisting,
   isUsernameExisting,
-} from "../../data/db.js";
-import { getActualFilePath } from "../../data/utils.js";
+} from "./db.js";
 
 /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder#description */
 function modulo(n: number, d: number) {
